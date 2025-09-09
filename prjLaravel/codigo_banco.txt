@@ -1,0 +1,11 @@
+bdCinema
+
+create table tbCliente(
+	idCli int primary key auto_increment,
+	nomeCli varchar(40),
+	cpfCli varchar(40),
+	emailCli varchar(40)
+);
+
+insert into tbCliente values(null,'Maria','111.111.111-11','maria@gmail.com');
+insert into tbCliente values(null,'Ana','111.111.111-12','ana@gmail.com');
