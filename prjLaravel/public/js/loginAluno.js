@@ -14,29 +14,29 @@ toggleBtn.addEventListener("click", () => {
   isLogin = !isLogin;
 
   if (isLogin) {
-    // LOGIN
+    // ----------- MODO LOGIN -----------
     cadastroFields.style.display = "none";
     document.getElementById("confirm-password-wrapper").style.display = "none";
     formTitle.textContent = "Login Aluno";
     submitBtn.textContent = "Entrar";
     toggleBtn.textContent = "Não tem conta? Cadastre-se";
-    form.action = "/login-aluno";
+    form.action = "/login-aluno"; // rota do login
 
-    // Ícone fixo 🎓
+    // Reset avatar
     avatarPreview.textContent = "🎓";
     avatarPreview.style.cursor = "default";
-    avatarPreview.style.backgroundImage = "none"; // remove caso tenha imagem
-    avatarInput.value = ""; // limpa seleção de arquivo
+    avatarPreview.style.backgroundImage = "none";
+    avatarInput.value = "";
   } else {
-    // CADASTRO
+    // ----------- MODO CADASTRO -----------
     cadastroFields.style.display = "block";
     document.getElementById("confirm-password-wrapper").style.display = "block";
     formTitle.textContent = "Cadastro Aluno";
     submitBtn.textContent = "Cadastrar";
     toggleBtn.textContent = "Já tem conta? Faça login";
-    form.action = "/cadastrar-aluno";
+    form.action = "/cadastrar-aluno"; // rota do cadastro
 
-    // Ícone clicável 🎓 (upload)
+    // Ativa upload avatar
     avatarPreview.textContent = "🎓";
     avatarPreview.style.cursor = "pointer";
     avatarPreview.style.backgroundImage = "none";
@@ -48,10 +48,10 @@ function togglePassword(inputId, icon) {
   const input = document.getElementById(inputId);
   if (input.type === "password") {
     input.type = "text";
-    icon.textContent = "🫣";
+    icon.textContent = "🫣"; // senha visível
   } else {
     input.type = "password";
-    icon.textContent = "👁️";
+    icon.textContent = "👁️"; // senha oculta
   }
 }
 
@@ -67,7 +67,7 @@ avatarInput.addEventListener("change", () => {
   if (file) {
     const reader = new FileReader();
     reader.onload = (e) => {
-      avatarPreview.textContent = ""; // remove o emoji
+      avatarPreview.textContent = "";
       avatarPreview.style.backgroundImage = `url(${e.target.result})`;
       avatarPreview.style.backgroundSize = "cover";
       avatarPreview.style.backgroundPosition = "center";

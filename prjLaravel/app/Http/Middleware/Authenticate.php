@@ -13,9 +13,20 @@ class Authenticate extends Middleware
      * @return string|null
      */
     protected function redirectTo($request)
-    {
-        if (! $request->expectsJson()) {
+{
+    if (! $request->expectsJson()) {
+        // Verifica qual guard está sendo usado
+        if ($request->is('admDashboard*')) {
+            return url('/loginAdm');
+        } elseif ($request->is('professorDashboard*')) {
             return url('/loginProfessor');
+        } elseif ($request->is('alunoDashboard*')) {
+            return url('/loginAluno');
         }
+        
+        // fallback
+        return url('/');
     }
+}
+
 }

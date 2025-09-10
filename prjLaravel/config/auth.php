@@ -40,6 +40,18 @@ return [
             'driver' => 'session',
             'provider' => 'professores',
         ],
+
+        // Guard para Auno
+        'aluno' => [
+            'driver' => 'session',
+            'provider' => 'alunos',
+        ],
+
+        // Guard para Admin
+        'admin' => [
+            'driver' => 'session',
+            'provider' => 'admins',
+    ],
     ],
 
     /*
@@ -64,8 +76,25 @@ return [
             'driver' => 'eloquent',
             'model' => App\Models\professorModel::class, // certifique-se de criar essa Model
         ],
+
+        // Provider para alunos
+        'alunos' => [
+            'driver' => 'eloquent',
+            'model' => App\Models\alunoModel::class, // certifique-se de criar essa Model       
     ],
 
+        // Provider para admins
+        'admins' => [
+            'driver' => 'eloquent',
+            'model' => App\Models\admModel::class, // certifique-se de criar essa Model
+    ],  
+
+        // Exemplo de provider usando a tabela diretamente
+        // 'users' => [
+        //     'driver' => 'database',
+        //     'table' => 'users',
+        // ],
+    ],
     /*
     |--------------------------------------------------------------------------
     | Resetting Passwords
@@ -89,6 +118,18 @@ return [
             'expire' => 60,
             'throttle' => 60,
         ],
+        'alunos' => [
+            'provider' => 'alunos',
+            'table' => 'password_resets',
+            'expire' => 60,
+            'throttle' => 60,
+        ],
+        'admins' => [
+            'provider' => 'admins',
+            'table' => 'password_resets',
+            'expire' => 60,
+            'throttle' => 60,
+    ],
     ],
 
     /*

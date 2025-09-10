@@ -21,13 +21,16 @@
         <h2>Login Admin</h2>
       </div>
       <div class="card-content">
-        <form id="login-form">
-          <input type="email" id="email" placeholder="Email" required />
-          <input type="password" id="password" placeholder="Senha" required />
+        <form id="login-form" action="{{ url('/login-adm') }}" method="POST">
+          @csrf
+          <input type="email" id="email" name="email" placeholder="Email" required />
+<input type="password" id="password" name="password" placeholder="Senha" required />
           <button type="submit" id="submit-btn">Entrar</button>
         </form>
       </div>
     </div>
   </div>
+
+  <script defer src="script.js"></script>
 </body>
 </html>

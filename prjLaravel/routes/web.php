@@ -22,10 +22,11 @@ Route::get('/', function () {
 Route::get('/loginAluno', function () {
     return view('loginAluno');
 });
+
 Route::get('/alunoDashboard', function () {
     return view('alunoDashboard');
-});
-
+})->middleware('auth:aluno');
+Route::post('/logout-aluno', [App\Http\Controllers\professorController::class, 'logoutUser'])->middleware('auth:aluno');    
 
 //Professor
 Route::get('loginProfessor', function () {
@@ -37,13 +38,10 @@ Route::get('/professorDashboard', function () {
 Route::post('/logout-professor', [App\Http\Controllers\professorController::class, 'logoutUser'])->middleware('auth:professor');    
 
 
-
-
-
 //Admin
 Route::get('/admDashboard', function () {
     return view('admDashboard');
-});
+})->middleware('auth:admin');
 Route::get('/loginAdm', function () {
     return view('loginAdmin');
 });
@@ -52,3 +50,9 @@ Route::get('/loginAdm', function () {
 Route::post('/cadastrar-prof', [App\Http\Controllers\professorController::class, 'store']);   
 
 Route::post('/login-verify', [App\Http\Controllers\professorController::class, 'verifyUser']);
+
+Route::post('/cadastrar-aluno', [App\Http\Controllers\alunoController::class, 'store']);
+
+Route::post('/login-aluno', [App\Http\Controllers\alunoController::class, 'verifyUser']);
+
+Route::post('/login-adm', [App\Http\Controllers\admController::class, 'verifyUser']);
