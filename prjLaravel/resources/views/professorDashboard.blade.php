@@ -10,14 +10,42 @@
 
   @include('layouts.navbar')
 
+  
+
 <div class="dashboard-wrapper">
   
   <div class="container">
-    <!-- Header -->
-    <header class="header">
-      <h1>Área do Professor</h1>
-      <p>Gerencie suas aulas, materiais e acompanhe o progresso dos alunos</p>
-    </header>
+<header class="header">
+  <div class="header-left">
+    <h1>Área do Professor</h1>
+    <p>Gerencie suas aulas, materiais e acompanhe o progresso dos alunos</p>
+  </div>
+
+  <!-- Menu do Professor Moderno -->
+  <div class="header-right">
+    <div class="user-menu">
+      <button class="user-button" id="userButton">
+        <img src="{{ Auth::guard('professor')->user()->avatar ?? '/images/default-avatar.png' }}" alt="Avatar" class="user-avatar">
+        <span class="user-name">{{ Auth::guard('professor')->user()->nome }}</span>
+        <span class="caret">▾</span>
+      </button>
+
+      <div class="user-dropdown" id="userDropdown">
+        <a href="{{ url('/professor/perfil') }}">
+          <span class="dropdown-icon">✏️</span> Editar Perfil
+        </a>
+        <form method="POST" action="{{ url('/logout-professor') }}">
+          @csrf
+          <button type="submit">
+            <span class="dropdown-icon">🚪</span> Sair
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+</header>
+
+
 
     <!-- Quick Actions -->
     <section class="quick-actions">

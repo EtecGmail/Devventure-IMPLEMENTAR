@@ -51,25 +51,17 @@ class professorController extends Controller
 
     }
 
-    public function showLoginForm()
-    {
-        return view('loginProfessor');
-    }
-
     public function professorDashboard()    {
         return view('professorDashboard');
     }
 
    public function verifyUser(Request $request)
 {
-    if(!Auth::attempt($request->only(['email','password']))){        
-            return redirect('/loginProfessor')->withErrors(['msg' => 'Credenciais inválidas!']);
-        }        
-        else{
-            
-            return redirect('/professorDashboard');        
-        }
-    }    
+   if (!Auth::guard('professor')->attempt($request->only(['email', 'password']))) {
+    return back()->withErrors(['msg' => 'Credenciais inválidas!']);
+}
+return redirect('/professorDashboard');
+}
 
 
     public function logoutUser(Request $request){

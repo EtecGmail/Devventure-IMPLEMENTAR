@@ -18,36 +18,37 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-//Dashbaords das Personas
-Route::get('/admDashboard', function () {
-    return view('admDashboard');
+//Aluno
+Route::get('/loginAluno', function () {
+    return view('loginAluno');
 });
-
 Route::get('/alunoDashboard', function () {
     return view('alunoDashboard');
 });
 
-Route::get('/loginProfessor', [professorController::class, 'showLoginForm'])
-    ->name('loginProfessor');
 
-
-
-Route::get('/professorDashboard','App\Http\Controllers\professorController@professorDashboard')->middleware(Authenticate::class);
-
-
-//Login e Cadastro das Personas
-Route::get('/loginAluno', function () {
-    return view('loginAluno');
-});
-
-Route::get('/loginProfessor', function () {
+//Professor
+Route::get('loginProfessor', function () {
     return view('loginProfessor');
 });
+Route::get('/professorDashboard', function () {
+    return view('professorDashboard');
+})->middleware('auth:professor');
+Route::post('/logout-professor', [App\Http\Controllers\professorController::class, 'logoutUser'])->middleware('auth:professor');    
 
+
+
+
+
+//Admin
+Route::get('/admDashboard', function () {
+    return view('admDashboard');
+});
 Route::get('/loginAdm', function () {
     return view('loginAdmin');
 });
 
+//Login e Cadastro das Personas
 Route::post('/cadastrar-prof', [App\Http\Controllers\professorController::class, 'store']);   
 
 Route::post('/login-verify', [App\Http\Controllers\professorController::class, 'verifyUser']);
