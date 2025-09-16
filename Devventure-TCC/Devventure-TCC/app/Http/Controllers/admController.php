@@ -2,12 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\alunoModel;
+use App\Models\professorModel;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class admController extends Controller
 {
-    /**
+    /** 
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
@@ -39,7 +41,12 @@ class admController extends Controller
 
     public function admDashboard()
     {
-        return view('admDashboard');
+        $alunosCount = alunoModel::count();
+        $professoresCount = professorModel::count();
+        $alunosData = alunoModel::all();
+        $professoresData = professorModel::all();
+
+        return view('admDashboard', compact('alunosCount', 'professoresCount', 'alunosData', 'professoresData'));
     }
 
     public function verifyUser(Request $request)
@@ -59,6 +66,20 @@ class admController extends Controller
 
         return redirect('/loginAdm');
     }
+
+    public function countUsers()
+    {
+        $professores = \App\Models\professorModel::where('role', 'professor')->count();
+        $alunos = \App\Models\alunoModel::where('role', 'aluno')->count();
+
+        return response()->json([
+            'professores' => $professores,
+            'alunos' => $alunos,
+        ]);
+    }
+
+
+
 
     /**
      * Display the specified resource.

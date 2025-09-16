@@ -37,9 +37,7 @@ Route::get('/professorDashboard', function () {
 Route::post('/logout-professor', [App\Http\Controllers\professorController::class, 'logoutUser'])->middleware('auth:professor');
 
 // Admin
-Route::get('/admDashboard', function () {
-    return view('admDashboard');
-})->middleware('auth:admin');
+Route::get('/admDashboard', [App\Http\Controllers\admController::class, 'admDashboard'])->middleware('auth:admin');
 Route::get('/loginAdm', function () {
     return view('loginAdmin');
 });

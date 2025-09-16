@@ -23,3 +23,4 @@ Route::get('/cliente','App\Http\Controllers\ClienteController@indexapi');
 Route::post('/cliente','App\Http\Controllers\ClienteController@storeapi');
 Route::delete('/cliente/{id}','App\Http\Controllers\ClienteController@destroyapi');
 Route::put('/cliente/{id}','App\Http\Controllers\ClienteController@updateapi');
+

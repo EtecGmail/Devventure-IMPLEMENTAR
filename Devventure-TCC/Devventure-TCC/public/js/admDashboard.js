@@ -5,3 +5,9 @@ const sidebar = document.getElementById('sidebar');
 toggleBtn.addEventListener('click', () => {
   sidebar.classList.toggle('collapsed');
 });
+
+// dados  são carregados diretamente pelo controller do Laravel (admController) 
+// e renderizados na view Blade.
+
+
+  

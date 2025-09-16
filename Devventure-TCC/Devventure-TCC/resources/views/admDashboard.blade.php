@@ -9,6 +9,9 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 </head>
 <body>
+
+  
+
   <div class="layout">
     <!-- Sidebar -->
     <aside class="sidebar">
@@ -31,11 +34,11 @@
         <h3>Resumo</h3>
         <div class="summary">
           <div>
-            <span id="studentsCount">0</span>
+            <span id="studentsCount">{{ $alunosCount ?? 'N/A' }}</span>
             <p>Alunos cadastrados</p>
           </div>
           <div>
-            <span id="teachersCount">0</span>
+            <span id="teachersCount">{{ $professoresCount ?? 'N/A' }}</span>
             <p>Professores cadastrados</p>
           </div>
         </div>
@@ -59,7 +62,19 @@
               <th>Ações</th>
             </tr>
           </thead>
-          <tbody id="studentsTable"></tbody>
+          <tbody id="studentsTable">
+            @foreach($alunosData as $aluno)
+            <tr>
+                <td>{{ $aluno->nome }}</td>
+                <td>{{ $aluno->email }}</td>
+                <td>{{ $aluno->ra }}</td>
+                <td>
+                    <button class="btn-icon"><i class="fas fa-edit"></i></button>
+                    <button class="btn-icon"><i class="fas fa-trash"></i></button>
+                </td>
+            </tr>
+            @endforeach
+          </tbody>
         </table>
         <div class="pagination">
           <button id="prevStudent">Anterior</button>
@@ -86,7 +101,19 @@
               <th>Ações</th>
             </tr>
           </thead>
-          <tbody id="teachersTable"></tbody>
+          <tbody id="teachersTable">
+            @foreach($professoresData as $professor)
+            <tr>
+                <td>{{ $professor->nome }}</td>
+                <td>{{ $professor->email }}</td>
+                <td>{{ $professor->cpf }}</td>
+                <td>
+                    <button class="btn-icon"><i class="fas fa-edit"></i></button>
+                    <button class="btn-icon"><i class="fas fa-trash"></i></button>
+                </td>
+            </tr>
+            @endforeach
+          </tbody>
         </table>
         <div class="pagination">
           <button id="prevTeacher">Anterior</button>
@@ -123,6 +150,10 @@
 </section>
     </main>
   </div>
+
+
+  
+
   <script src="./js/admDashboard.js"></script>
-</body>
-</html>
+ </body>
+  </html>

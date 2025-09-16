@@ -95,8 +95,8 @@ DB_DATABASE=devventure
 DB_USERNAME=root
 DB_PASSWORD=
 
-ADMIN_EMAIL=admin@email.com
-ADMIN_PASSWORD=senha123
+ADMIN_EMAIL=devventure@gmail.com
+ADMIN_PASSWORD=devteste123
 ```
 
 Execute as migrações e (opcionalmente) a semente:
@@ -138,6 +138,6 @@ fix(dashboard): corrigir acesso não autorizado
 ```
 
 
----
+---  
 
 © Todos os direitos reservados à equipe DevVenture.
