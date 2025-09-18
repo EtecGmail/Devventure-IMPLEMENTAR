@@ -1,0 +1,14 @@
+{
+    "name": "ancel/devventure-tcc",
+    "autoload": {
+        "psr-4": {
+            "Ancel\\DevventureTcc\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "N"
+        }
+    ],
+    "require": {}
+}
