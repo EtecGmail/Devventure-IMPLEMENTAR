@@ -5,7 +5,7 @@ use App\Models\professorModel;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-
+use App\Models\turmaModel;
 
 class professorController extends Controller
 {
@@ -28,6 +28,51 @@ class professorController extends Controller
     {
         //
     }
+
+    public function turma(Request $request){
+        $turma = new turmaModel();
+        $turma->nome_turma = $request->nome_turma;
+        $turma->turno = $request->turno;
+        $turma->ano_turma = $request->ano_turma;
+        $turma->data_inicio = $request->data_inicio;
+        $turma->data_fim = $request->data_fim;
+        $turma->professor_id = Auth::guard('professor')->id();
+        $turma->save();
+
+        return redirect('/professorGerenciar');
+    }
+
+    public function GerenciarTurma() 
+{
+    $professorId = Auth::guard('professor')->id();
+
+    $turmas = turmaModel::where('professor_id', $professorId)->get();
+
+    return view('turmaProfessor', ['turmas' => $turmas]);
+}
+
+public function turmaEspecifica(Request $request)
+{
+    
+    $professorId = Auth::guard('professor')->id();
+    
+  
+    $searchTerm = $request->input('search');
+
+    
+    $query = turmaModel::where('professor_id', $professorId);
+
+    
+    if ($searchTerm) {
+        $query->where('nome_turma', 'like', '%' . $searchTerm . '%');
+    }
+
+    $turmas = $query->get();
+
+    return view('turmaProfessor', ['turmas' => $turmas]);
+}
+
+
 
     /**
      * Store a newly created resource in storage.

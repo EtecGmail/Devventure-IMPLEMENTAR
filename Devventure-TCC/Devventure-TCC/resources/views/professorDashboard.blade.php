@@ -21,7 +21,7 @@
     <p>Gerencie suas aulas, materiais e acompanhe o progresso dos alunos</p>
   </div>
 
-  <!-- Menu do Professor Moderno -->
+
   <div class="header-right">
     <div class="user-menu">
       <button class="user-button" id="userButton">
@@ -64,7 +64,7 @@
         <h3>Vídeos</h3>
         <p>Upload de vídeos</p>
       </div>
-      <div class="card action-card orange">
+      <div id="blocoTurmas" class="card action-card orange">
         <div class="icon">👥</div>
         <h3>Turmas</h3>
         <p>Adicionar Turma</p>

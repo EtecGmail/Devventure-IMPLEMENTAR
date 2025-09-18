@@ -1,0 +1,437 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: 'Segoe UI', sans-serif;
+  }
+  
+  body {
+    background: #edf4fa;
+    color: #000;
+  }
+  
+  /* Topo escuro */
+  .topbar {
+    height: 60px;
+    background: #0f1a2c;
+  }
+  
+  /* Sessão de Introdução */
+  .intro {
+    max-width: 1200px; /* Limita a largura igual à .turmas */
+    margin: 1rem auto; /* Centraliza horizontalmente */
+    padding: 2rem 3rem;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+  }
+  .info {
+
+    font-weight: 600;
+    font-size: 14px;
+    color: #222;
+  }
+  
+  
+  .intro h1 {
+    color: #f1440d;
+    font-size: 2rem;
+  }
+  
+  .intro p {
+    font-size: 1rem;
+    color: #555;
+  }
+  
+  /* Botão Adicionar Turma - CENTRALIZADO E ESTILIZADO */
+  .add-turma {
+    margin-top: 1.5rem;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+  }
+  
+  .add-turma button {
+    background: linear-gradient(to right, #f1440d, #ff6b3d);
+    color: white;
+    font-size: 1.1rem;
+    font-weight: bold;
+    padding: 1rem 2rem;
+    border: none;
+    border-radius: 50px;
+    box-shadow: 0 4px 12px rgba(241, 68, 13, 0.3);
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+  
+  .add-turma button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(241, 68, 13, 0.4);
+  }
+  
+  .add-turma button:active {
+    transform: translateY(0);
+    box-shadow: 0 4px 10px rgba(241, 68, 13, 0.3);
+  }
+  
+  .add-turma button::after {
+    content: "+";
+    background: white;
+    color: #f1440d;
+    font-size: 1.5rem;
+    font-weight: bold;
+    width: 28px;
+    height: 28px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%;
+    transition: all 0.3s ease;
+  }
+  
+  
+  
+  /* Seção de Turmas */
+  .turmas {
+  max-width: 1200px; 
+  margin: 1rem auto;  
+  padding: 2rem 3rem;
+  background: white;
+  border-radius: 20px;
+}
+
+.turmas-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.turmas-header h2 {
+  font-size: 1.3rem;
+  font-weight: bold;
+}
+
+.turmas-grid {
+  display: flex;
+  gap: 1.5rem;
+  overflow-x: auto;
+  padding-bottom: 1rem;
+}
+
+.turmas-scroll {
+  overflow-x: auto;
+  padding-bottom: 10px;
+}
+
+/* Quando clicar em "Ver tudo" */
+.turmas-scroll.expandido {
+  overflow: visible;
+  white-space: normal;
+}
+
+.turmas-scroll.expandido .turmas-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 1rem;
+}
+
+.turmas-scroll.expandido .turmas-grid {
+  grid-template-columns: repeat(5, 1fr);
+}
+
+.turmas-scroll.expandido .card {
+  width: 100%;      
+}
+
+/* Botão Ver Tudo */
+.turmas .ver-tudo {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 1rem;
+}
+
+.turmas .ver-tudo button {
+  background: white;
+  border: 1px solid #f1440d;
+  padding: 0.5rem 1.5rem;
+  color: #f1440d;
+  border-radius: 50px;
+  font-weight: bold;
+  cursor: pointer;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  transition: all 0.2s;
+}
+
+.turmas .ver-tudo button:hover {
+  background: #f1440d;
+  color: white;
+}
+  .search {
+    display: flex;
+    align-items: center;
+    background: #f5f5f5;
+    border-radius: 20px;
+    padding: 0.3rem 0.8rem;
+  }
+  
+  .search input {
+    border: none;
+    background: transparent;
+    padding: 0.5rem;
+    outline: none;
+  }
+  
+  .search button {
+    background: transparent;
+    border: none;
+    cursor: pointer;
+  }
+  
+  .turmas-grid {
+    display: flex;
+    gap: 1.5rem;
+    overflow-x: auto;
+    padding-bottom: 1rem;
+  }
+  
+  .card {
+    background-color: #f7f8fa;
+    border-radius: 15px;
+    padding: 16px;
+    width: 180px; /* largura fixa */
+    min-width: 180px; /* mantém o tamanho mesmo com overflow horizontal */
+    height: 180px; /* altura fixa para todos ficarem iguais */
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    font-family: Arial, sans-serif;
+    flex-shrink: 0; /* impede encolhimento */
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    transition: 0.5s ease-in-out;
+  }
+  
+  .card:hover {
+    transform: scale(1.08);
+    box-shadow: 0 6px 12px rgba(0,0,0,0.1);
+  }
+  
+.card h3 {
+    margin: 0 0 8px 0;
+    font-weight: 900;
+    font-size: 18px;
+  }
+  
+  .tags {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 12px;
+  }
+  
+  .tag {
+    background-color: #f79a84; /* laranja claro como na sua imagem */
+    color: white;
+    font-size: 12px;
+    font-weight: 600;
+    padding: 3px 10px;
+    border-radius: 15px;
+  }
+  .card p {
+    font-size: 0.9rem;
+    color: #333;
+  }
+  
+  .actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 0.5rem;
+    margin-top: 1rem;
+  }
+  
+  .actions button {
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    font-size: 1.1rem;
+    padding: 0.3rem;
+    border-radius: 50%;
+    transition: background 0.2s;
+  }
+  
+  .actions button:hover {
+    background: rgba(0,0,0,0.1);
+  }
+  
+  /* Ver Tudo botão */
+  .ver-tudo {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 1rem;
+  }
+  
+  .ver-tudo button {
+    background: white;
+    border: 1px solid #2d5194;
+    padding: 0.5rem 1.5rem;
+    color: #2d5194;
+    border-radius: 50px;
+    font-weight: bold;
+    cursor: pointer;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    transition: all 0.2s;
+  }
+  
+  .ver-tudo button:hover {
+    background: #2d5194;
+    color: white;
+  }
+  /* Fundo embaçado */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    backdrop-filter: blur(5px);
+    background-color: rgba(0,0,0,0.3);
+    display: none; /* escondido por padrão */
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+  }
+  
+  /* Janela do formulário */
+  .modal-content {
+    background: white;
+    padding: 2rem;
+    border-radius: 15px;
+    width: 90%;
+    max-width: 400px;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+  
+  .modal-content h2 {
+    color: #f1440d;
+    text-align: center;
+  }
+  
+  .modal-content input,
+  .modal-content select {
+    padding: 0.8rem;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    font-size: 1rem;
+    width: 100%;
+  }
+  
+  .modal-content label {
+    font-size: 0.9rem;
+    color: #444;
+    margin-top: 0.5rem;
+  }
+  
+  /* Botões do modal */
+  .modal-buttons {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 1rem;
+  }
+  
+  .modal-buttons button {
+    padding: 0.7rem 1.2rem;
+    border: none;
+    border-radius: 10px;
+    font-weight: bold;
+    cursor: pointer;
+    font-size: 1rem;
+  }
+  
+  #cancelar {
+    background: #f0f0f0;
+    color: #333;
+  }
+  
+  #cancelar:hover {
+    background: #ddd;
+  }
+  
+  .criar {
+    background: #f1440d;
+    color: white;
+  }
+  
+  .criar:hover {
+    background: #d83b08;
+  }
+  
+  .turmas-grid {
+    display: flex;
+    gap: 1.5rem;
+    overflow-x: auto;
+    padding-bottom: 1rem;
+  }
+  .turmas-scroll {
+    overflow-x: auto;
+    padding-bottom: 10px;
+  }
+  
+
+  /* ================= BOTÃO VOLTAR ================= */
+.btn-voltar {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px; /* Espaço entre o ícone e o texto */
+    
+    background-color: transparent;
+    color: #555; /* Cor do texto e do ícone */
+    font-size: 1rem;
+    font-weight: 600;
+    
+    text-decoration: none; /* Remove o sublinhado do link */
+    padding: 8px 16px;
+    border: 2px solid #ddd; /* Borda sutil */
+    border-radius: 50px; /* Borda totalmente arredondada */
+    
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin-bottom: 1.5rem; /* Espaço abaixo do botão */
+}
+
+.btn-voltar:hover {
+    background-color: #f0f0f0; /* Fundo leve ao passar o mouse */
+    color: #000;
+    border-color: #ccc;
+    transform: translateY(-2px); /* Efeito de elevação */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+}
+
+.btn-voltar i {
+    font-size: 1.2rem; /* Aumenta um pouco o ícone da seta */
+}
+
+.sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border-width: 0;
+  }
+
+  .modal-content form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem; /* <-- A mágica está aqui! */
+}

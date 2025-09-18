@@ -22,10 +22,16 @@ Route::get('/loginAluno', function () {
     return view('loginAluno');
 });
 
+
+
+
 Route::get('/alunoDashboard', function () {
     return view('alunoDashboard');
 })->middleware('auth:aluno');
 Route::post('/logout-aluno', [App\Http\Controllers\alunoController::class, 'logoutUser'])->middleware('auth:aluno');
+
+
+
 
 // Professor
 Route::get('loginProfessor', function () {
@@ -34,7 +40,11 @@ Route::get('loginProfessor', function () {
 Route::get('/professorDashboard', function () {
     return view('professorDashboard');
 })->middleware('auth:professor');
+Route::get('/professorGerenciar', [App\Http\Controllers\professorController::class, 'GerenciarTurma'])->middleware('auth:professor');
+Route::get('/professorGerenciarEspecifica', [App\Http\Controllers\professorController::class, 'turmaEspecifica'])->middleware('auth:professor');
 Route::post('/logout-professor', [App\Http\Controllers\professorController::class, 'logoutUser'])->middleware('auth:professor');
+Route::post('/cadastrar-turma', [App\Http\Controllers\professorController::class, 'turma'])->middleware('auth:professor');
+
 
 // Admin
 Route::get('/admDashboard', [App\Http\Controllers\admController::class, 'admDashboard'])->middleware('auth:admin');
@@ -42,6 +52,9 @@ Route::get('/loginAdm', function () {
     return view('loginAdmin');
 });
 Route::post('/logout-adm', [App\Http\Controllers\admController::class, 'logoutUser'])->middleware('auth:admin');
+
+
+
 
 // Login e Cadastro das Personas
 Route::post('/cadastrar-prof', [App\Http\Controllers\professorController::class, 'store']);

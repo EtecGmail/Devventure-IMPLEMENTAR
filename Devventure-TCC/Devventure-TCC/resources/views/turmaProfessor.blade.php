@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Gerenciador de Exercicios</title>
+  <link rel="stylesheet" href="./css/turmaProfessor.css" />
+  <link href='https://cdn.boxicons.com/fonts/basic/boxicons.min.css' rel='stylesheet'>
+</head>
+<body>
+
+  @include('layouts.navbar')
+
+  <main>
+    <section class="intro">
+
+        <a href="/professorDashboard" class="btn-voltar">
+            <i class='bx bx-chevron-left'></i>
+            Voltar
+        </a>
+      <h1>Turmas</h1>
+      <p>Crie e gerencie turmas com total facilidade</p>
+
+      <div class="add-turma">
+        <button>Adicionar turma</button>
+      </div>
+    </section>
+
+    <section class="turmas">
+      <div class="turmas-header">
+        <div>
+          <h2>Minhas turmas</h2>
+          <p>Clique em uma turma para gerenciá-la</p>
+        </div>
+        <form action="{{ url('/professorGerenciarEspecifica') }}" method="GET" class="search">
+          
+          <input name="search" type="text" placeholder="Pesquisar turma..." value="{{ request('search') }}">
+          
+          <button type="submit"><i class='bx bx-search'></i></button>
+          
+      </form>
+      </div>
+
+      <!-- ENVOLVE AQUI PARA SCROLL HORIZONTAL -->
+      <div class="turmas-scroll">
+        <div class="turmas-grid">
+
+    @forelse ($turmas as $turma)
+        <div class="card">
+            <h3>{{ $turma->nome_turma }}</h3>
+            <div class="tags">
+                <span class="tag">{{ ucfirst($turma->turno) }}</span>
+                
+            </div>
+            
+            <p class="info">-- Alunos</p>
+            <p class="info">-- atividades atribuídas</p>
+        </div>
+    @empty
+        <p>Você ainda não criou nenhuma turma. Clique em "Adicionar turma" para começar!</p>
+    @endforelse
+    </div>
+      </div>
+
+     <div class="ver-tudo">
+        <button  id="btnVerTudo">Ver tudo</button>
+      </div>
+    </section>
+  </main>
+
+  <div class="modal-overlay" id="modal">
+  <div class="modal-content">
+
+    <form action="{{ url('/cadastrar-turma') }}" method="POST">
+      @csrf
+       <h2>Criar Turma</h2>
+
+      <label for="nome_turma" class="sr-only">Nome da turma</label>
+      <input type="text" id="nome_turma" name="nome_turma" placeholder="Nome da turma" required />
+
+      <label for="turno" class="sr-only">Turno</label>
+      <select id="turno" name="turno" required>
+        <option value="" disabled selected>Turno</option>
+        <option value="manha">Manhã</option>
+        <option value="tarde">Tarde</option>
+        <option value="noite">Noite</option>
+      </select>
+
+      <label for="disciplina" class="sr-only">Ano da Turma</label>
+      <input type="text" id="disciplina" name="ano_turma" placeholder="Ano da Turma" required />
+
+      <label for="data_inicio">Data de início da turma</label>
+      <input type="date" id="data_inicio" name="data_inicio" required />
+
+      <label for="data_fim">Data de término da turma</label>
+      <input type="date" id="data_fim" name="data_fim" required />
+
+      <div class="modal-buttons">
+        <button type="button" id="cancelar">Cancelar</button>
+        <button type="submit" class="criar">Criar turma</button>
+      </div>
+
+    </form> 
+  </div>
+</div>
+
+
+  @include('layouts.footer')
+
+ <script src="./js/turmaProfessor.js"></script>
+
+</body>
+</html>

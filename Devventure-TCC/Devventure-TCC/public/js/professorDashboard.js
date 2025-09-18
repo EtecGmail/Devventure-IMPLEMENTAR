@@ -28,3 +28,10 @@ window.addEventListener('click', function(e) {
         userDropdown.classList.remove('show');
     }
 });
+
+
+// Código para redirecionar ao clicar no bloco de Turmas
+const blocoTurmas = document.getElementById("blocoTurmas");
+  blocoTurmas.addEventListener("click", function() {
+    window.location.href = "/professorGerenciar";
+  });
