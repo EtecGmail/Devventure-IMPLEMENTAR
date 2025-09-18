@@ -42,6 +42,8 @@ Route::get('/professorDashboard', function () {
 })->middleware('auth:professor');
 Route::get('/professorGerenciar', [App\Http\Controllers\professorController::class, 'GerenciarTurma'])->middleware('auth:professor');
 Route::get('/professorGerenciarEspecifica', [App\Http\Controllers\professorController::class, 'turmaEspecifica'])->middleware('auth:professor');
+Route::post('/professorCriarExercicios', [App\Http\Controllers\professorController::class, 'CriarExercicios'])->middleware('auth:professor');
+Route::get('/professorExercicios',[App\Http\Controllers\professorController::class, 'exercicios'])->middleware('auth:professor');
 Route::post('/logout-professor', [App\Http\Controllers\professorController::class, 'logoutUser'])->middleware('auth:professor');
 Route::post('/cadastrar-turma', [App\Http\Controllers\professorController::class, 'turma'])->middleware('auth:professor');
 

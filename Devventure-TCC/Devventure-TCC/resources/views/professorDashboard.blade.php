@@ -54,8 +54,8 @@
         <h3>Nova Aula</h3>
         <p>Criar nova aula</p>
       </div>
-      <div class="card action-card blue">
-        <div class="icon">📄</div>
+      <div id="blocoExercicios" class="card action-card blue">
+        <div  class="icon">📄</div>
         <h3>Exercícios</h3>
         <p>Adicionar exercícios</p>
       </div>
@@ -178,7 +178,6 @@
 </div>
 
 
-
-  <script src="./js/professorDashboard.js"></script>
+<script src="./js/professorDashboard.js"></script>
 </body>
 </html>

@@ -35,3 +35,8 @@ const blocoTurmas = document.getElementById("blocoTurmas");
   blocoTurmas.addEventListener("click", function() {
     window.location.href = "/professorGerenciar";
   });
+
+const blocoAulas = document.getElementById("blocoExercicios");
+  blocoAulas.addEventListener("click", function() {
+    window.location.href = "/professorExercicios";
+  });
