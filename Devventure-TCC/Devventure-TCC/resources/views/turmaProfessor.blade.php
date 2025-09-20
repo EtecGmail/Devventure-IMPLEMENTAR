@@ -46,16 +46,16 @@
         <div class="turmas-grid">
 
     @forelse ($turmas as $turma)
-        <div class="card">
-            <h3>{{ $turma->nome_turma }}</h3>
-            <div class="tags">
-                <span class="tag">{{ ucfirst($turma->turno) }}</span>
-                
-            </div>
-            
-            <p class="info">-- Alunos</p>
-            <p class="info">-- atividades atribuídas</p>
+    <a href="{{ route('turmas.especificaID', ['turma' => $turma->id]) }}" class="card-link">
+    <div class="card">
+        <h3>{{ $turma->nome_turma }}</h3>
+        <div class="tags">
+            <span class="tag">{{ ucfirst($turma->turno) }}</span>
         </div>
+        <p class="info">-- Alunos</p>
+        <p class="info">-- atividades atribuídas</p>
+    </div>
+</a>
     @empty
         <p>Você ainda não criou nenhuma turma. Clique em "Adicionar turma" para começar!</p>
     @endforelse

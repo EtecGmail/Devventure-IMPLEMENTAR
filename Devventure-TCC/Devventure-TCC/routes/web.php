@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\professorController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -46,6 +47,7 @@ Route::post('/professorCriarExercicios', [App\Http\Controllers\professorControll
 Route::get('/professorExercicios',[App\Http\Controllers\professorController::class, 'exercicios'])->middleware('auth:professor');
 Route::post('/logout-professor', [App\Http\Controllers\professorController::class, 'logoutUser'])->middleware('auth:professor');
 Route::post('/cadastrar-turma', [App\Http\Controllers\professorController::class, 'turma'])->middleware('auth:professor');
+Route::get('/turmas/{turma}',[App\Http\Controllers\professorController::class, 'turmaEspecificaID'])->middleware('auth:professor')->name('turmas.especificaID');
 
 
 // Admin

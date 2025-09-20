@@ -72,6 +72,21 @@ public function turmaEspecifica(Request $request)
 
     return view('turmaProfessor', ['turmas' => $turmas]);
 }
+
+public function turmaEspecificaID(turmaModel $turma)
+    {
+      
+        $alunos = $turma->alunos()->get();
+        $exercicios = $turma->exercicios()->get();
+
+        return view('detalheTurma', [
+            'turma' => $turma,
+            'alunos' => $alunos,
+            'exercicios' => $exercicios
+        ]);
+}
+
+
 public function exercicios(Request $request) 
  { 
     
@@ -192,6 +207,8 @@ return redirect('/professorDashboard');
     {
         //
     }
+
+    
 
     /**
      * Show the form for editing the specified resource.
