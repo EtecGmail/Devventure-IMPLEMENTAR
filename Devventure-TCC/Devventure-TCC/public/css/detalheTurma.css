@@ -200,3 +200,97 @@ main {
 .btn-voltar i {
     font-size: 1.2rem;
 }
+
+.modal-content h2 {
+    color: #f1440d; /* <<-- COR ALTERADA -->> */
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+}
+
+.modal-content p {
+    text-align: center;
+    color: #555;
+    line-height: 1.5;
+    margin-bottom: 1rem;
+}
+
+/* --- Campo de Input --- */
+.modal-content input[type="text"] {
+    text-align: center;
+    font-size: 1.1rem;
+    padding: 1rem;
+    transition: all 0.2s ease-in-out;
+}
+
+
+.modal-content input[type="text"]:focus {
+    border-color: #f1440d; 
+    box-shadow: 0 0 0 3px rgba(241, 68, 13, 0.2); 
+    outline: none;
+}
+
+
+.modal-buttons {
+    display: flex;
+    justify-content: flex-end;
+    gap: 0.75rem;
+    margin-top: 1rem;
+}
+
+
+.modal-buttons button {
+    font-size: 0.9rem;
+    font-weight: bold;
+    padding: 0.8rem 1.5rem;
+    border-radius: 8px;
+    border: none;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+
+.btn-cancelar {
+    background-color: #f0f0f0;
+    color: #333;
+}
+
+.btn-cancelar:hover {
+    background-color: #e0e0e0;
+}
+
+
+.btn-confirmar {
+   
+    background: linear-gradient(to right, #f1440d, #ff6b3d);
+    color: white;
+    box-shadow: 0 4px 12px rgba(241, 68, 13, 0.3);
+}
+
+.btn-confirmar:hover {
+    transform: translateY(-2px);
+  
+    box-shadow: 0 6px 16px rgba(241, 68, 13, 0.4);
+}
+
+.alert {
+    padding: 1rem;
+    margin-bottom: 1.5rem;
+    border-radius: 10px;
+    font-weight: 500;
+    border: 1px solid transparent;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+}
+
+
+.alert-success {
+    background-color: #d1e7dd; 
+    border-color: #badbcc;
+    color: #0f5132; 
+}
+
+.alert-error {
+    background-color: #f8d7da;
+    border-color: #f5c2c7;
+    color: #842029; 
+}

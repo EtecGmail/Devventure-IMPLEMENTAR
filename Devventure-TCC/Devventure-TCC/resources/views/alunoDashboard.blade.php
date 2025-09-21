@@ -1,96 +1,141 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" href="./css/alunoDashboard.css">
-  <title>Área do Aluno</title>
-
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Painel do Aluno</title>
+    
+    {{-- CSS da Dashboard --}}
+    <link rel="stylesheet" href="{{ asset('css/alunoDashboard.css') }}">
+    
+    {{-- BOXICONS para ícones --}}
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
 </head>
 <body>
 
-  @include('layouts.navbar')
-  <div class="container">
-    <!-- Header -->
-    <h1>Área do Aluno</h1>
-    <p>Continue seus estudos em lógica de programação</p>
+@include('layouts.navbar')
 
-    <!-- Progresso -->
-    <div class="card">
-      <h3>Seu Progresso</h3>
-      <p>Módulo: Lógica de Programação Básica</p>
-      <div class="progress-bar">
-        <div class="progress-fill"></div>
-      </div>
-      <p>67% concluído — Aula 8 de 12 (faltam 4)</p>
-    </div>
+<main class="page-aluno-dashboard">
+    <div class="container">
 
-    <div class="grid">
-      <!-- Coluna Principal -->
-      <div>
-        <!-- Próxima Aula -->
-        <div class="card">
-          <div class="lesson">
-            <div class="lesson-icon">📘</div>
-            <div>
-              <h3>Estruturas de Repetição - Parte 2</h3>
-              <p>Aprenda sobre loops while e do-while com exemplos práticos</p>
-              <a href="#" class="btn">Continuar Aula</a>
+        <div class="page-header">
+            <div class="header-text">
+                <h1>Painel do Aluno</h1>
+                <p>Olá, {{ Auth::guard('aluno')->user()->nome }}! Continue seus estudos em lógica de programação.</p>
             </div>
-          </div>
+            <a href="{{ route('aluno.turma') }}" class="btn-primary">
+                <i class='bx bxs-group'></i> Acessar Minhas Turmas
+            </a>
         </div>
 
-        <!-- Atividades Recentes -->
-        <div class="card">
-          <h3>Atividades Recentes</h3>
-          <div class="activity">
-            <span>📄 Exercício: Calculadora Simples</span>
-            <span>✅ 85%</span>
-          </div>
-          <div class="activity">
-            <span>🎬 Vídeo: Introdução aos Arrays</span>
-            <span>✅ 100%</span>
-          </div>
-          <div class="activity">
-            <span>🏆 Desafio: Jogo da Adivinhação</span>
-            <span>⏳ Pendente</span>
-          </div>
-        </div>
+        @if($convites->isNotEmpty())
+            <div class="card card-convites-destaque">
+                <h3>🔔 Você tem novos convites!</h3>
+                <div class="convites-container">
+                    @foreach ($convites as $convite)
+                        <div class="convite-item">
+                            <div class="convite-info">
+                                <p>O professor(a) <strong>{{ $convite->turma->professor->nome }}</strong> convidou você para a turma:</p>
+                                <span><i class='bx bxs-chalkboard'></i> {{ $convite->turma->nome_turma }}</span>
+                            </div>
+                            <div class="convite-actions">
+                                <form action="{{ route('convites.aceitar', $convite) }}" method="POST">
+                                    @csrf
+                                    <button type="submit" class="btn-aceitar"><i class='bx bx-check'></i> Aceitar</button>
+                                </form>
+                                <form action="{{ route('convites.recusar', $convite) }}" method="POST">
+                                    @csrf
+                                    <button type="submit" class="btn-recusar"><i class='bx bx-x'></i> Recusar</button>
+                                </form>
+                            </div>
+                        </div>
+                    @endforeach
+                </div>
+            </div>
+        @endif
 
-        <!-- Ofensiva -->
-        <div class="card streak">
-          <h3>🔥 Sua Ofensiva Atual</h3>
-          <div class="streak-days">7 dias</div>
-          <p>Continue assim para não perder sua ofensiva!</p>
-        </div>
-      </div>
+        <div class="dashboard-grid">
+            
+            <div class="coluna-principal">
+                <div class="card">
+                    <h3><i class='bx bx-bar-chart-alt-2'></i> Seu Progresso Geral</h3>
+                    <p class="modulo-title">Módulo: Lógica de Programação Básica</p>
+                    <div class="progress-bar-container">
+                        <div class="progress-fill" style="width: 67%;">67%</div>
+                    </div>
+                    <p class="progresso-detalhes">Aula <strong>8</strong> de <strong>12</strong> concluídas (faltam 4)</p>
+                </div>
 
-      <!-- Sidebar -->
-      <div>
-        <!-- Ranking -->
-        <div class="card">
-          <h3>🏆 Ranking da Turma</h3>
-          <div class="ranking-item">1. Ana Silva <strong>950</strong></div>
-          <div class="ranking-item">2. João Santos <strong>920</strong></div>
-          <div class="ranking-item highlight">3. Você <strong>890</strong></div>
-          <div class="ranking-item">4. Maria Costa <strong>875</strong></div>
-          <div class="ranking-item">5. Pedro Lima <strong>860</strong></div>
-        </div>
+                <div class="card">
+                    <h3><i class='bx bx-list-check'></i> Atividades Recentes</h3>
+                    <div class="activity-list">
+                        <div class="activity-item">
+                            <span class="activity-icon"><i class='bx bx-file'></i></span>
+                            <span class="activity-title">Exercício: Calculadora Simples</span>
+                            <span class="activity-status status-concluido">✅ 85%</span>
+                        </div>
+                        <div class="activity-item">
+                            <span class="activity-icon"><i class='bx bx-joystick'></i></span>
+                            <span class="activity-title">Desafio: Jogo da Adivinhação</span>
+                            <span class="activity-status status-pendente">⏳ Pendente</span>
+                        </div>
+                        <div class="activity-item">
+                             <span class="activity-icon"><i class='bx bx-book-open'></i></span>
+                             <span class="activity-title">Leitura: Variáveis e Constantes</span>
+                             <span class="activity-status status-concluido">✅ 100%</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
-        <!-- Fórum -->
-        <div class="card">
-          <h3>💬 Fórum de Dúvidas</h3>
-          <div class="forum-question">Como debugar um código? <br><a href="#" class="btn-outline">Ver discussão</a></div>
-          <div class="forum-question">Diferença entre função e procedimento? <br><a href="#" class="btn-outline">Ver discussão</a></div>
-          <div class="forum-question">Ajuda com exercício 5 <br><a href="#" class="btn-outline">Ver discussão</a></div>
-          <a href="#" class="btn-outline">Fazer uma pergunta</a>
-        </div>
-      </div>
+            <div class="card">
+                <h3><i class='bx bx-alarm-exclamation'></i> Próximas Entregas</h3>
+                <div class="exercicios-pendentes-list">
+                    @forelse($exerciciosPendentes as $exercicio)
+                       {{-- ... dentro do seu loop @forelse ... --}}
+<div class="exercicio-item">
+    <div class="exercicio-info">
+        <a href="{{ route('turmas.especifica', $exercicio->turma) }}" class="exercicio-titulo">{{ $exercicio->nome }}</a>
+        <span class="exercicio-turma">Turma: {{ $exercicio->turma->nome_turma }}</span>
     </div>
-  </div>
+    
+    @if($exercicio->data_fechamento)
+        <div class="exercicio-prazo {{ $exercicio->data_fechamento->isToday() || $exercicio->data_fechamento->isTomorrow() ? 'prazo-urgente' : '' }}">
+            <i class='bx bxs-calendar'></i>
+            <span>Entrega: {{ $exercicio->data_fechamento->format('d/m/Y') }}</span>
+        </div>
+    @else
+        <div class="exercicio-prazo">
+            <span>Sem data de entrega</span>
+        </div>
+    @endif
+</div>
+                        </div>
+                    @empty
+                        <div class="empty-exercicios">
+                            <i class='bx bx-check-double'></i>
+                            <p>Nenhum exercício pendente. Bom trabalho!</p>
+                        </div>
+                    @endforelse
+                </div>
+            </div>
+
+            <div class="coluna-lateral">
+                <div class="card card-ranking">
+                    <h3>🏆 Ranking da Turma</h3>
+                    <ul class="ranking-list">
+                        <li><span>1.</span> João Silva <small>1250 pts</small></li>
+                        <li><span>2.</span> Maria Oliveira <small>1100 pts</small></li>
+                        <li class="ranking-voce"><span>3.</span> Você <small>890 pts</small></li>
+                        <li><span>4.</span> Carlos Souza <small>850 pts</small></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
 
 @include('layouts.footer')
-
 
 </body>
 </html>

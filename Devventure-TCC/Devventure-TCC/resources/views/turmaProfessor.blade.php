@@ -52,10 +52,18 @@
         <div class="tags">
             <span class="tag">{{ ucfirst($turma->turno) }}</span>
         </div>
-        <p class="info">-- Alunos</p>
-        <p class="info">-- atividades atribuídas</p>
-    </div>
-</a>
+        <p class="info">
+      <i class='bx bxs-group'></i> 
+      {{ $turma->alunos_count }} 
+      {{ $turma->alunos_count == 1 ? 'Aluno' : 'Alunos' }}
+  </p>
+  <p class="info">
+      <i class='bx bxs-book-content'></i> 
+      {{ $turma->exercicios_count }} 
+      {{ $turma->exercicios_count == 1 ? 'atividade atribuída' : 'atividades atribuídas' }}
+  </p>
+      </div>
+  </a>
     @empty
         <p>Você ainda não criou nenhuma turma. Clique em "Adicionar turma" para começar!</p>
     @endforelse

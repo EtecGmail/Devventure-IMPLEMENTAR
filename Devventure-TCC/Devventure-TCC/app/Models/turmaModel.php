@@ -30,4 +30,8 @@ class turmaModel extends Model
     
     return $this->belongsToMany(alunoModel::class, 'aluno_turma', 'turma_id', 'aluno_id');
 }
+
+public function professor() {
+    return $this->belongsTo(professorModel::class);
+}
 }

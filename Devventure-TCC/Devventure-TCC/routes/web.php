@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\alunoController;
 use App\Http\Controllers\professorController;
 use Illuminate\Support\Facades\Route;
 
@@ -26,9 +27,16 @@ Route::get('/loginAluno', function () {
 
 
 
-Route::get('/alunoDashboard', function () {
-    return view('alunoDashboard');
-})->middleware('auth:aluno');
+
+Route::get('/alunoDashboard', [alunoController::class, 'alunoConvite'])->middleware('auth:aluno')->name('aluno.dashboard');
+
+Route::post('/convites/{convite}/aceitar', [alunoController::class, 'aceitar'])->middleware('auth:aluno')->name('convites.aceitar');
+Route::post('/convites/{convite}/recusar', [alunoController::class, 'recusar'])->middleware('auth:aluno')->name('convites.recusar');
+
+Route::get('/minhas-turmas', [alunoController::class, 'minhasTurmas'])->middleware('auth:aluno')->name('aluno.turma');
+Route::get('/turmaAluno/{turma}', [alunoController::class, 'mostrarTurmaEspecifica'])->middleware('auth:aluno')->name('turmas.especifica');
+
+
 Route::post('/logout-aluno', [App\Http\Controllers\alunoController::class, 'logoutUser'])->middleware('auth:aluno');
 
 
@@ -48,6 +56,8 @@ Route::get('/professorExercicios',[App\Http\Controllers\professorController::cla
 Route::post('/logout-professor', [App\Http\Controllers\professorController::class, 'logoutUser'])->middleware('auth:professor');
 Route::post('/cadastrar-turma', [App\Http\Controllers\professorController::class, 'turma'])->middleware('auth:professor');
 Route::get('/turmas/{turma}',[App\Http\Controllers\professorController::class, 'turmaEspecificaID'])->middleware('auth:professor')->name('turmas.especificaID');
+
+Route::post('/turmas/{turma}/convidar', [professorController::class, 'convidarAluno'])->middleware('auth:professor')->name('turmas.convidar');
 
 
 // Admin

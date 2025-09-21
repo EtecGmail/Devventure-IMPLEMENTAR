@@ -1,6 +1,8 @@
 <?php
 
 namespace App\Http\Controllers;
+use App\Models\alunoModel;
+use App\Models\Convite;
 use App\Models\professorModel;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Http\Request;
@@ -45,9 +47,11 @@ class professorController extends Controller
 
     public function GerenciarTurma() 
 {
-    $professorId = Auth::guard('professor')->id();
-
-    $turmas = turmaModel::where('professor_id', $professorId)->get();
+   $professorId = Auth::guard('professor')->id();
+   
+    $turmas = turmaModel::where('professor_id', $professorId)
+                        ->withCount(['alunos', 'exercicios']) 
+                        ->get();
 
     return view('turmaProfessor', ['turmas' => $turmas]);
 }
@@ -75,15 +79,55 @@ public function turmaEspecifica(Request $request)
 
 public function turmaEspecificaID(turmaModel $turma)
     {
-      
-        $alunos = $turma->alunos()->get();
-        $exercicios = $turma->exercicios()->get();
+      $alunosNaTurma = $turma->alunos()->get();
+    $exerciciosDaTurma = $turma->exercicios()->get();
 
-        return view('detalheTurma', [
-            'turma' => $turma,
-            'alunos' => $alunos,
-            'exercicios' => $exercicios
-        ]);
+    
+
+    return view('detalheTurma', [
+        'turma' => $turma,
+        'alunos' => $alunosNaTurma,
+        'exercicios' => $exerciciosDaTurma,
+    ]);
+}
+
+
+public function convidarAluno(Request $request, turmaModel $turma)
+{
+    // 1. Valida se o RA foi enviado e se existe um aluno com esse RA
+    $request->validate([
+        'ra' => 'required|exists:aluno,ra'
+    ], [
+        'ra.exists' => 'Nenhum aluno encontrado com este RA.' 
+    ]);
+
+    // 2. Encontra o aluno pelo RA
+    $aluno = alunoModel::where('ra', $request->ra)->first();
+
+    // 3. Verifica se o aluno já está na turma
+    $jaEstaNaTurma = $turma->alunos()->where('aluno_id', $aluno->id)->exists();
+    if ($jaEstaNaTurma) {
+        return back()->with('error', 'Este aluno já está na turma.');
+    }
+
+    // 4. Verifica se já existe um convite pendente
+    $convitePendente = Convite::where('turma_id', $turma->id)
+                                ->where('aluno_id', $aluno->id)
+                                ->where('status', 'pendente')
+                                ->exists();
+    if ($convitePendente) {
+        return back()->with('error', 'Já existe um convite pendente para este aluno.');
+    }
+
+    // 5. Se todas as verificações passarem, cria o convite
+    Convite::create([
+        'turma_id' => $turma->id,
+        'aluno_id' => $aluno->id,
+        'professor_id' => Auth::guard('professor')->id(),
+        'status' => 'pendente' // Status inicial
+    ]);
+
+    return back()->with('success', 'Convite enviado com sucesso!');
 }
 
 

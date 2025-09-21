@@ -19,9 +19,14 @@ class exercicioModel extends Model
         'professor_id'
     ];
 
+    protected $casts = [
+        'data_fechamento' => 'datetime',
+    ];
+
     // Define a relação com o modelo Turma
     public function turma()
     {
         return $this->belongsTo(turmaModel::class);
     }
+    
 }
