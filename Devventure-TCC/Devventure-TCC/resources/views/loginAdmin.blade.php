@@ -5,7 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Login Admin</title>
   <link rel="stylesheet" href="./css/loginAdm.css" />
-  <script defer src="script.js"></script>
 </head>
 <body>
   @include('layouts.navbar')
@@ -31,6 +30,5 @@
     </div>
   </div>
 
-  <script defer src="script.js"></script>
 </body>
 </html>
