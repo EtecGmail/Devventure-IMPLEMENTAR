@@ -1,296 +1,183 @@
-/* ========================================================= */
-/* ========= CSS COMPLETO PARA A PÁGINA DETALHE DA TURMA ========= */
-/* ========================================================= */
+/* =================================================================== */
+/* CSS REFEITO PARA A PÁGINA DE DETALHES DA TURMA (PROFESSOR)  */
+/* =================================================================== */
 
-/* ===== RESET E ESTILOS GERAIS ===== */
-* {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-    font-family: 'Segoe UI', sans-serif;
+/* --- Variáveis e Estilos Base --- */
+:root {
+    --cor-primaria: #f1440d;
+    --cor-primaria-hover: #d93d0b;
+    --cor-fundo: #f4f7f9;
+    --cor-card: #ffffff;
+    --cor-texto-principal: #333;
+    --cor-texto-secundario: #555;
+    --cor-borda: #dee2e6;
+    --cor-sucesso: #198754;
+    --cor-erro: #dc3545;
+    --sombra-card: 0 4px 12px rgba(0, 0, 0, 0.08);
 }
 
 body {
-    background: #edf4fa;
-    color: #000;
+    font-family: 'Poppins', sans-serif;
+    background-color: var(--cor-fundo);
 }
 
-/* ===== NAVBAR / TOPBAR ===== */
-.topbar {
-    height: 60px;
-    background: #0f1a2c;
+/* --- Wrapper Principal --- */
+.page-detalhe-turma {
+    /* Este espaço pode ser removido se você não tiver uma navbar fixa */
+    /* margin-top: 70px; */ 
 }
 
-/* ========================================================= */
-/* ========= ESTILOS ESPECÍFICOS DA PÁGINA DE DETALHES ========= */
-/* ========================================================= */
-
-/* --- LAYOUT GERAL DA PÁGINA --- */
-main {
+.page-detalhe-turma .container {
     max-width: 1200px;
-    margin: 2rem auto;
-    padding: 0 2rem;
-    display: flex;
-    flex-direction: column;
-    gap: 2rem;
+    margin: 0 auto;
+    padding: 2.5rem 2rem;
 }
 
-/* --- CABEÇALHO COM O NOME DA TURMA --- */
-.intro-turma {
-    background: white;
-    padding: 2rem 3rem;
-    border-radius: 20px;
-    text-align: center;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
-}
-
-.intro-turma h1 {
-    color: #f1440d; /* <<-- COR ALTERADA -->> */
-    font-size: 2.2rem;
-    margin-bottom: 0.5rem;
-}
-
-.intro-turma p {
-    color: #777;
-    font-size: 1.1rem;
-}
-
-/* --- SEÇÕES DE CONTEÚDO (ALUNOS E EXERCÍCIOS) --- */
-.lista-alunos,
-.lista-exercicios {
-    background: white;
-    padding: 2rem 3rem;
-    border-radius: 20px;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
-}
-
-.lista-alunos h2,
-.lista-exercicios h2 {
-    font-size: 1.6rem;
-    color: #333;
-    padding-bottom: 1rem;
-    margin-bottom: 1.5rem;
-    border-bottom: 2px solid #f0f0f0;
-}
-
-/* --- BOTÃO DE ADICIONAR ALUNO --- */
-.btn-adicionar {
-    display: inline-block;
-    /* <<-- GRADIENTE E SOMBRA ALTERADOS -->> */
-    background: linear-gradient(to right, #f1440d, #ff6b3d);
-    box-shadow: 0 4px 12px rgba(241, 68, 13, 0.3);
-    color: white;
-    font-size: 1rem;
-    font-weight: bold;
-    padding: 0.8rem 1.5rem;
-    border: none;
-    border-radius: 50px;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    margin-bottom: 1.5rem;
-}
-
-.btn-adicionar:hover {
-    transform: translateY(-2px);
-    /* <<-- SOMBRA ALTERADA -->> */
-    box-shadow: 0 6px 16px rgba(241, 68, 13, 0.4);
-}
-
-/* --- LISTAS DE ALUNOS E EXERCÍCIOS --- */
-.lista-alunos ul,
-.lista-exercicios ul {
-    list-style-type: none;
-    padding: 0;
-    display: flex;
-    flex-direction: column;
-    gap: 0.75rem;
-}
-
-.lista-alunos li,
-.lista-exercicios li {
-    background: #f7f8fa;
-    padding: 1rem 1.5rem;
-    border-radius: 10px;
-    border-left: 5px solid #f1440d; /* <<-- COR DA BORDA ALTERADA -->> */
+/* --- Cabeçalho da Página --- */
+.page-detalhe-turma .page-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    font-weight: 500;
-    transition: background-color 0.2s ease-in-out;
-}
-
-.lista-alunos li:hover,
-.lista-exercicios li:hover {
-    background-color: #f0f2f5;
-}
-
-/* =============================================================== */
-/* === COMPONENTES GERAIS (MODAL, BOTÕES, ETC.) === */
-/* =============================================================== */
-
-/* --- Estilos do Modal --- */
-.modal-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    backdrop-filter: blur(5px);
-    background-color: rgba(0,0,0,0.3);
-    display: none;
-    justify-content: center;
-    align-items: center;
-    z-index: 1000;
-}
-
-.modal-content {
-    background: white;
+    flex-wrap: wrap;
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+    background-color: var(--cor-card);
     padding: 2rem;
-    border-radius: 15px;
-    width: 90%;
-    max-width: 400px;
-    box-shadow: 0 8px 20px rgba(0,0,0,0.2);
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
+    border-radius: 12px;
+    box-shadow: var(--sombra-card);
 }
+.page-detalhe-turma .header-content { display: flex; align-items: center; gap: 1rem; }
+.page-detalhe-turma .header-content h1 { font-size: 2rem; color: var(--cor-primaria); margin: 0; }
+.page-detalhe-turma .header-content p { font-size: 1rem; color: var(--cor-texto-secundario); margin: 0; }
+.page-detalhe-turma .header-actions { display: flex; align-items: center; gap: 1rem; }
 
-.modal-content h2 {
-    color: #f1440d;
-    text-align: center;
-}
+.btn-voltar-mobile { display: none; } /* Escondido por padrão */
 
-.modal-content input,
-.modal-content select {
-    padding: 0.8rem;
-    border: 1px solid #ccc;
-    border-radius: 10px;
-    font-size: 1rem;
-    width: 100%;
-}
-
-/* --- Botão Voltar --- */
-.btn-voltar {
+/* Botões de Ação no Cabeçalho */
+.btn-acao {
     display: inline-flex;
     align-items: center;
-    gap: 8px;
-    background-color: transparent;
-    color: #555;
-    font-size: 1rem;
-    font-weight: 600;
-    text-decoration: none;
-    padding: 8px 16px;
-    border: 2px solid #ddd;
-    border-radius: 50px;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    margin-bottom: 1.5rem;
-    margin-top: 2rem;
-    align-self: center;
-}
-
-.btn-voltar:hover {
-    background-color: #f0f0f0;
-    color: #000;
-    border-color: #ccc;
-    transform: translateY(-2px);
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
-}
-
-.btn-voltar i {
-    font-size: 1.2rem;
-}
-
-.modal-content h2 {
-    color: #f1440d; /* <<-- COR ALTERADA -->> */
-    font-size: 1.5rem;
-    font-weight: 700;
-    margin-bottom: 0.5rem;
-}
-
-.modal-content p {
-    text-align: center;
-    color: #555;
-    line-height: 1.5;
-    margin-bottom: 1rem;
-}
-
-/* --- Campo de Input --- */
-.modal-content input[type="text"] {
-    text-align: center;
-    font-size: 1.1rem;
-    padding: 1rem;
-    transition: all 0.2s ease-in-out;
-}
-
-
-.modal-content input[type="text"]:focus {
-    border-color: #f1440d; 
-    box-shadow: 0 0 0 3px rgba(241, 68, 13, 0.2); 
-    outline: none;
-}
-
-
-.modal-buttons {
-    display: flex;
-    justify-content: flex-end;
-    gap: 0.75rem;
-    margin-top: 1rem;
-}
-
-
-.modal-buttons button {
-    font-size: 0.9rem;
-    font-weight: bold;
-    padding: 0.8rem 1.5rem;
-    border-radius: 8px;
+    gap: 0.5rem;
+    padding: 0.7rem 1.2rem;
+    background-color: var(--cor-primaria);
+    color: white;
     border: none;
+    border-radius: 8px;
+    font-weight: 600;
     cursor: pointer;
     transition: all 0.2s ease;
 }
+.btn-acao:hover { background-color: var(--cor-primaria-hover); transform: translateY(-2px); }
+.btn-voltar-desktop {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.7rem 1.2rem;
+    background-color: #f8f9fa;
+    color: var(--cor-texto-secundario);
+    text-decoration: none;
+    border: 1px solid var(--cor-borda);
+    border-radius: 8px;
+    font-weight: 600;
+    transition: all 0.2s ease;
+}
+.btn-voltar-desktop:hover { background-color: #e9ecef; }
 
+/* --- Alertas de Sucesso/Erro --- */
+.alert { padding: 1rem; border-radius: 8px; margin-bottom: 1.5rem; font-weight: 500; }
+.alert-success { background-color: #d1e7dd; color: #0f5132; }
+.alert-error { background-color: #f8d7da; color: #842029; }
 
-.btn-cancelar {
-    background-color: #f0f0f0;
-    color: #333;
+/* --- Grid de Conteúdo --- */
+.content-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+    gap: 2.5rem;
 }
 
-.btn-cancelar:hover {
-    background-color: #e0e0e0;
+/* --- Card Genérico --- */
+.card {
+    background-color: var(--cor-card);
+    border-radius: 12px;
+    padding: 2rem;
+    box-shadow: var(--sombra-card);
 }
+.card h2 { margin-top: 0; margin-bottom: 1.5rem; display: flex; align-items: center; gap: 0.75rem; }
 
-
-.btn-confirmar {
-   
-    background: linear-gradient(to right, #f1440d, #ff6b3d);
-    color: white;
-    box-shadow: 0 4px 12px rgba(241, 68, 13, 0.3);
-}
-
-.btn-confirmar:hover {
-    transform: translateY(-2px);
-  
-    box-shadow: 0 6px 16px rgba(241, 68, 13, 0.4);
-}
-
-.alert {
+/* --- Listas (Alunos e Exercícios) --- */
+.lista-alunos ul, .lista-exercicios ul { list-style: none; padding: 0; }
+.lista-alunos li, .lista-exercicios li {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 0.5rem;
     padding: 1rem;
-    margin-bottom: 1.5rem;
-    border-radius: 10px;
+    border-bottom: 1px solid var(--cor-borda);
     font-weight: 500;
-    border: 1px solid transparent;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
 }
+.lista-alunos li:last-child, .lista-exercicios li:last-child { border-bottom: none; }
+.lista-alunos li span, .lista-exercicios li span { color: var(--cor-texto-secundario); font-size: 0.9rem; }
+.empty-item { color: var(--cor-texto-secundario); font-style: italic; justify-content: center; }
 
-
-.alert-success {
-    background-color: #d1e7dd; 
-    border-color: #badbcc;
-    color: #0f5132; 
+/* --- Modal --- */
+.modal-overlay {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background-color: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(5px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
 }
+.modal-overlay.active { opacity: 1; visibility: visible; }
+.modal-content {
+    background: white;
+    padding: 2rem;
+    border-radius: 12px;
+    width: 90%;
+    max-width: 500px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+    transform: scale(0.95);
+    transition: all 0.3s ease;
+    position: relative;
+}
+.modal-overlay.active .modal-content { transform: scale(1); }
+.modal-content h2 { margin-top: 0; margin-bottom: 0.5rem; color: var(--cor-primaria); }
+.modal-content p { margin-bottom: 1.5rem; color: var(--cor-texto-secundario); }
+.modal-close {
+    position: absolute;
+    top: 1rem; right: 1rem;
+    background: transparent;
+    border: none;
+    font-size: 1.5rem;
+    cursor: pointer;
+    color: var(--cor-texto-secundario);
+}
+.form-group { display: flex; flex-direction: column; margin-bottom: 1rem; }
+.form-group label { font-size: 0.9rem; font-weight: 500; margin-bottom: 0.25rem; }
+.form-group input {
+    padding: 0.8rem;
+    border: 1px solid var(--cor-borda);
+    border-radius: 6px;
+    font-size: 1rem;
+}
+.modal-buttons { display: flex; justify-content: flex-end; gap: 1rem; margin-top: 1.5rem; }
+.btn-cancelar, .btn-confirmar { padding: 0.8rem 1.5rem; border-radius: 8px; border: none; font-weight: 600; cursor: pointer; }
+.btn-cancelar { background-color: #f1f1f1; }
+.btn-confirmar { background-color: var(--cor-primaria); color: white; }
 
-.alert-error {
-    background-color: #f8d7da;
-    border-color: #f5c2c7;
-    color: #842029; 
+/* --- Responsividade --- */
+@media (max-width: 768px) {
+    .page-detalhe-turma .container { padding: 1.5rem 1rem; }
+    .page-detalhe-turma .page-header { flex-direction: column; align-items: stretch; }
+    .page-detalhe-turma .header-content { flex-direction: column; align-items: flex-start; }
+    .page-detalhe-turma .header-actions { justify-content: flex-start; }
+    .btn-voltar-desktop { display: none; }
+    .btn-voltar-mobile { display: block; font-size: 1.5rem; margin-bottom: 0.5rem; }
+    .content-grid { grid-template-columns: 1fr; }
 }

@@ -34,4 +34,11 @@ class turmaModel extends Model
 public function professor() {
     return $this->belongsTo(professorModel::class);
 }
+
+public function aulas()
+{
+    
+    return $this->hasMany(Aula::class, 'turma_id');
+}
+
 }

@@ -54,6 +54,31 @@
             </div>
         </div>
     </div>
+
+
+        {{-- ======================================================= --}}
+        {{-- =========== NOVA SEÇÃO PARA LISTAR AS AULAS =========== --}}
+        {{-- ======================================================= --}}
+        <div class="aulas-section">
+            <h2><i class='bx bxs-videos'></i> Aulas Disponíveis</h2>
+            <div class="aulas-grid">
+                @forelse($aulas as $aula)
+                    <a href="{{ route('aulas.view', $aula) }}" class="card-aula-link">
+                        <div class="card-aula">
+                            <i class='bx bx-play-circle'></i>
+                            <div class="aula-info">
+                                <h4>{{ $aula->titulo }}</h4>
+                                <small>Clique para assistir</small>
+                            </div>
+                        </div>
+                    </a>
+                @empty
+                    <p class="empty-message">Nenhuma aula foi adicionada a esta turma ainda.</p>
+                @endforelse
+            </div>
+        </div>
+
+
     </main>
 
 

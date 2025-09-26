@@ -1,18 +1,41 @@
-document.addEventListener('DOMContentLoaded', function() {
-        // Encontra o botão e o modal no HTML
-        const btnAdicionar = document.querySelector('.btn-adicionar');
-        // Supondo que o seu modal tenha o ID 'modalAdicionarAluno'
-        const modal = document.getElementById('modalAdicionarAluno'); 
-        const btnCancelar = modal.querySelector('.btn-cancelar'); // Botão de cancelar DENTRO do modal
+document.addEventListener('DOMContentLoaded', function () {
+    // Modal de Convidar Aluno
+    const btnAbrirModalAluno = document.getElementById('btnAbrirModalAluno');
+    const modalConvidarAluno = document.getElementById('modalConvidarAluno');
 
-        // Lógica para abrir e fechar
-        if (btnAdicionar && modal && btnCancelar) {
-            btnAdicionar.addEventListener('click', () => {
-                modal.style.display = 'flex';
-            });
+    if (btnAbrirModalAluno && modalConvidarAluno) {
+        const btnCancelarAluno = modalConvidarAluno.querySelector('.btn-cancelar');
+        const btnCloseAluno = modalConvidarAluno.querySelector('.modal-close');
 
-            btnCancelar.addEventListener('click', () => {
-                modal.style.display = 'none';
-            });
-        }
-    });
+        btnAbrirModalAluno.addEventListener('click', () => {
+            modalConvidarAluno.classList.add('active');
+        });
+
+        const fecharModalAluno = () => {
+            modalConvidarAluno.classList.remove('active');
+        };
+
+        btnCancelarAluno.addEventListener('click', fecharModalAluno);
+        btnCloseAluno.addEventListener('click', fecharModalAluno);
+    }
+
+    // NOVO: Modal de Adicionar Aula
+    const btnAbrirModalAula = document.getElementById('btnAbrirModalAula');
+    const modalAdicionarAula = document.getElementById('modalAdicionarAula');
+
+    if (btnAbrirModalAula && modalAdicionarAula) {
+        const btnCancelarAula = modalAdicionarAula.querySelector('.btn-cancelar');
+        const btnCloseAula = modalAdicionarAula.querySelector('.modal-close');
+
+        btnAbrirModalAula.addEventListener('click', () => {
+            modalAdicionarAula.classList.add('active');
+        });
+
+        const fecharModalAula = () => {
+            modalAdicionarAula.classList.remove('active');
+        };
+
+        btnCancelarAula.addEventListener('click', fecharModalAula);
+        btnCloseAula.addEventListener('click', fecharModalAula);
+    }
+});

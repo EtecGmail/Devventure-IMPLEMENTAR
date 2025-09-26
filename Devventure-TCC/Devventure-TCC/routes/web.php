@@ -24,7 +24,7 @@ Route::get('/loginAluno', function () {
     return view('loginAluno');
 });
 
-
+Route::get('/aulas/{aula}', [App\Http\Controllers\alunoController::class, 'aula'])->middleware('auth:aluno')->name('aulas.view');
 
 
 
@@ -35,7 +35,7 @@ Route::post('/convites/{convite}/recusar', [alunoController::class, 'recusar'])-
 
 Route::get('/minhas-turmas', [alunoController::class, 'minhasTurmas'])->middleware('auth:aluno')->name('aluno.turma');
 Route::get('/turmaAluno/{turma}', [alunoController::class, 'mostrarTurmaEspecifica'])->middleware('auth:aluno')->name('turmas.especifica');
-
+Route::post('/aulas/progresso', [App\Http\Controllers\alunoController::class, 'salvarProgresso'])->middleware('auth:aluno')->name('aulas.progresso');
 
 Route::post('/logout-aluno', [App\Http\Controllers\alunoController::class, 'logoutUser'])->middleware('auth:aluno');
 
@@ -56,9 +56,8 @@ Route::get('/professorExercicios',[App\Http\Controllers\professorController::cla
 Route::post('/logout-professor', [App\Http\Controllers\professorController::class, 'logoutUser'])->middleware('auth:professor');
 Route::post('/cadastrar-turma', [App\Http\Controllers\professorController::class, 'turma'])->middleware('auth:professor');
 Route::get('/turmas/{turma}',[App\Http\Controllers\professorController::class, 'turmaEspecificaID'])->middleware('auth:professor')->name('turmas.especificaID');
-
 Route::post('/turmas/{turma}/convidar', [professorController::class, 'convidarAluno'])->middleware('auth:professor')->name('turmas.convidar');
-
+Route::post('/turmas/{turma}/aulas', [App\Http\Controllers\professorController::class, 'formsAula'])->middleware('auth:professor')->name('turmas.aulas.formsAula');
 
 // Admin
 Route::get('/admDashboard', [App\Http\Controllers\admController::class, 'admDashboard'])->middleware('auth:admin');

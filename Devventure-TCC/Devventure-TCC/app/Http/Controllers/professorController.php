@@ -194,7 +194,36 @@ public function CriarExercicios(Request $request)
         $exercicio->save();
 
         return redirect()->back()->with('success', 'Exercício criado com sucesso!');
-    } 
+    }
+    
+
+
+public function formsAula(Request $request)
+{
+    $request->validate([
+        'aula_id' => 'required|integer|exists:aulas,id',
+        'segundos_assistidos' => 'required|integer|min:0',
+    ]);
+
+    $aluno = Auth::guard('aluno')->user();
+    
+    // Pega o progresso que já existe no banco
+    $progressoExistente = $aluno->aulas()->where('aula_id', $request->aula_id)->first();
+    $segundosJaSalvos = $progressoExistente ? $progressoExistente->pivot->segundos_assistidos : 0;
+
+    // SÓ ATUALIZA SE O NOVO TEMPO FOR MAIOR QUE O TEMPO JÁ SALVO
+    if ($request->segundos_assistidos > $segundosJaSalvos) {
+        // Atualiza o progresso na tabela pivot
+        $aluno->aulas()->syncWithoutDetaching([
+            $request->aula_id => [
+                'segundos_assistidos' => $request->segundos_assistidos
+            ]
+        ]);
+        return response()->json(['status' => 'progresso atualizado']);
+    }
+
+    return response()->json(['status' => 'progresso não precisou ser atualizado']);
+}
         
 
     /**

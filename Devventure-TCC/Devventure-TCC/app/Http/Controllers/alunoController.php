@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use App\Models\Aula;
 use App\Models\exercicioModel;
 use App\Models\turmaModel;
 use Illuminate\Http\Request;
@@ -77,27 +78,56 @@ return redirect('/alunoDashboard');
 
      public function alunoConvite() 
     {
-        $aluno = Auth::guard('aluno')->user();
+           $aluno = Auth::guard('aluno')->user();
         $convites = Convite::where('aluno_id', $aluno->id)->where('status', 'pendente')->get();
 
-          $turmasIds = $aluno->turmas()->pluck('id');
+        // Pega os IDs de todas as turmas em que o aluno está matriculado
+        $turmasIds = $aluno->turmas()->pluck('id');
 
-          
- $exerciciosPendentes = exercicioModel::whereIn('turma_id', $turmasIds)
-                                ->whereNotNull('data_fechamento')
-                                ->where('data_fechamento', '>=', now())  
-                                ->orderBy('data_fechamento', 'asc')    
-                                ->with('turma')
-                                ->take(5)
-                                ->get();
+        // Busca exercícios pendentes (lógica que você já tem)
+        $exerciciosPendentes = exercicioModel::whereIn('turma_id', $turmasIds)
+                                    ->whereNotNull('data_fechamento')
+                                    ->where('data_fechamento', '>=', now()) 
+                                    ->orderBy('data_fechamento', 'asc')
+                                    ->with('turma')
+                                    ->take(5)
+                                    ->get();
+
+        // =======================================================
+        // ========= LÓGICA CORRIGIDA E COMPLETA DO PROGRESSO ==========
+        // =======================================================
+        
+        // 1. Calcula o total de segundos de TODAS as aulas disponíveis para o aluno
+        $totalSegundosAulas = Aula::whereIn('turma_id', $turmasIds)->sum('duracao_segundos');
+        
+        // 2. Calcula o total de segundos que o aluno JÁ ASSISTIU
+        $segundosAssistidosPeloAluno = $aluno->aulas()
+                                          ->whereIn('turma_id', $turmasIds)
+                                          ->sum('segundos_assistidos');
+        
+        // 3. Calcula a porcentagem com segurança
+        $progressoPercentual = 0; // Inicia com 0 por padrão
+        if ($totalSegundosAulas > 0) { // Garante que não haverá divisão por zero
+            $progressoPercentual = round(($segundosAssistidosPeloAluno / $totalSegundosAulas) * 100);
+        }
+
+        // Garante que a porcentagem não passe de 100
+        if ($progressoPercentual > 100) {
+            $progressoPercentual = 100;
+        }
+
+        // Deixando o ranking estático como solicitado
+        // $ranking = Aluno::orderBy('pontos', 'desc')->take(5)->get();
+
+        // 5. Envia tudo para a view
+        return view('alunoDashboard', [
+            'convites' => $convites,
+            'exerciciosPendentes' => $exerciciosPendentes,
+            'progressoPercentual' => $progressoPercentual,
+            // 'ranking' => $ranking // Comentado por enquanto
+        ]);
     
-    
-    return view('alunoDashboard', [
-        'convites' => $convites,
-        'exerciciosPendentes' => $exerciciosPendentes
-    ]);
-    
- }
+    }
     public function aceitar(Convite $convite)
     {
         // Garante que o aluno logado é o mesmo do convite (Segurança)
@@ -143,19 +173,62 @@ return redirect('/alunoDashboard');
 
      public function mostrarTurmaEspecifica(turmaModel $turma)
     {
-        // Carrega os alunos relacionados com esta turma
+        // Carrega os alunos relacionados com esta turma (você já tem isso)
         $alunosDaTurma = $turma->alunos()->orderBy('nome')->get();
 
-        // Carrega os exercícios relacionados com esta turma
+        // Carrega os exercícios relacionados com esta turma (você já tem isso)
         $exerciciosDaTurma = $turma->exercicios()->orderBy('data_fechamento', 'desc')->get();
 
-        // Retorna a nova view com os dados da turma, alunos e exercícios
+        // =======================================================
+        // ========= NOVA LÓGICA PARA BUSCAR AS AULAS ============
+        // =======================================================
+        $aulasDaTurma = $turma->aulas()->orderBy('created_at', 'asc')->get(); // Ordena da mais antiga para a mais nova
+        // =======================================================
+
+        // Retorna a view, agora também com a variável $aulas
         return view('alunoTurmaEspecifica', [
             'turma' => $turma,
             'alunos' => $alunosDaTurma,
-            'exercicios' => $exerciciosDaTurma
-        ]);
+            'exercicios' => $exerciciosDaTurma,
+            'aulas' => $aulasDaTurma 
+        ]);   
+ }
+
+    public function aula(Aula $aula)
+{
+     $videoId = null; // Inicia a variável como nula por segurança
+
+    if ($aula->video_url) {
+        // Nova lógica robusta para extrair o ID do vídeo de qualquer formato de URL do YouTube
+        $regex = '/(?:youtube\.com\/(?:[^\/]+\/.+\/|(?:v|e(?:mbed)?)\/|.*[?&]v=)|youtu\.be\/)([^"&?\/\s]{11})/i';
+
+        if (preg_match($regex, $aula->video_url, $match)) {
+            $videoId = $match[1];
+        }
     }
+
+    // Associa o aluno à aula na tabela pivot se for o primeiro acesso
+    Auth::guard('aluno')->user()->aulas()->syncWithoutDetaching($aula->id);
+
+    return view('verAulas', [
+        'aula' => $aula,
+        'videoId' => $videoId // Passa o ID extraído (ou null se não encontrou)
+    ]);
+}
+
+public function salvarProgresso(Request $request)
+{
+    $aluno = Auth::guard('aluno')->user();
+
+    // syncWithoutDetaching anexa se não existir, e atualiza se já existir
+    $aluno->aulas()->syncWithoutDetaching([
+        $request->aula_id => [
+            'segundos_assistidos' => $request->segundos_assistidos
+        ]
+    ]);
+
+    return response()->json(['status' => 'sucesso']);
+}
 
     /**
      * Display the specified resource.
