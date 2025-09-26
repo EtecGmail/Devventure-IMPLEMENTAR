@@ -41,7 +41,7 @@
       </form>
       </div>
 
-      <!-- ENVOLVE AQUI PARA SCROLL HORIZONTAL -->
+      
       <div class="turmas-scroll">
         <div class="turmas-grid">
 

@@ -12,7 +12,7 @@ class alunoModel extends Authenticatable
 {
     use HasFactory;
     protected $table = 'aluno';
-    protected $fillable = ['nome', 'ra', 'semestre', 'email', 'telefone', 'password'];
+    protected $fillable = ['nome', 'ra', 'semestre', 'email', 'telefone', 'password','avatar',];
 
    public function turmas()
 {

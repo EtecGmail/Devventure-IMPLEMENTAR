@@ -5,10 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Painel do Aluno</title>
     
-    {{-- CSS da Dashboard --}}
+    
     <link rel="stylesheet" href="{{ asset('css/alunoDashboard.css') }}">
     
-    {{-- BOXICONS para ícones --}}
+    
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
 </head>
 <body>
@@ -56,10 +56,6 @@
         <div class="dashboard-grid">
             
             <div class="coluna-principal">
-                
-                {{-- ============================================= --}}
-                {{-- ========= BARRA DE PROGRESSO DINÂMICA ========= --}}
-                {{-- ============================================= --}}
                 <div class="card">
                     <h3><i class='bx bx-bar-chart-alt-2'></i> Seu Progresso nas Aulas</h3>
                     <p class="modulo-title">Progresso total de vídeos assistidos</p>
@@ -68,17 +64,13 @@
                     </div>
                     <p class="progresso-detalhes">Continue assistindo às aulas para avançar.</p>
                 </div>
-
-                {{-- ============================================= --}}
-                {{-- ========= EXERCÍCIOS PENDENTES DINÂMICOS ======== --}}
-                {{-- ============================================= --}}
                 <div class="card">
                     <h3><i class='bx bx-alarm-exclamation'></i> Próximas Entregas</h3>
                     <div class="exercicios-pendentes-list">
                         @forelse($exerciciosPendentes as $exercicio)
                             <div class="exercicio-item">
                                 <div class="exercicio-info">
-                                    <a href="{{ route('aluno.turmas.especifica', $exercicio->turma) }}" class="exercicio-titulo">{{ $exercicio->nome }}</a>
+                                    <a href="{{ route('turmas.especifica', $exercicio->turma) }}" class="exercicio-titulo">{{ $exercicio->nome }}</a>
                                     <span class="exercicio-turma">Turma: {{ $exercicio->turma->nome_turma }}</span>
                                 </div>
                                 

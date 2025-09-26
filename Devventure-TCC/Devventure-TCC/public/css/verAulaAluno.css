@@ -1,17 +1,24 @@
 /* =================================================================== */
-/* CSS PARA A PÁGINA DE VISUALIZAÇÃO DA AULA (ALUNO)           */
+/* CSS PARA A PÁGINA DE VISUALIZAÇÃO DA AULA (ALUNO) - TEMA AZUL */
 /* =================================================================== */
 
-/* --- Variáveis e Estilos Base --- */
+/* --- Variáveis de Cor (Paleta Azul) --- */
 :root {
-    --cor-primaria: #f1440d;
-    --cor-primaria-hover: #d93d0b;
+    /* Tons de Azul */
+    --cor-primaria: #2563eb;          
+    --cor-primaria-hover: #1d4ed8;  
+    
+    /* Cores Neutras */
     --cor-fundo: #f4f7f9;
     --cor-card: #ffffff;
     --cor-texto-principal: #333;
     --cor-texto-secundario: #555;
     --cor-borda: #dee2e6;
+    
+    /* Cores de Feedback */
     --cor-sucesso: #198754;
+    
+    /* Sombras */
     --sombra-card: 0 4px 12px rgba(0, 0, 0, 0.08);
 }
 
@@ -27,7 +34,7 @@ body {
 }
 
 .page-ver-aula .container {
-    max-width: 900px; /* Mais estreito para focar no vídeo */
+    max-width: 900px;
     margin: 0 auto;
     padding: 0 1rem;
 }
@@ -35,16 +42,25 @@ body {
 /* --- Cabeçalho da Aula --- */
 .aula-header {
     text-align: center;
-    margin-bottom: 2rem;
+    margin-bottom: 2.5rem;
 }
 
 .aula-header h1 {
     font-size: 2.5rem;
     color: var(--cor-primaria);
-    margin-bottom: 0.5rem;
+    margin-bottom: 1rem;
 }
 
-.aula-header .turma-info {
+.aula-header .aula-meta-info {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1.5rem;
+    flex-wrap: wrap;
+}
+
+.aula-header .turma-info,
+.aula-header .professor-info {
     font-size: 1.1rem;
     color: var(--cor-texto-secundario);
     display: inline-flex;
@@ -53,6 +69,7 @@ body {
     background-color: #e9ecef;
     padding: 0.25rem 1rem;
     border-radius: 50px;
+    margin: 0;
 }
 
 /* --- Container do Vídeo Responsivo --- */
@@ -67,7 +84,8 @@ body {
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
 }
 
-.video-container iframe {
+.video-container iframe,
+.video-container div[id^="player-"] {
     position: absolute;
     top: 0;
     left: 0;
@@ -90,10 +108,11 @@ body {
 }
 .status-video i { vertical-align: middle; }
 
-
 /* --- Container do Quiz --- */
 .quiz-container {
-    margin-top: 3rem;
+    margin-top: 3.5rem;
+    border-top: 1px solid var(--cor-borda);
+    padding-top: 2.5rem;
     animation: fadeIn 0.5s ease-in-out;
 }
 
@@ -142,16 +161,14 @@ body {
 }
 
 .opcao-label:hover {
-    background-color: #f8f9fa;
+    background-color: #f0f5ff; /* Fundo azul bem clarinho no hover */
     border-color: var(--cor-primaria-hover);
 }
 
-/* Esconde o radio button original */
 .opcao-label input[type="radio"] {
     display: none;
 }
 
-/* Estilo do radio button customizado */
 .radio-custom {
     width: 20px;
     height: 20px;
@@ -160,6 +177,7 @@ body {
     margin-right: 1rem;
     display: inline-block;
     position: relative;
+    flex-shrink: 0; /* Impede que o círculo encolha */
 }
 
 .opcao-texto {
@@ -185,6 +203,7 @@ body {
 
 .opcao-label input[type="radio"]:checked ~ .opcao-texto {
     color: var(--cor-primaria);
+    font-weight: 600;
 }
 
 /* --- Botão de Enviar Respostas --- */
@@ -219,4 +238,24 @@ body {
     .aula-header h1 {
         font-size: 2rem;
     }
+}
+
+.btn-voltar-aula {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    text-decoration: none;
+    margin-bottom: 2rem; /* Espaçamento para o cabeçalho abaixo */
+    padding: 0.6rem 1.2rem;
+    background-color: #f8f9fa;
+    color: var(--cor-texto-secundario);
+    border: 1px solid var(--cor-borda);
+    border-radius: 8px;
+    font-weight: 600;
+    transition: all 0.2s ease;
+}
+
+.btn-voltar-aula:hover {
+    background-color: #e9ecef;
+    color: var(--cor-texto-principal);
 }

@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('ra')->unique();
             $table->string('semestre');
             $table->string('email')->unique();
+            $table->string('avatar')->nullable();
             $table->string('telefone')->nullable();
             $table->string('password');     
             $table->timestamps();

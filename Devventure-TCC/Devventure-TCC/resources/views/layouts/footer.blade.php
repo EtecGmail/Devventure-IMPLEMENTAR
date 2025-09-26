@@ -4,6 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Footer DevVenture</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <link rel="stylesheet" href="./css/footer.css">
 </head>
 <body>
@@ -12,10 +13,9 @@
   <div class="footer-container">
     <div class="footer-grid">
       
-      <!-- Logo e descrição -->
-      <div class="footer-section">
+      <div class="footer-section about">
         <div class="footer-logo">
-          <img src="./images/LOGO-removebg.png" alt="DevVenture logo">
+          <img src="./images/logoDevventure.png" alt="DevVenture logo">
           <span>DevVenture</span>
         </div>
         <p class="footer-description">
@@ -23,8 +23,7 @@
         </p>
       </div>
 
-      <!-- Links rápidos -->
-      <div class="footer-section">
+      <div class="footer-section links">
         <h3>Links Rápidos</h3>
         <ul>
           <li><a href="/">Início</a></li>
@@ -35,25 +34,20 @@
         </ul>
       </div>
 
-      <!-- Contato -->
-      <div class="footer-section">
+      <div class="footer-section contact">
         <h3>Contato</h3>
-        <div class="footer-contact">
-          <div class="footer-contact-item">📧 harpion@etecguaianazes.sp.gov.br</div>
-          <div class="footer-contact-item">📞 (11) 2551-3547</div>
-          <div class="footer-contact-item">
-            📍 Rua Feliciano de Mendonça, 290, Guaianazes – SP, CEP: 08460-365
-          </div>
-        </div>
+        <ul>
+          <li><i class="fas fa-envelope"></i><span>harpion@etec.sp.gov.br</span></li>
+          <li><i class="fas fa-phone"></i><span>(11) 2551-3547</span></li>
+          <li><i class="fas fa-map-marker-alt"></i><span>Rua Feliciano de Mendonça, 290, Guaianazes – SP</span></li>
+        </ul>
       </div>
 
-      <!-- Equipe e tecnologias -->
-      <div class="footer-section">
+      <div class="footer-section project-info">
         <h3>Equipe Harpion</h3>
         <p class="footer-description">
-          Projeto de conclusão de curso de estudantes de Desenvolvimento de Sistemas da ETEC Guaianazes.
+          Projeto de TCC em Desenvolvimento de Sistemas na ETEC Guaianazes.
         </p>
-        <h4>Tecnologias:</h4>
         <div class="footer-techs">
           <span>PHP</span>
           <span>Laravel</span>
@@ -65,15 +59,14 @@
 
     </div>
 
-    <!-- Rodapé inferior -->
     <div class="footer-bottom">
       <div class="footer-copy">
-        © <span id="year"></span> Equipe Harpion - ETEC Guaianazes. Todos os direitos reservados.
+        © <span id="year"></span> Equipe Harpion. Todos os direitos reservados.
       </div>
-      <div class="footer-links">
-        <a href="#">Política de Privacidade</a>
-        <a href="#">Termos de Uso</a>
-        <a href="#">Suporte</a>
+      <div class="footer-social-links">
+        <a href="#" aria-label="GitHub"><i class="fab fa-github"></i></a>
+        <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin"></i></a>
+        <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
       </div>
     </div>
   </div>

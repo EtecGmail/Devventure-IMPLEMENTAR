@@ -1,76 +1,264 @@
-/* Reset */
+/* Importando uma fonte para consistência */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap');
+
+/* Variáveis de Cor */
+:root {
+    --navbar-bg: #1e293b; /* Azul ardósia escuro */
+    --navbar-text: #e2e8f0; /* Cinza claro */
+    --navbar-text-hover: #ffffff;
+    --navbar-highlight: #38bdf8; /* Azul claro para destaque */
+}
+
+/* Estilos Globais e Reset */
 * {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
 }
 
 body {
-  margin: 0;
+    font-family: 'Poppins', sans-serif;
+    background-color: #f1f5f9; /* Um fundo leve para a página */
+    /* Adiciona padding no topo para o conteúdo não ficar atrás da navbar */
+    padding-top: 80px;
 }
 
-main, .content, .container {
-  margin-top: 70px; /* mesma altura da navbar */
-}
-
-
+/* Estilo Principal da Navbar */
 .navbar {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 70px; /* altura fixa */
-  background: #1e293b; /* azul sólido padronizado */
-  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
-  z-index: 1000;
+    background-color: var(--navbar-bg);
+    padding: 0 5%; /* Usa porcentagem para ser mais flexível */
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1000;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
-
-
 
 .navbar-container {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 20px 40px; /* AQUI aumentei (antes era 12px 40px) */
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 80px;
+    max-width: 1400px;
+    margin: 0 auto;
 }
-
 
 /* Logo */
 .navbar-logo img {
-  height: 40px;
-  width: auto;
+    height: 40px; /* Ajuste a altura da sua logo */
+    width: auto;
+    transition: transform 0.3s ease;
 }
-.navbar .nav-links a {
-  color: #f1f5f9 !important;  /* cinza claro */
-  text-decoration: none;
-  font-weight: 500;
-}
-
-.navbar .nav-links a:hover {
-  color: #ffffff !important;
-  background: #2563eb;
-  border-radius: 6px;
+.navbar-logo img:hover {
+    transform: scale(1.05);
 }
 
-/* Conteúdo da página */
-.content {
-  margin-top: 70px; /* mesma altura da navbar */
-  padding: 20px 40px;
+/* Links da Navbar */
+.navbar-links {
+    display: flex;
+    gap: 25px;
 }
 
-/* Garante cor padronizada para todos os links da navbar */
-.navbar a,
-.navbar a:visited,
-.navbar a:active {
-  color: #f1f5f9 !important;  /* cor cinza-claro fixada */
-  text-decoration: none;
-  font-weight: 500;
-  margin-left: 20px;
+.navbar-links a {
+    color: var(--navbar-text);
+    text-decoration: none;
+    font-size: 16px;
+    font-weight: 500;
+    padding: 8px 12px;
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    position: relative;
+    transition: color 0.3s ease, background-color 0.3s ease;
 }
 
-.navbar a:hover {
-  color: #ffffff !important;
-  border-radius: 6px;
+.navbar-links a:hover {
+    color: var(--navbar-text-hover);
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+/* Indicador visual no link ativo ou hover */
+.navbar-links a::after {
+    content: '';
+    position: absolute;
+    bottom: -5px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 0;
+    height: 2px;
+    background-color: var(--navbar-highlight);
+    transition: width 0.3s ease;
+}
+
+.navbar-links a:hover::after {
+    width: 50%;
+}
+
+/* Menu Hambúrguer (invisível em telas grandes) */
+.menu-toggle {
+    display: none;
+    flex-direction: column;
+    justify-content: space-around;
+    width: 30px;
+    height: 25px;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+}
+
+.menu-toggle .bar {
+    width: 100%;
+    height: 3px;
+    background-color: var(--navbar-text);
+    border-radius: 2px;
+    transition: all 0.3s ease;
+}
+
+/* --- RESPONSIVIDADE PARA CELULAR --- */
+@media (max-width: 992px) {
+    .navbar-links {
+        display: none; /* Esconde os links */
+        position: absolute;
+        top: 80px; /* Abaixo da navbar */
+        left: 0;
+        width: 100%;
+        background-color: var(--navbar-bg);
+        flex-direction: column;
+        align-items: center;
+        padding: 20px 0;
+        box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+    }
+    
+    .navbar-links.active {
+        display: flex; /* Mostra os links quando o menu é clicado */
+    }
+
+    .navbar-links a {
+        width: 90%;
+        justify-content: center;
+        padding: 15px 0;
+    }
+    .navbar-links a:hover::after {
+        width: 30%;
+    }
+
+    .menu-toggle {
+        display: flex; /* Mostra o ícone hambúrguer */
+    }
+
+    /* Animação do ícone hambúrguer para 'X' */
+    .menu-toggle.active .bar:nth-child(1) {
+        transform: translateY(8px) rotate(45deg);
+    }
+    .menu-toggle.active .bar:nth-child(2) {
+        opacity: 0;
+    }
+    .menu-toggle.active .bar:nth-child(3) {
+        transform: translateY(-10px) rotate(-45deg);
+    }
+}
+
+/* ADICIONE ESTE ESTILO AO SEU navbar.css */
+
+.navbar-profile {
+    margin-left: auto; /* Empurra o perfil para a direita, para longe dos links */
+    position: relative;
+}
+.profile-button {
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 5px 10px;
+    border-radius: 50px;
+    transition: background-color 0.3s ease;
+}
+.profile-button:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+.profile-avatar {
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    object-fit: cover; /* Garante que a imagem não fique distorcida */
+    border: 2px solid var(--navbar-highlight, #38bdf8); /* Usa a cor de destaque ou um padrão */
+}
+.profile-name {
+    color: var(--navbar-text, #e2e8f0);
+    font-weight: 500;
+    font-size: 1rem;
+}
+
+/* Em telas menores, esconde o nome para não quebrar o layout */
+@media (max-width: 992px) {
+    .navbar-profile {
+        margin-left: 1rem;
+    }
+    .profile-name { 
+        display: none;
+    }
+    .profile-button {
+        padding: 5px;
+    }
+}
+
+/* ADICIONE ESTE CÓDIGO AO SEU navbar.css */
+
+/* Deixa o container do perfil como referência para o dropdown */
+.navbar-profile {
+    position: relative;
+}
+
+/* Estilo do Menu Dropdown */
+.profile-dropdown-content {
+    display: none; /* Escondido por padrão */
+    position: absolute;
+    top: 110%; /* Um pouco abaixo do botão de perfil */
+    right: 0;
+    background-color: var(--cor-card, #ffffff);
+    min-width: 200px;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+    border-radius: 12px;
+    z-index: 1001;
+    padding: 0.5rem 0;
+    overflow: hidden;
+}
+/* Classe para mostrar o dropdown com JS */
+.profile-dropdown-content.active {
+    display: block;
+}
+
+/* Estilo dos itens do dropdown */
+.dropdown-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    width: 100%;
+    padding: 0.8rem 1.2rem;
+    font-size: 1rem;
+    color: var(--cor-texto-principal, #333);
+    background: none;
+    border: none;
+    cursor: pointer;
+    text-align: left;
+}
+.dropdown-item:hover {
+    background-color: var(--cor-fundo, #f8fafc);
+}
+.dropdown-item i {
+    font-size: 1.2rem;
+    color: var(--cor-texto-secundario, #64748b);
+}
+.dropdown-item-logout i {
+    color: #ef4444; /* Vermelho para a ação de sair */
+}
+.dropdown-divider {
+    height: 1px;
+    background-color: var(--cor-borda, #e2e8f0);
+    margin: 0.5rem 0;
 }

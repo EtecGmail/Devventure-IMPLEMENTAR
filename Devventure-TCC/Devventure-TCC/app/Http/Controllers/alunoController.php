@@ -39,20 +39,41 @@ class alunoController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
-    {
-        $alunoModel = new alunoModel();
-        $alunoModel->nome = $request->nome;
-        $alunoModel->ra = $request->ra;
-        $alunoModel->semestre = $request->semestre;
-        $alunoModel->email = $request->email;
-        $alunoModel->telefone = $request->telefone;
-        $alunoModel->password = Hash::make($request->password);
-        $alunoModel->save();
+   public function store(Request $request)
+{
+    
+    $request->validate([
+        'nome' => ['required', 'string', 'max:255'],
+        'ra' => ['required', 'string', 'max:255', 'unique:aluno'], 
+        'semestre' => ['required', 'string'],
+        'email' => ['required', 'string', 'email', 'max:255', 'unique:aluno'],
+        'password' => ['required', 'string', 'min:8'],
+        'avatar' => ['nullable', 'image', 'mimes:jpg,jpeg,png', 'max:2048'], 
+    ]);
 
-        return redirect('/loginAluno');
-     
+    
+    $caminhoAvatar = null;
+    if ($request->hasFile('avatar')) {
+        
+        $caminhoAvatar = $request->file('avatar')->store('avatars', 'public');
     }
+
+    
+    $alunoModel = new alunoModel();
+    $alunoModel->nome = $request->nome;
+    $alunoModel->ra = $request->ra;
+    $alunoModel->semestre = $request->semestre;
+    $alunoModel->email = $request->email;
+    $alunoModel->telefone = $request->telefone;
+    $alunoModel->password = Hash::make($request->password);
+    
+   
+    $alunoModel->avatar = $caminhoAvatar;
+    
+    $alunoModel->save();
+
+    return redirect('/loginAluno')->with('success', 'Cadastro realizado com sucesso!');
+}
 
      public function alunoDashboard()    {
         return view('alunoDashboard');
@@ -84,7 +105,7 @@ return redirect('/alunoDashboard');
         // Pega os IDs de todas as turmas em que o aluno está matriculado
         $turmasIds = $aluno->turmas()->pluck('id');
 
-        // Busca exercícios pendentes (lógica que você já tem)
+        // Busca exercícios pendentes
         $exerciciosPendentes = exercicioModel::whereIn('turma_id', $turmasIds)
                                     ->whereNotNull('data_fechamento')
                                     ->where('data_fechamento', '>=', now()) 
@@ -93,9 +114,7 @@ return redirect('/alunoDashboard');
                                     ->take(5)
                                     ->get();
 
-        // =======================================================
-        // ========= LÓGICA CORRIGIDA E COMPLETA DO PROGRESSO ==========
-        // =======================================================
+       //Lógica para calcular o progresso do aluno
         
         // 1. Calcula o total de segundos de TODAS as aulas disponíveis para o aluno
         $totalSegundosAulas = Aula::whereIn('turma_id', $turmasIds)->sum('duracao_segundos');
@@ -106,7 +125,7 @@ return redirect('/alunoDashboard');
                                           ->sum('segundos_assistidos');
         
         // 3. Calcula a porcentagem com segurança
-        $progressoPercentual = 0; // Inicia com 0 por padrão
+        $progressoPercentual = 0; 
         if ($totalSegundosAulas > 0) { // Garante que não haverá divisão por zero
             $progressoPercentual = round(($segundosAssistidosPeloAluno / $totalSegundosAulas) * 100);
         }
@@ -116,10 +135,10 @@ return redirect('/alunoDashboard');
             $progressoPercentual = 100;
         }
 
-        // Deixando o ranking estático como solicitado
+        
         // $ranking = Aluno::orderBy('pontos', 'desc')->take(5)->get();
 
-        // 5. Envia tudo para a view
+        
         return view('alunoDashboard', [
             'convites' => $convites,
             'exerciciosPendentes' => $exerciciosPendentes,
@@ -130,15 +149,15 @@ return redirect('/alunoDashboard');
     }
     public function aceitar(Convite $convite)
     {
-        // Garante que o aluno logado é o mesmo do convite (Segurança)
+        
         if ($convite->aluno_id != Auth::guard('aluno')->id()) {
             abort(403);
         }
 
-        // 1. Adiciona o aluno à turma (cria o registro na tabela aluno_turma)
+        
         $convite->turma->alunos()->attach($convite->aluno_id);
 
-        // 2. Atualiza o status do convite
+        
         $convite->status = 'aceito';
         $convite->save();
 
@@ -152,7 +171,7 @@ return redirect('/alunoDashboard');
             abort(403);
         }
 
-        // Apenas atualiza o status do convite
+        
         $convite->status = 'recusado';
         $convite->save();
 
@@ -173,19 +192,15 @@ return redirect('/alunoDashboard');
 
      public function mostrarTurmaEspecifica(turmaModel $turma)
     {
-        // Carrega os alunos relacionados com esta turma (você já tem isso)
+        
         $alunosDaTurma = $turma->alunos()->orderBy('nome')->get();
 
-        // Carrega os exercícios relacionados com esta turma (você já tem isso)
+        
         $exerciciosDaTurma = $turma->exercicios()->orderBy('data_fechamento', 'desc')->get();
 
-        // =======================================================
-        // ========= NOVA LÓGICA PARA BUSCAR AS AULAS ============
-        // =======================================================
-        $aulasDaTurma = $turma->aulas()->orderBy('created_at', 'asc')->get(); // Ordena da mais antiga para a mais nova
-        // =======================================================
+        $aulasDaTurma = $turma->aulas()->orderBy('created_at', 'asc')->get(); 
 
-        // Retorna a view, agora também com a variável $aulas
+    
         return view('alunoTurmaEspecifica', [
             'turma' => $turma,
             'alunos' => $alunosDaTurma,
@@ -196,7 +211,10 @@ return redirect('/alunoDashboard');
 
     public function aula(Aula $aula)
 {
-     $videoId = null; // Inicia a variável como nula por segurança
+    // Carrega a aula com a sua turma e o professor da turma
+    $aula->load('turma.professor');
+
+    $videoId = null;
 
     if ($aula->video_url) {
         // Nova lógica robusta para extrair o ID do vídeo de qualquer formato de URL do YouTube
@@ -212,7 +230,7 @@ return redirect('/alunoDashboard');
 
     return view('verAulas', [
         'aula' => $aula,
-        'videoId' => $videoId // Passa o ID extraído (ou null se não encontrou)
+        'videoId' => $videoId // Passa o ID extraído
     ]);
 }
 
@@ -220,7 +238,7 @@ public function salvarProgresso(Request $request)
 {
     $aluno = Auth::guard('aluno')->user();
 
-    // syncWithoutDetaching anexa se não existir, e atualiza se já existir
+   
     $aluno->aulas()->syncWithoutDetaching([
         $request->aula_id => [
             'segundos_assistidos' => $request->segundos_assistidos

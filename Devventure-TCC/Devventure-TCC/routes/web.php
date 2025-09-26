@@ -1,81 +1,87 @@
 <?php
 
+use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\alunoController;
 use App\Http\Controllers\professorController;
-use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\admController;
+use App\Http\Controllers\AulaController; // Incluído para referência futura
 
 /*
 |--------------------------------------------------------------------------
 | Web Routes
 |--------------------------------------------------------------------------
 |
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
-| contains the "web" middleware group. Now create something great!
+| As rotas foram agrupadas por middleware para maior clareza, mantendo
+| as URLs e os nomes de rotas originais. Rotas que não tinham nome
+| receberam um para facilitar a referência.
 |
 */
+
+// ===================================================================
+// ROTAS PÚBLICAS E DE AUTENTICAÇÃO (Acessíveis por todos)
+// ===================================================================
 
 Route::get('/', function () {
     return view('welcome');
 });
 
-// Aluno
+// Telas de Login
 Route::get('/loginAluno', function () {
-    return view('loginAluno');
+    return view('loginAluno', [
+        'theme' => 'aluno',
+        'userType' => 'aluno',
+        'welcomeTitle' => 'Bem-vindo, Aluno!',
+        'welcomeText' => 'Acesse suas turmas, aulas e exercícios em um só lugar.'
+    ]);
+})->name('login.aluno');
+Route::get('loginProfessor', function () { return view('loginProfessor'); })->name('login.professor'); 
+Route::get('/loginAdm', function () { return view('loginAdmin'); })->name('login.admin'); 
+
+
+Route::post('/login-aluno', [alunoController::class, 'verifyUser'])->name('aluno.login');
+Route::post('/login-verify', [professorController::class, 'verifyUser'])->name('professor.login.action');  
+Route::post('/login-adm', [admController::class, 'verifyUser']);
+
+Route::post('/cadastrar-aluno', [alunoController::class, 'store'])->name('aluno.cadastrar');
+Route::post('/cadastrar-prof', [professorController::class, 'store'])->name('professor.cadastro.action');
+
+
+//Rotas do ALUNO
+Route::middleware('auth:aluno')->group(function () {
+    Route::get('/alunoDashboard', [alunoController::class, 'alunoConvite'])->name('aluno.dashboard');
+    Route::get('/minhas-turmas', [alunoController::class, 'minhasTurmas'])->name('aluno.turma');
+    Route::get('/turmaAluno/{turma}', [alunoController::class, 'mostrarTurmaEspecifica'])->name('turmas.especifica');
+    
+    Route::get('/aulas/{aula}', [alunoController::class, 'aula'])->name('aulas.view');
+    Route::post('/aulas/progresso', [alunoController::class, 'salvarProgresso'])->name('aulas.progresso');
+
+    Route::post('/convites/{convite}/aceitar', [alunoController::class, 'aceitar'])->name('convites.aceitar');
+    Route::post('/convites/{convite}/recusar', [alunoController::class, 'recusar'])->name('convites.recusar');
+
+    Route::post('/logout-aluno', [alunoController::class, 'logoutUser'])->name('aluno.logout'); 
 });
 
-Route::get('/aulas/{aula}', [App\Http\Controllers\alunoController::class, 'aula'])->middleware('auth:aluno')->name('aulas.view');
 
+//Rotas do PROFESSOR
+Route::middleware('auth:professor')->group(function () {
+    Route::get('/professorDashboard', [ProfessorController::class, 'dashboard'])->name('professorDashboard');
+    Route::get('/professorGerenciar', [professorController::class, 'GerenciarTurma'])->name('professor.turmas');
+    Route::get('/professorGerenciarEspecifica', [professorController::class, 'turmaEspecifica'])->name('professor.turma.especifica');
+    Route::get('/professorExercicios', [professorController::class, 'exercicios'])->name('professor.exercicios.index'); 
+    
+    Route::post('/cadastrar-turma', [professorController::class, 'turma'])->name('professor.turmas.store'); 
+    Route::post('/professorCriarExercicios', [professorController::class, 'CriarExercicios'])->name('professor.exercicios.store'); 
 
+    Route::get('/turmas/{turma}', [professorController::class, 'turmaEspecificaID'])->name('turmas.especificaID');
+    Route::post('/turmas/{turma}/convidar', [professorController::class, 'convidarAluno'])->name('turmas.convidar');
+    Route::post('/turmas/{turma}/aulas', [professorController::class, 'formsAula'])->name('turmas.aulas.formsAula');
 
-Route::get('/alunoDashboard', [alunoController::class, 'alunoConvite'])->middleware('auth:aluno')->name('aluno.dashboard');
-
-Route::post('/convites/{convite}/aceitar', [alunoController::class, 'aceitar'])->middleware('auth:aluno')->name('convites.aceitar');
-Route::post('/convites/{convite}/recusar', [alunoController::class, 'recusar'])->middleware('auth:aluno')->name('convites.recusar');
-
-Route::get('/minhas-turmas', [alunoController::class, 'minhasTurmas'])->middleware('auth:aluno')->name('aluno.turma');
-Route::get('/turmaAluno/{turma}', [alunoController::class, 'mostrarTurmaEspecifica'])->middleware('auth:aluno')->name('turmas.especifica');
-Route::post('/aulas/progresso', [App\Http\Controllers\alunoController::class, 'salvarProgresso'])->middleware('auth:aluno')->name('aulas.progresso');
-
-Route::post('/logout-aluno', [App\Http\Controllers\alunoController::class, 'logoutUser'])->middleware('auth:aluno');
-
-
-
-
-// Professor
-Route::get('loginProfessor', function () {
-    return view('loginProfessor');
+    Route::post('/logout-professor', [professorController::class, 'logoutUser'])->name('professor.logout'); 
 });
-Route::get('/professorDashboard', function () {
-    return view('professorDashboard');
-})->middleware('auth:professor');
-Route::get('/professorGerenciar', [App\Http\Controllers\professorController::class, 'GerenciarTurma'])->middleware('auth:professor');
-Route::get('/professorGerenciarEspecifica', [App\Http\Controllers\professorController::class, 'turmaEspecifica'])->middleware('auth:professor');
-Route::post('/professorCriarExercicios', [App\Http\Controllers\professorController::class, 'CriarExercicios'])->middleware('auth:professor');
-Route::get('/professorExercicios',[App\Http\Controllers\professorController::class, 'exercicios'])->middleware('auth:professor');
-Route::post('/logout-professor', [App\Http\Controllers\professorController::class, 'logoutUser'])->middleware('auth:professor');
-Route::post('/cadastrar-turma', [App\Http\Controllers\professorController::class, 'turma'])->middleware('auth:professor');
-Route::get('/turmas/{turma}',[App\Http\Controllers\professorController::class, 'turmaEspecificaID'])->middleware('auth:professor')->name('turmas.especificaID');
-Route::post('/turmas/{turma}/convidar', [professorController::class, 'convidarAluno'])->middleware('auth:professor')->name('turmas.convidar');
-Route::post('/turmas/{turma}/aulas', [App\Http\Controllers\professorController::class, 'formsAula'])->middleware('auth:professor')->name('turmas.aulas.formsAula');
 
-// Admin
-Route::get('/admDashboard', [App\Http\Controllers\admController::class, 'admDashboard'])->middleware('auth:admin');
-Route::get('/loginAdm', function () {
-    return view('loginAdmin');
+
+//Rotas ADMIN
+Route::middleware('auth:admin')->group(function () {
+    Route::get('/admDashboard', [admController::class, 'admDashboard'])->name('admin.dashboard'); 
+    Route::post('/logout-adm', [admController::class, 'logoutUser'])->name('admin.logout'); 
 });
-Route::post('/logout-adm', [App\Http\Controllers\admController::class, 'logoutUser'])->middleware('auth:admin');
-
-
-
-
-// Login e Cadastro das Personas
-Route::post('/cadastrar-prof', [App\Http\Controllers\professorController::class, 'store']);
-
-Route::post('/login-verify', [App\Http\Controllers\professorController::class, 'verifyUser']);
-
-Route::post('/cadastrar-aluno', [App\Http\Controllers\alunoController::class, 'store']);
-
-Route::post('/login-aluno', [App\Http\Controllers\alunoController::class, 'verifyUser']);
-
-Route::post('/login-adm', [App\Http\Controllers\admController::class, 'verifyUser']);

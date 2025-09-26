@@ -5,22 +5,19 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Minhas Turmas</title>
 
-    {{-- CSS GLOBAL (se houver) --}}
-    {{-- <link rel="stylesheet" href="{{ asset('css/app.css') }}"> --}}
-
-    {{-- CSS ESPECÍFICO DA PÁGINA DE LISTAGEM DE TURMAS --}}
+    
     <link rel="stylesheet" href="{{ asset('css/alunoTurma.css') }}"> 
     
-    {{-- BOXICONS para ícones --}}
+    
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
 </head>
 <body>
 
-    @include('layouts.navbar') {{-- INCLUSÃO DA NAVBAR --}}
+    @include('layouts.navbar') 
 
     <main class="page-minhas-turmas">
         <div class="container">
-            <div class="page-header"> {{-- NOVO DIV PARA CABEÇALHO DA PÁGINA --}}
+            <div class="page-header"> 
                 <h1>Minhas Turmas</h1>
                 <p>Selecione uma turma para ver os detalhes e atividades.</p>
                 <a href="{{ route('aluno.dashboard') }}" class="back-dashboard-link">
@@ -46,9 +43,9 @@
         </div>
     </main>
 
-    @include('layouts.footer') {{-- INCLUSÃO DO FOOTER --}}
+    @include('layouts.footer') 
     
-    {{-- Script JS (se necessário) --}}
+    
     <script src="{{ asset('js/turmaAluno.js') }}"></script>
 
 </body>

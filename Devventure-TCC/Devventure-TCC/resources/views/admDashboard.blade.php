@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Admin Dashboard</title>
   <link rel="stylesheet" href="./css/admDashboard.css">
-  <!-- Font Awesome CDN -->
+ 
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 </head>
 <body>
@@ -13,7 +13,7 @@
   
 
   <div class="layout">
-    <!-- Sidebar -->
+
     <aside class="sidebar">
       <h2 class="sidebar-title">Menu Principal</h2>
       <div class="divider"></div>
@@ -27,9 +27,9 @@
       </nav>
     </aside>
 
-    <!-- Conteúdo -->
+  
     <main class="main">
-      <!-- Resumo -->
+   
       <section id="resumo" class="card">
         <h3>Resumo</h3>
         <div class="summary">
@@ -44,7 +44,7 @@
         </div>
       </section>
 
-      <!-- Alunos -->
+  
       <section id="alunos" class="card">
         <header class="card-header">
           <h3>Alunos</h3>

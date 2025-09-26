@@ -1,183 +1,112 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Área do Professor</title>
-  <link rel="stylesheet" href="./css/professorDashboard.css" />
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Painel do Professor</title>
+    <link rel="stylesheet" href="{{ asset('css/professorDashboard.css') }}" />
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
 </head>
 <body>
 
-  @include('layouts.navbar')
+@include('layouts.navbar')
 
-  
+<main class="page-professor-dashboard">
+    <div class="container">
+        
+        <header class="page-header">
+            <div class="header-content">
+                <h1>Painel do Professor</h1>
+                <p>Olá, {{ Auth::guard('professor')->user()->nome }}! Gerencie suas turmas e aulas.</p>
+            </div>
+        </header>
 
-<div class="dashboard-wrapper">
-  
-  <div class="container">
-<header class="header">
-  <div class="header-left">
-    <h1>Área do Professor</h1>
-    <p>Gerencie suas aulas, materiais e acompanhe o progresso dos alunos</p>
-  </div>
+        <section class="acoes-rapidas">
+            <a href="{{ route('professor.turmas') }}" class="card-acao">
+                <i class='bx bxs-group'></i>
+                <h3>Gerenciar Turmas</h3>
+                <p>Crie, edite e adicione alunos às suas turmas.</p>
+            </a>
+            <a href="{{ route('professor.exercicios.index') }}" class="card-acao">
+                <i class='bx bxs-spreadsheet'></i>
+                <h3>Criar Exercício</h3>
+                <p>Elabore e atribua novos exercícios.</p>
+            </a>
+            <a href="#" class="card-acao">
+                <i class='bx bxs-bell'></i>
+                <h3>Enviar Aviso</h3>
+                <p>Mande comunicados para uma ou mais turmas.</p>
+            </a>
+            <a href="#" class="card-acao">
+                <i class='bx bx-line-chart'></i>
+                <h3>Ver Relatórios</h3>
+                <p>Acompanhe o desempenho dos alunos.</p>
+            </a>
+        </section>
 
+        <div class="content-grid">
 
-  <div class="header-right">
-    <div class="user-menu">
-      <button class="user-button" id="userButton">
-        <img src="{{ Auth::guard('professor')->user()->avatar ?? '/images/default-avatar.png' }}" alt="Avatar" class="user-avatar">
-        <span class="user-name">{{ Auth::guard('professor')->user()->nome }}</span>
-        <span class="caret">▾</span>
-      </button>
+            <div class="coluna-principal">
+                <div class="card">
+                    <h2><i class='bx bx-list-ul'></i> Suas Turmas Recentes</h2>
+                    <div class="lista-turmas">
+                        @forelse($turmasRecentes as $turma)
+                            <div class="item-turma">
+                                <div class="info-turma">
+                                    <strong>{{ $turma->nome_turma }}</strong>
+                                    <small>{{ $turma->alunos_count }} {{ $turma->alunos_count == 1 ? 'aluno' : 'alunos' }}</small>
+                                </div>
+                                <a href="{{ route('professor.turma.especifica', $turma) }}" class="btn-gerenciar">Gerenciar</a>
+                            </div>
+                        @empty
+                            <p class="empty-message">Você ainda não criou nenhuma turma.</p>
+                        @endforelse
+                    </div>
+                    <a href="{{ route('professor.turmas') }}" class="link-ver-todas">Ver todas as turmas <i class='bx bx-right-arrow-alt'></i></a>
+                </div>
+                
+                <div class="card">
+                    <h2><i class='bx bxs-videos'></i> Últimas Aulas Adicionadas</h2>
+                    <div class="lista-aulas">
+                        @forelse($aulasRecentes as $aula)
+                            <div class="item-aula">
+                                <i class='bx bx-play-circle'></i>
+                                <div class="info-aula">
+                                    <strong>{{ $aula->titulo }}</strong>
+                                    <small>Turma: {{ $aula->turma->nome_turma }}</small>
+                                </div>
+                                <span class="data-aula">{{ $aula->created_at->format('d/m/Y') }}</span>
+                            </div>
+                        @empty
+                            <p class="empty-message">Nenhuma aula foi criada recentemente.</p>
+                        @endforelse
+                    </div>
+                </div>
+            </div>
 
-      <div class="user-dropdown" id="userDropdown">
-        <a href="{{ url('/professor/perfil') }}">
-          <span class="dropdown-icon">✏️</span> Editar Perfil
-        </a>
-        <form method="POST" action="{{ url('/logout-professor') }}">
-          @csrf
-          <button type="submit">
-            <span class="dropdown-icon">🚪</span> Sair
-          </button>
-        </form>
-      </div>
+            <div class="coluna-lateral">
+                <div class="card card-estatisticas">
+                    <h2><i class='bx bx-bar-chart-square'></i> Estatísticas Gerais</h2>
+                    <div class="item-estatistica">
+                        <span class="numero">{{ $totalAlunos }}</span>
+                        <span class="descricao">Total de Alunos</span>
+                    </div>
+                    <div class="item-estatistica">
+                        <span class="numero">{{ $totalAulas }}</span>
+                        <span class="descricao">Aulas Criadas</span>
+                    </div>
+                    <div class="item-estatistica">
+                        <span class="numero">89%</span>
+                        <span class="descricao">Taxa de Conclusão (Exemplo)</span>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
-  </div>
-</header>
+</main>
 
+@include('layouts.footer')
 
-
-    <!-- Quick Actions -->
-    <section class="quick-actions">
-      <div class="card action-card green">
-        <div class="icon">+</div>
-        <h3>Nova Aula</h3>
-        <p>Criar nova aula</p>
-      </div>
-      <div id="blocoExercicios" class="card action-card blue">
-        <div  class="icon">📄</div>
-        <h3>Exercícios</h3>
-        <p>Adicionar exercícios</p>
-      </div>
-      <div class="card action-card purple">
-        <div class="icon">🎥</div>
-        <h3>Vídeos</h3>
-        <p>Upload de vídeos</p>
-      </div>
-      <div id="blocoTurmas" class="card action-card orange">
-        <div class="icon">👥</div>
-        <h3>Turmas</h3>
-        <p>Adicionar Turma</p>
-      </div>
-    </section>
-
-    <!-- Main content grid -->
-    <main class="main-content">
-      <section class="recent-classes">
-        <div class="card">
-          <header>
-            <h2><span class="calendar-icon">📅</span> Aulas Recentes</h2>
-          </header>
-          <div class="class-list">
-            <article class="class-item ongoing">
-              <div>
-                <h4>Introdução à Lógica de Programação</h4>
-                <p>Hoje, 14:00 • 25 alunos</p>
-              </div>
-              <span class="status green">Em andamento</span>
-            </article>
-            <article class="class-item completed">
-              <div>
-                <h4>Estruturas Condicionais</h4>
-                <p>Ontem, 16:00 • 23 alunos</p>
-              </div>
-              <span class="status blue">Concluída</span>
-            </article>
-            <article class="class-item scheduled">
-              <div>
-                <h4>Laços de Repetição</h4>
-                <p>15/01, 14:00 • 24 alunos</p>
-              </div>
-              <span class="status yellow">Agendada</span>
-            </article>
-          </div>
-        </div>
-
-        <div class="card mt-2">
-          <header>
-            <h2><span class="users-icon">👥</span> Gerenciamento de Turmas</h2>
-          </header>
-          <p>
-            Aqui você pode editar ou excluir turmas existentes, visualizar detalhes e gerenciar os alunos de cada turma.
-          </p>
-
-          <div class="turmas-list">
-            <div class="turma-item">
-              <span>Turma A - Manhã</span>
-              <div class="actions">
-                <button class="btn btn-edit">✏️ Editar</button>
-                <button class="btn btn-delete">🗑️ Excluir</button>
-              </div>
-            </div>
-            <div class="turma-item">
-              <span>Turma B - Tarde</span>
-              <div class="actions">
-                <button class="btn btn-edit">✏️ Editar</button>
-                <button class="btn btn-delete">🗑️ Excluir</button>
-              </div>
-            </div>
-          </div>
-
-          <button class="btn btn-primary full-width mt-3">Ver Todas as Turmas</button>
-        </div>
-      </section>
-
-      <aside class="stats-section">
-        <div class="card">
-          <header><h2>Estatísticas</h2></header>
-          <div class="stats">
-            <div class="stat-item">
-              <div class="number blue">127</div>
-              <div class="label">Total de Alunos</div>
-            </div>
-            <div class="stat-item">
-              <div class="number green">23</div>
-              <div class="label">Aulas Criadas</div>
-            </div>
-            <div class="stat-item">
-              <div class="number purple">89%</div>
-              <div class="label">Taxa de Conclusão</div>
-            </div>
-          </div>
-        </div>
-
-        <div class="card mt-2">
-          <header><h2>Dúvidas Recentes</h2></header>
-          <div class="duvidas-list">
-            <div class="duvida-item">
-              <p>Como usar loops while?</p>
-              <button class="btn btn-ghost">Responder</button>
-            </div>
-            <div class="duvida-item">
-              <p>Diferença entre if e switch?</p>
-              <button class="btn btn-ghost">Responder</button>
-            </div>
-            <div class="duvida-item">
-              <p>Exercício 3 - Dúvida</p>
-              <button class="btn btn-ghost">Responder</button>
-            </div>
-          </div>
-        </div>
-      </aside>
-    </main>
-  </div>
- <footer>
-      @include('layouts.footer')
-    </footer>
-
-</div>
-
-
-<script src="./js/professorDashboard.js"></script>
+<script src="{{ asset('js/professorDashboard.js') }}"></script>
 </body>
 </html>

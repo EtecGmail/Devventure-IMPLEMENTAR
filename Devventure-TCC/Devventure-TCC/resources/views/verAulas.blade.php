@@ -16,9 +16,16 @@
 
 <main class="page-ver-aula">
     <div class="container">
+        <a href="{{ route('turmas.especifica', $aula->turma) }}" class="btn-voltar-aula">
+            <i class='bx bx-arrow-back'></i> Voltar para a Turma
+        </a>
+
         <header class="aula-header">
             <h1>{{ $aula->titulo }}</h1>
-            <p class="turma-info"><i class='bx bxs-chalkboard'></i> Turma: {{ $aula->turma->nome_turma }}</p>
+            <div class="aula-meta-info"> 
+                <p class="turma-info"><i class='bx bxs-chalkboard'></i> Turma: {{ $aula->turma->nome_turma }}</p>
+                <p class="professor-info"><i class='bx bxs-user-badge'></i> Professor(a): {{ $aula->turma->professor->nome }}</p>
+            </div>
         </header>
 
         <div id="video-wrapper" 
@@ -50,7 +57,7 @@
 {{-- 1. Carrega a API do YouTube --}}
 <script src="https://www.youtube.com/iframe_api"></script>
 
-{{-- 2. Carrega o NOSSO arquivo JS, que agora vai controlar tudo --}}
+
 <script src="{{ asset('js/verAulas.js') }}"></script>
 
 </body>

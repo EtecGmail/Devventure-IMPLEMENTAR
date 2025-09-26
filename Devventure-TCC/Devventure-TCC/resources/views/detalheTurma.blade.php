@@ -13,7 +13,7 @@
 <main class="page-detalhe-turma">
     <div class="container">
 
-        {{-- CABEÇALHO DA PÁGINA --}}
+        
         <header class="page-header">
             <div class="header-content">
                 <a href="{{ url()->previous() }}" class="btn-voltar-mobile"><i class='bx bx-arrow-back'></i></a>
@@ -29,7 +29,7 @@
             </div>
         </header>
 
-        {{-- MENSAGENS DE SUCESSO/ERRO --}}
+        
         @if (session('success'))
             <div class="alert alert-success">{{ session('success') }}</div>
         @endif
@@ -37,10 +37,10 @@
             <div class="alert alert-error">{{ session('error') }}</div>
         @endif
 
-        {{-- GRID DE CONTEÚDO PRINCIPAL --}}
+        
         <div class="content-grid">
             
-            {{-- Seção de Alunos --}}
+            
             <section class="card lista-alunos">
                 <h2><i class='bx bxs-group'></i> Alunos Matriculados ({{ $alunos->count() }})</h2>
                 <ul>
@@ -52,7 +52,7 @@
                 </ul>
             </section>
 
-            {{-- Seção de Exercícios --}}
+            
             <section class="card lista-exercicios">
                 <h2><i class='bx bxs-spreadsheet'></i> Exercícios da Turma ({{ $exercicios->count() }})</h2>
                 <ul>
@@ -67,7 +67,7 @@
     </div>
 </main>
 
-{{-- MODAL PARA CONVIDAR ALUNO --}}
+
 <div class="modal-overlay" id="modalConvidarAluno">
     <div class="modal-content">
         <form action="{{ route('turmas.convidar', $turma) }}" method="POST">
@@ -84,7 +84,7 @@
     </div>
 </div>
 
-{{-- NOVO MODAL PARA ADICIONAR AULA --}}
+
 <div class="modal-overlay" id="modalAdicionarAula">
     <div class="modal-content">
         <form action="{{ route('turmas.aulas.formsAula', $turma) }}" method="POST">

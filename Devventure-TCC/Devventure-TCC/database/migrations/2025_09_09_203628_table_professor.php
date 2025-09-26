@@ -21,6 +21,7 @@ return new class extends Migration
             $table->text('formacao');
             $table->string('telefone')->nullable();
             $table->string('email')->unique();
+            $table->string('avatar')->nullable();
             $table->string('password');
             $table->timestamps();
         });

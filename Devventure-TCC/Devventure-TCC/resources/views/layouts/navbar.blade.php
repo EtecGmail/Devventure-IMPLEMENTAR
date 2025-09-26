@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Navbar Fixa</title>
+  <title>Navbar Moderna</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <link rel="stylesheet" href="./css/navbar.css">
 </head>
@@ -11,21 +11,88 @@
 
   <nav class="navbar">
     <div class="navbar-container">
-      <div class="navbar-logo">
-        <img src="./images/LOGO-removebg.png" alt="Logo"> <!-- Apenas a logo -->
-      </div>
-      <div class="navbar-links">
-        <a href="#"><i class="fa fa-home"></i> Home</a>
-        <a href="loginProfessor"><i class="fa fa-user"></i> Login Professor</a>
-        <a href="loginAluno"><i class="fa fa-graduation-cap"></i> Login Aluno</a>
-        <a href="loginAdm"><i class="fa fa-lock"></i> Login Admin</a>
+      <a href="#" class="navbar-logo">
+        <img src="./images/logoDevventure.png" alt="Logo Devventure">
+      </a>
+      
+      <button class="menu-toggle" id="menu-toggle" aria-label="Abrir menu">
+        <span class="bar"></span>
+        <span class="bar"></span>
+        <span class="bar"></span>
+      </button>
+
+      <div class="navbar-links" id="navbar-links">
+        <a href="#"><i class="fa fa-home"></i><span>Home</span></a>
+        <a href="loginProfessor"><i class="fa fa-user"></i><span>Login Professor</span></a>
+        <a href="loginAluno"><i class="fa fa-graduation-cap"></i><span>Login Aluno</span></a>
+        <a href="loginAdm"><i class="fa fa-lock"></i><span>Login Admin</span></a>
         @auth('admin')
-        <a href="/admDashboard"><i class="fa fa-tachometer-alt"></i> Dashboard Admin</a>
+        <a href="/admDashboard"><i class="fa fa-tachometer-alt"></i><span>Dashboard</span></a>
         @endauth
       </div>
+      
+    @auth('aluno')
+    <div class="navbar-profile">
+        <button id="profile-dropdown-btn" class="profile-button">
+            <img 
+                src="{{ Auth::guard('aluno')->user()->avatar ? asset('storage/' . Auth::guard('aluno')->user()->avatar) : asset('images/default-avatar.png') }}" 
+                alt="Foto de Perfil" 
+                class="profile-avatar"
+            >
+            <span class="profile-name">{{ Auth::guard('aluno')->user()->nome }}</span>
+            <i class='bx bx-chevron-down'></i>
+        </button>
+
+        <div id="profile-dropdown" class="profile-dropdown-content">
+            <button id="edit-profile-btn" class="dropdown-item">
+                <i class='bx bxs-edit'></i>
+                <span>Editar Perfil</span>
+            </button>
+            <div class="dropdown-divider"></div>
+            <form method="POST" action="{{ route('aluno.logout') }}">
+                @csrf
+                <button type="submit" class="dropdown-item dropdown-item-logout">
+                    <i class='bx bx-log-out'></i>
+                    <span>Sair</span>
+                </button>
+            </form>
+        </div>
+    </div>
+@endauth
+
+@auth('professor')
+    <div class="navbar-profile">
+        <button id="profile-dropdown-btn" class="profile-button">
+            <img 
+                src="{{ Auth::guard('professor')->user()->avatar ? asset('storage/' . Auth::guard('professor')->user()->avatar) : asset('images/default-avatar.png') }}" 
+                alt="Foto de Perfil" 
+                class="profile-avatar"
+            >
+            <span class="profile-name">{{ Auth::guard('professor')->user()->nome }}</span>
+            <i class='bx bx-chevron-down'></i>
+        </button>
+
+        <div id="profile-dropdown" class="profile-dropdown-content">
+            <button id="edit-profile-btn" class="dropdown-item">
+                <i class='bx bxs-edit'></i>
+                <span>Editar Perfil</span>
+            </button>
+            <div class="dropdown-divider"></div>
+            <form method="POST" action="{{ route('professor.logout') }}">
+                @csrf
+                <button type="submit" class="dropdown-item dropdown-item-logout">
+                    <i class='bx bx-log-out'></i>
+                    <span>Sair</span>
+                </button>
+            </form>
+        </div>
+    </div>
+@endauth
+
+
     </div>
   </nav>
 
-
+  <script src="./js/navbar.js"></script>
 </body>
 </html>

@@ -1,140 +1,202 @@
-    body {
-      margin: 0;
-      font-family: Arial, sans-serif;
-      background:#8b5cf6;
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-    }
+/* Importando uma fonte moderna do Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
 
-
-    .container {
-      flex: 1;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      padding: 20px;
-    }
-
-    .card {
-      background: rgba(255, 255, 255, 0.1);
-      border: 1px solid rgba(255, 255, 255, 0.2);
-      border-radius: 12px;
-      padding: 30px;
-      max-width: 400px;
-      width: 100%;
-      backdrop-filter: blur(10px);
-      text-align: center;
-    }
-
-    .icon {
-      width: 60px;
-      height: 60px;
-      margin: 0 auto 15px;
-      background: #e11d48;
-      border-radius: 50%;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-    }
-
-    .icon svg {
-      width: 30px;
-      height: 30px;
-      fill: white;
-    }
-
-    h2 {
-      color: white;
-      margin-bottom: 20px;
-    }
-
-    .form-group {
-      margin-bottom: 15px;
-      text-align: left;
-    }
-
-    .form-group label {
-      color: white;
-      font-size: 14px;
-      display: block;
-      margin-bottom: 5px;
-    }
-
-    input, select, textarea {
-      width: 100%;
-      padding: 10px;
-      border-radius: 6px;
-      border: 1px solid rgba(255, 255, 255, 0.3);
-      background: rgba(255, 255, 255, 0.2);
-      color: white;
-      font-size: 14px;
-      outline: none;
-      box-sizing: border-box;
-    }
-
-    textarea {
-      height: 80px;
-    }
-
-    select option {
-      background: #0f172a;
-      color: white;
-    }
-
-    input::placeholder,
-    textarea::placeholder {
-      color: rgba(255, 255, 255, 0.7);
-    }
-
-    button {
-      width: 100%;
-      padding: 12px;
-      margin-top: 10px;
-      border: none;
-      border-radius: 6px;
-      background: #e11d48;
-      color: white;
-      font-size: 16px;
-      cursor: pointer;
-      transition: 0.2s;
-    }
-
-    button:hover {
-      background: #8b5cf6;
-    }
-
-    .links {
-      margin-top: 20px;
-    }
-
-    .links a, .links button {
-      display: block;
-      font-size: 13px;
-      color: #ffffff;
-      background: none;
-      border: none;
-      cursor: pointer;
-      margin-top: 5px;
-      text-decoration: none;
-      transition: 0.2s;
-    }
-
-  .input-icon {
-  position: relative;
-  display: flex;
-  align-items: center;
+/* NOVA PALETA DE CORES PARA PROFESSOR */
+:root {
+  --primary-color: #00796B; /* Um tom de verde/petróleo sofisticado */
+  --primary-hover: #004D40;
+  --background-color: #f0f2f5;
+  --card-background: #ffffff;
+  --text-color: #333;
+  --label-color: #555;
+  --border-color: #ddd;
+  --input-focus-border: #00796B;
+  --input-focus-shadow: rgba(0, 121, 107, 0.25);
+  --error-color: #dc3545;
 }
 
-.input-icon input {
+/* Reset básico e estilos globais */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Poppins', sans-serif;
+  background-color: var(--background-color);
+  color: var(--text-color);
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+/* Container principal para centralizar o card */
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-grow: 1;
+  padding: 20px;
+}
+
+/* Estilo do Card */
+.card {
+  background-color: var(--card-background);
+  padding: 40px;
+  border-radius: 12px;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
   width: 100%;
-  padding-right: 35px; /* espaço para o ícone */
+  max-width: 480px; /* Um pouco maior para acomodar o textarea */
+  text-align: center;
+}
+
+/* Ícone de Perfil */
+.icon {
+  width: 90px;
+  height: 90px;
+  border-radius: 50%;
+  background-color: #e9ecef;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0 auto 20px;
+  border: 3px solid var(--border-color);
+}
+.icon svg {
+  color: #888;
+}
+
+/* Título do formulário */
+#form-title {
+  margin-bottom: 25px;
+  font-weight: 600;
+  font-size: 24px;
+  color: var(--text-color);
+}
+
+/* Grupos de formulário */
+.form-group {
+  margin-bottom: 20px;
+  text-align: left;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: 500;
+  font-size: 14px;
+  color: var(--label-color);
+}
+
+/* Inputs, Select e Textarea */
+input[type="text"],
+input[type="email"],
+input[type="password"],
+select,
+textarea {
+  width: 100%;
+  padding: 12px 15px;
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  font-size: 16px;
+  font-family: 'Poppins', sans-serif;
+  background-color: #fff;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+textarea {
+  min-height: 120px;
+  resize: vertical; /* Permite que o usuário redimensione verticalmente */
+}
+
+input::placeholder,
+textarea::placeholder {
+  color: #aaa;
+}
+
+input:focus,
+select:focus,
+textarea:focus {
+  outline: none;
+  border-color: var(--input-focus-border);
+  box-shadow: 0 0 0 3px var(--input-focus-shadow);
+}
+
+/* Wrapper da senha para posicionar o ícone */
+.senha-wrapper {
+  position: relative;
+}
+
+.senha-wrapper input {
+  padding-right: 45px; /* Espaço para o ícone */
 }
 
 .toggle-password {
   position: absolute;
-  right: 10px;
+  top: 50%;
+  right: 15px;
+  transform: translateY(-50%);
   cursor: pointer;
-  font-size: 18px;
   user-select: none;
+  color: #aaa;
+}
+.toggle-password:hover svg {
+  color: var(--primary-color);
+}
+
+.d-none { display: none !important; }
+
+/* Botão principal */
+button[type="submit"] {
+  width: 100%;
+  padding: 14px;
+  background-color: var(--primary-color);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  margin-top: 10px;
+}
+
+button[type="submit"]:hover {
+  background-color: var(--primary-hover);
+  transform: translateY(-2px);
+}
+
+/* Links abaixo do formulário */
+.links {
+  margin-top: 25px;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  align-items: center;
+}
+
+#toggle-btn {
+  background: none;
+  border: none;
+  color: var(--label-color);
+  cursor: pointer;
+  font-size: 14px;
+  font-family: 'Poppins', sans-serif;
+}
+
+#toggle-btn strong {
+  color: var(--primary-color);
+  font-weight: 600;
+}
+
+.links a {
+  color: var(--label-color);
+  text-decoration: none;
+  font-size: 14px;
+  transition: color 0.3s ease;
+}
+
+.links a:hover {
+  color: var(--primary-color);
 }

@@ -56,7 +56,7 @@
       </form>
       </div>
 
-      <!-- ENVOLVE AQUI PARA SCROLL HORIZONTAL -->
+      
     <div class="exercicios-scroll">
     <div class="exercicios-grid">
 

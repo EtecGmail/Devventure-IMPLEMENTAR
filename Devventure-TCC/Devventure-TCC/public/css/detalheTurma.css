@@ -1,11 +1,14 @@
 /* =================================================================== */
-/* CSS REFEITO PARA A PÁGINA DE DETALHES DA TURMA (PROFESSOR)  */
+/* CSS REFEITO PARA A PÁGINA DE DETALHES DA TURMA (PROFESSOR)  */
 /* =================================================================== */
 
 /* --- Variáveis e Estilos Base --- */
 :root {
-    --cor-primaria: #f1440d;
-    --cor-primaria-hover: #d93d0b;
+    /* CORES ATUALIZADAS PARA O TEMA DO PROFESSOR */
+    --cor-primaria: #00796B; /* Cor principal (verde/petróleo) */
+    --cor-primaria-hover: #004D40; /* Cor para hover */
+
+    /* Cores neutras mantidas */
     --cor-fundo: #f4f7f9;
     --cor-card: #ffffff;
     --cor-texto-principal: #333;
@@ -19,12 +22,6 @@
 body {
     font-family: 'Poppins', sans-serif;
     background-color: var(--cor-fundo);
-}
-
-/* --- Wrapper Principal --- */
-.page-detalhe-turma {
-    /* Este espaço pode ser removido se você não tiver uma navbar fixa */
-    /* margin-top: 70px; */ 
 }
 
 .page-detalhe-turma .container {

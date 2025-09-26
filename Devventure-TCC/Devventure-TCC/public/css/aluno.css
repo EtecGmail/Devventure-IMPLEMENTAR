@@ -1,143 +1,232 @@
-body {
-  margin: 0;
-  font-family: Arial, sans-serif;
-  background: #240E8B;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
+/* Importando uma fonte moderna do Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
+
+/* Variáveis de cores para facilitar a customização */
+:root {
+  --primary-color: #007bff;
+  --primary-hover: #0056b3;
+  --background-color: #f0f2f5;
+  --card-background: #ffffff;
+  --text-color: #333;
+  --label-color: #555;
+  --border-color: #ddd;
+  --input-focus-border: #007bff;
+  --input-focus-shadow: rgba(0, 123, 255, 0.25);
+  --error-color: #dc3545;
 }
 
+/* Reset básico e estilos globais */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
 
-/* Container */
+body {
+  font-family: 'Poppins', sans-serif;
+  background-color: var(--background-color);
+  color: var(--text-color);
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+/* Container principal para centralizar o card */
 .container {
-  flex: 1;
   display: flex;
   justify-content: center;
   align-items: center;
+  flex-grow: 1;
   padding: 20px;
 }
 
-/* Card */
+/* Estilo do Card */
 .card {
-  background: rgba(255, 255, 255, 0.1);
-  border: 1px solid rgba(255, 255, 255, 0.2);
+  background-color: var(--card-background);
+  padding: 40px;
   border-radius: 12px;
-  padding: 30px;
-  max-width: 400px;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
   width: 100%;
-  backdrop-filter: blur(10px);
+  max-width: 450px;
   text-align: center;
+  transition: all 0.3s ease;
 }
 
+/* Ícone de Avatar */
 .icon {
-  width: 60px;
-  height: 60px;
-  margin: 0 auto 15px;
-  background: #3b82f6;
+  width: 90px;
+  height: 90px;
   border-radius: 50%;
+  background-color: #e9ecef;
   display: flex;
   justify-content: center;
   align-items: center;
-  color: white;
-  font-size: 30px;
+  margin: 0 auto 20px;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  border: 3px solid var(--border-color);
+  transition: border-color 0.3s ease;
 }
 
-h2 {
-  color: white;
-  margin-bottom: 20px;
+.icon:hover {
+  border-color: var(--primary-color);
 }
 
-/* Formulário */
+#avatar-preview {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Título do formulário */
+#form-title {
+  margin-bottom: 25px;
+  font-weight: 600;
+  font-size: 24px;
+  color: var(--text-color);
+}
+
+/* Grupos de formulário */
 .form-group {
-  margin-bottom: 15px;
+  margin-bottom: 20px;
   text-align: left;
 }
 
 .form-group label {
-  color: white;
-  font-size: 14px;
   display: block;
-  margin-bottom: 5px;
+  margin-bottom: 8px;
+  font-weight: 500;
+  font-size: 14px;
+  color: var(--label-color);
 }
 
-input,
+/* Inputs e Select */
+input[type="text"],
+input[type="email"],
+input[type="password"],
 select {
   width: 100%;
-  padding: 10px;
-  border-radius: 6px;
-  border: 1px solid rgba(255, 255, 255, 0.3);
-  background: rgba(255, 255, 255, 0.15);
-  color: #f8fafc; /* cinza claro (visível em fundo escuro) */
-  font-size: 14px;
-  outline: none;
-}
-
-/* Ajusta cor do texto dentro do select */
-select option {
-  background: #1e293b; /* fundo escuro dentro da lista */
-  color: white;
+  padding: 12px 15px;
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  font-size: 16px;
+  font-family: 'Poppins', sans-serif;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
 }
 
 input::placeholder {
-  color: rgba(255, 255, 255, 0.7);
+  color: #aaa;
 }
 
-/* Botão */
-button {
-  width: 100%;
-  padding: 12px;
-  margin-top: 10px;
-  border: none;
-  border-radius: 6px;
-  background: #3b82f6;
-  color: white;
-  font-size: 16px;
-  cursor: pointer;
-  transition: 0.2s;
+input:focus,
+select:focus {
+  outline: none;
+  border-color: var(--input-focus-border);
+  box-shadow: 0 0 0 3px var(--input-focus-shadow);
 }
 
-button:hover {
-  background: #2563eb;
-}
-
-/* Links */
-.links {
-  margin-top: 20px;
-  text-align: center;
-}
-
-.links a,
-.links button {
-  display: block;
-  font-size: 13px;
-  color: #ffffff;
-  background: none;
-  border: none;
-  cursor: pointer;
-  margin-top: 5px;
-  text-decoration: none;
-  transition: 0.2s;
-}
-
-.links a:hover,
-.links button:hover {
-  color: white;
-}
-
-/* Senha */
-.senha-wrapper .input-icon {
+/* Wrapper da senha para posicionar o ícone */
+.senha-wrapper {
   position: relative;
 }
 
 .senha-wrapper input {
-  width: 100%;
-  padding-right: 2.5rem; /* espaço para o ícone */
+  padding-right: 45px; /* Espaço para o ícone */
 }
 
-.senha-wrapper .toggle-password {
+.toggle-password {
   position: absolute;
-  right: 0.5rem;
   top: 50%;
+  right: 15px;
   transform: translateY(-50%);
   cursor: pointer;
+  user-select: none; /* Impede que o ícone seja selecionado */
+  font-size: 20px;
+  color: #aaa;
 }
+
+/* Botão principal */
+button[type="submit"] {
+  width: 100%;
+  padding: 14px;
+  background-color: var(--primary-color);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  margin-top: 10px;
+}
+
+button[type="submit"]:hover {
+  background-color: var(--primary-hover);
+  transform: translateY(-2px);
+}
+
+/* Links abaixo do formulário */
+.links {
+  margin-top: 25px;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+#toggle-btn {
+  background: none;
+  border: none;
+  color: var(--label-color);
+  cursor: pointer;
+  font-size: 14px;
+  font-family: 'Poppins', sans-serif;
+}
+
+#toggle-btn strong {
+  color: var(--primary-color);
+  font-weight: 600;
+}
+
+.links a {
+  color: var(--label-color);
+  text-decoration: none;
+  font-size: 14px;
+  transition: color 0.3s ease;
+}
+
+.links a:hover {
+  color: var(--primary-color);
+}
+
+/* ADICIONE ESTAS REGRAS AO SEU CSS EXISTENTE */
+
+/* Estilo para o ícone de avatar */
+#avatar-preview svg {
+  color: #888; /* Cor do ícone de chapéu */
+  width: 50px;
+  height: 50px;
+}
+
+/* Posicionamento e estilo do ícone de olho */
+.toggle-password {
+  position: absolute;
+  top: 50%;
+  right: 15px;
+  transform: translateY(-50%);
+  cursor: pointer;
+  user-select: none;
+  color: #aaa;
+}
+.toggle-password:hover svg {
+  color: var(--primary-color); /* Usa sua cor azul no hover */
+}
+
+/* Classe para esconder/mostrar os ícones */
+.d-none {
+  display: none !important;
+}
+

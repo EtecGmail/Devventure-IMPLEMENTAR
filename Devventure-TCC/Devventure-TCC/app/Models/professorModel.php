@@ -18,10 +18,16 @@ class professorModel extends Authenticatable
         'telefone',
         'email',
         'password',
+        'avatar',
     ];
 
     protected $hidden = [
         'password',
         'remember_token',
     ];
+
+     public function turmas()
+    {
+        return $this->hasMany(turmaModel::class, 'professor_id');
+    }
 }

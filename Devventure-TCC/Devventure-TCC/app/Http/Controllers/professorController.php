@@ -9,7 +9,9 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\turmaModel;
 use App\Models\exercicioModel;
+use App\Models\Aula;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Storage;
 class professorController extends Controller
 {
     /**
@@ -30,6 +32,34 @@ class professorController extends Controller
     public function create()
     {
         //
+    }
+
+    public function dashboard()
+    {
+        $professor = Auth::guard('professor')->user();
+
+        // 1. Buscar as turmas do professor com a contagem de alunos
+        $turmas = $professor->turmas()->withCount('alunos')->latest()->take(5)->get();
+
+        // 2. Buscar as últimas aulas criadas pelo professor
+        $aulasRecentes = Aula::whereIn('turma_id', $professor->turmas()->pluck('id'))
+                            ->latest()
+                            ->take(3)
+                            ->get();
+
+        // 3. Calcular estatísticas gerais
+        $totalAlunos = alunoModel::whereHas('turmas', function ($query) use ($professor) {
+            $query->where('professor_id', $professor->id);
+        })->count();
+        
+        $totalAulas = Aula::whereIn('turma_id', $professor->turmas()->pluck('id'))->count();
+
+        return view('professorDashboard', [
+            'turmasRecentes' => $turmas,
+            'aulasRecentes' => $aulasRecentes,
+            'totalAlunos' => $totalAlunos,
+            'totalAulas' => $totalAulas,
+        ]);
     }
 
     public function turma(Request $request){
@@ -124,7 +154,7 @@ public function convidarAluno(Request $request, turmaModel $turma)
         'turma_id' => $turma->id,
         'aluno_id' => $aluno->id,
         'professor_id' => Auth::guard('professor')->id(),
-        'status' => 'pendente' // Status inicial
+        'status' => 'pendente' 
     ]);
 
     return back()->with('success', 'Convite enviado com sucesso!');
@@ -198,31 +228,17 @@ public function CriarExercicios(Request $request)
     
 
 
-public function formsAula(Request $request)
+public function formsAula(Request $request, turmaModel $turma)
 {
     $request->validate([
-        'aula_id' => 'required|integer|exists:aulas,id',
-        'segundos_assistidos' => 'required|integer|min:0',
+        'titulo' => 'required|string|max:255',
+        'video_url' => 'required|url',
+        'duracao_segundos' => 'required|integer|min:1',
     ]);
 
-    $aluno = Auth::guard('aluno')->user();
-    
-    // Pega o progresso que já existe no banco
-    $progressoExistente = $aluno->aulas()->where('aula_id', $request->aula_id)->first();
-    $segundosJaSalvos = $progressoExistente ? $progressoExistente->pivot->segundos_assistidos : 0;
+    $turma->aulas()->create($request->all());
 
-    // SÓ ATUALIZA SE O NOVO TEMPO FOR MAIOR QUE O TEMPO JÁ SALVO
-    if ($request->segundos_assistidos > $segundosJaSalvos) {
-        // Atualiza o progresso na tabela pivot
-        $aluno->aulas()->syncWithoutDetaching([
-            $request->aula_id => [
-                'segundos_assistidos' => $request->segundos_assistidos
-            ]
-        ]);
-        return response()->json(['status' => 'progresso atualizado']);
-    }
-
-    return response()->json(['status' => 'progresso não precisou ser atualizado']);
+    return back()->with('success', 'Aula adicionada com sucesso!');
 }
         
 
@@ -233,20 +249,42 @@ public function formsAula(Request $request)
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
-    {
-         $professor = new professorModel();
-         $professor->nome = $request->nome;
-         $professor->cpf = $request->cpf;
-         $professor->areaEnsino = $request->area;
-         $professor->formacao = $request->formacao;
-         $professor->telefone = $request->telefone;
-        $professor->email = $request->email;
-        $professor->password = Hash::make($request->password);
-        $professor->save();
+{
+    
+    $request->validate([
+        'nome' => ['required', 'string', 'max:255'],
+        'cpf' => ['required', 'string', 'max:14', 'unique:professor'], 
+        'area' => ['required', 'string', 'max:255'],
+        'formacao' => ['required', 'string'],
+        'email' => ['required', 'string', 'email', 'max:255', 'unique:professor'],
+        'password' => ['required', 'string', 'min:8'],
+        'avatar' => ['nullable', 'image', 'mimes:jpg,jpeg,png', 'max:2048'], 
+    ]);
 
-        return redirect('/loginProfessor');
-
+    
+    $caminhoAvatar = null;
+    if ($request->hasFile('avatar')) {
+        
+        $caminhoAvatar = $request->file('avatar')->store('avatars', 'public');
     }
+
+    
+    $professor = new professorModel();
+    $professor->nome = $request->nome;
+    $professor->cpf = $request->cpf;
+    $professor->areaEnsino = $request->area; 
+    $professor->formacao = $request->formacao;
+    $professor->telefone = $request->telefone;
+    $professor->email = $request->email;
+    $professor->password = Hash::make($request->password);
+    
+   
+    $professor->avatar = $caminhoAvatar;
+    
+    $professor->save();
+
+    return redirect('/loginProfessor')->with('success', 'Cadastro realizado com sucesso!');
+}
 
     public function professorDashboard()    {
         return view('professorDashboard');
