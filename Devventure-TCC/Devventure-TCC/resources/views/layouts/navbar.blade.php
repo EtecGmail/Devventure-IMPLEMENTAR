@@ -9,74 +9,59 @@
 </head>
 <body>
 
-  <nav class="navbar">
+<nav class="navbar">
     <div class="navbar-container">
-      <a href="#" class="navbar-logo">
-        <img src="./images/logoDevventure.png" alt="Logo Devventure">
-      </a>
-      
-      <button class="menu-toggle" id="menu-toggle" aria-label="Abrir menu">
-        <span class="bar"></span>
-        <span class="bar"></span>
-        <span class="bar"></span>
-      </button>
-
-      <div class="navbar-links" id="navbar-links">
-        <a href="#"><i class="fa fa-home"></i><span>Home</span></a>
-        <a href="loginProfessor"><i class="fa fa-user"></i><span>Login Professor</span></a>
-        <a href="loginAluno"><i class="fa fa-graduation-cap"></i><span>Login Aluno</span></a>
-        <a href="loginAdm"><i class="fa fa-lock"></i><span>Login Admin</span></a>
-        @auth('admin')
-        <a href="/admDashboard"><i class="fa fa-tachometer-alt"></i><span>Dashboard</span></a>
-        @endauth
-      </div>
-      
-    @auth('aluno')
-    <div class="navbar-profile">
-        <button id="profile-dropdown-btn" class="profile-button">
-            <img 
-                src="{{ Auth::guard('aluno')->user()->avatar ? asset('storage/' . Auth::guard('aluno')->user()->avatar) : asset('images/default-avatar.png') }}" 
-                alt="Foto de Perfil" 
-                class="profile-avatar"
-            >
-            <span class="profile-name">{{ Auth::guard('aluno')->user()->nome }}</span>
-            <i class='bx bx-chevron-down'></i>
+        <a href="#" class="navbar-logo">
+            <img src="{{ asset('images/logoDevventure.png') }}" alt="Logo Devventure">
+        </a>
+        
+        <button class="menu-toggle" id="menu-toggle" aria-label="Abrir menu">
+            <span class="bar"></span>
+            <span class="bar"></span>
+            <span class="bar"></span>
         </button>
 
-        <div id="profile-dropdown" class="profile-dropdown-content">
-            <button id="edit-profile-btn" class="dropdown-item">
-                <i class='bx bxs-edit'></i>
-                <span>Editar Perfil</span>
-            </button>
-            <div class="dropdown-divider"></div>
-            <form method="POST" action="{{ route('aluno.logout') }}">
-                @csrf
-                <button type="submit" class="dropdown-item dropdown-item-logout">
-                    <i class='bx bx-log-out'></i>
-                    <span>Sair</span>
-                </button>
-            </form>
+        <div class="navbar-links" id="navbar-links">
+            <a href="#"><i class="fa fa-home"></i><span>Home</span></a>
+            <a href="/loginProfessor"><i class="fa fa-user"></i><span>Login Professor</span></a>
+            <a href="/loginAluno"><i class="fa fa-graduation-cap"></i><span>Login Aluno</span></a>
         </div>
-    </div>
-@endauth
-
+        
+        @auth('aluno')
+            <div class="navbar-profile">
+                <button id="profile-dropdown-btn-aluno" class="profile-button">
+                    <img src="{{ Auth::guard('aluno')->user()->avatar ? asset('storage/' . Auth::guard('aluno')->user()->avatar) : asset('images/default-avatar.png') }}" alt="Foto de Perfil" class="profile-avatar">
+                    <span class="profile-name">{{ Auth::guard('aluno')->user()->nome }}</span>
+                    <i class='bx bx-chevron-down'></i>
+                </button>
+                <div id="profile-dropdown-aluno" class="profile-dropdown-content">
+    <a href="{{ route('aluno.perfil.edit') }}" class="dropdown-item">
+        <i class='bx bxs-edit'></i>
+        <span>Editar Perfil</span>
+    </a>
+    <div class="dropdown-divider"></div>
+    <form method="POST" action="{{ route('aluno.logout') }}">
+        @csrf
+        <button type="submit" class="dropdown-item dropdown-item-logout">
+            <i class='bx bx-log-out'></i>
+            <span>Sair</span>
+        </button>
+    </form>
+</div>
+            </div>
+        @endauth
 @auth('professor')
     <div class="navbar-profile">
-        <button id="profile-dropdown-btn" class="profile-button">
-            <img 
-                src="{{ Auth::guard('professor')->user()->avatar ? asset('storage/' . Auth::guard('professor')->user()->avatar) : asset('images/default-avatar.png') }}" 
-                alt="Foto de Perfil" 
-                class="profile-avatar"
-            >
+        <button id="profile-dropdown-btn-professor" class="profile-button">
+            <img src="{{ Auth::guard('professor')->user()->avatar ? asset('storage/' . Auth::guard('professor')->user()->avatar) : asset('images/default-avatar.png') }}" alt="Foto de Perfil" class="profile-avatar">
             <span class="profile-name">{{ Auth::guard('professor')->user()->nome }}</span>
             <i class='bx bx-chevron-down'></i>
         </button>
-
-        <div id="profile-dropdown" class="profile-dropdown-content">
-            <button id="edit-profile-btn" class="dropdown-item">
+        <div id="profile-dropdown-professor" class="profile-dropdown-content">
+            <a href="{{ route('professor.perfil.edit') }}" class="dropdown-item">
                 <i class='bx bxs-edit'></i>
                 <span>Editar Perfil</span>
-            </button>
+            </a>
             <div class="dropdown-divider"></div>
             <form method="POST" action="{{ route('professor.logout') }}">
                 @csrf
@@ -88,11 +73,11 @@
         </div>
     </div>
 @endauth
-
-
     </div>
-  </nav>
+</nav>
 
   <script src="./js/navbar.js"></script>
+ 
+  
 </body>
 </html>

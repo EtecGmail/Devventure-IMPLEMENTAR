@@ -1,37 +1,60 @@
 document.addEventListener('DOMContentLoaded', () => {
-    const menuToggle = document.getElementById('menu-toggle');
-    const navbarLinks = document.getElementById('navbar-links');
 
-    menuToggle.addEventListener('click', () => {
-        // Alterna a classe 'active' nos links e no botão
-        navbarLinks.classList.toggle('active');
-        menuToggle.classList.toggle('active');
-    });
-});
-document.addEventListener('DOMContentLoaded', () => {
-    const profileBtn = document.getElementById('profile-dropdown-btn');
-    const profileDropdown = document.getElementById('profile-dropdown');
-
-    if (profileBtn && profileDropdown) {
-        profileBtn.addEventListener('click', (event) => {
-            // Impede que o clique no botão feche o menu imediatamente
-            event.stopPropagation(); 
-            profileDropdown.classList.toggle('active');
+    // --- LÓGICA PARA CONTROLAR OS DROPDOWNS DE PERFIL ---
+    const dropdownButtons = document.querySelectorAll('.profile-button');
+    dropdownButtons.forEach(button => {
+        button.addEventListener('click', (event) => {
+            event.stopPropagation();
+            // Encontra o dropdown específico relacionado a este botão
+            const dropdown = button.nextElementSibling;
+            // Fecha outros dropdowns abertos antes de abrir o novo
+            document.querySelectorAll('.profile-dropdown-content.active').forEach(d => {
+                if (d !== dropdown) d.classList.remove('active');
+            });
+            dropdown.classList.toggle('active');
         });
+    });
 
-        // Fecha o dropdown se clicar em qualquer outro lugar da página
-        window.addEventListener('click', () => {
-            if (profileDropdown.classList.contains('active')) {
-                profileDropdown.classList.remove('active');
+    // Fecha os dropdowns se clicar fora
+    window.addEventListener('click', () => {
+        document.querySelectorAll('.profile-dropdown-content.active').forEach(dropdown => {
+            dropdown.classList.remove('active');
+        });
+    });
+
+
+    // --- LÓGICA INTELIGENTE PARA ABRIR QUALQUER MODAL ---
+    const modalTriggers = document.querySelectorAll('.modal-trigger');
+    modalTriggers.forEach(trigger => {
+        trigger.addEventListener('click', () => {
+            const modalId = trigger.dataset.modalTarget; // Lê o atributo ex: '#edit-aluno-modal'
+            const modal = document.querySelector(modalId);
+            if (modal) {
+                modal.style.display = 'flex';
             }
         });
-    }
+    });
 
-    // A lógica do modal de edição continua aqui...
-    const editProfileBtn = document.getElementById('edit-profile-btn');
-    const modal = document.getElementById('edit-profile-modal');
-    if(editProfileBtn && modal) {
-      editProfileBtn.addEventListener('click', () => modal.style.display = 'flex');
-    }
-    // ...
+    // --- LÓGICA INTELIGENTE PARA FECHAR QUALQUER MODAL ---
+    const modalCloseButtons = document.querySelectorAll('.modal-close');
+    modalCloseButtons.forEach(button => {
+        button.addEventListener('click', () => {
+            const modalId = button.dataset.modalClose; // Lê o atributo ex: '#edit-aluno-modal'
+            const modal = document.querySelector(modalId);
+            if (modal) {
+                modal.style.display = 'none';
+            }
+        });
+    });
+
+    // Fecha o modal se clicar no fundo escuro
+    const modalOverlays = document.querySelectorAll('.modal-overlay');
+    modalOverlays.forEach(modal => {
+        modal.addEventListener('click', (event) => {
+            if (event.target === modal) {
+                modal.style.display = 'none';
+            }
+        });
+    });
+
 });

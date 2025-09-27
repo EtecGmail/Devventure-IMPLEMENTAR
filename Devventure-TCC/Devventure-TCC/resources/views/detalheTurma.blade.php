@@ -4,11 +4,15 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Detalhes da Turma: {{ $turma->nome_turma }}</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.10.0/dist/sweetalert2.min.css">
     
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+
+
     <link rel="stylesheet" href="{{ asset('css/detalheTurma.css') }}">
 </head>
 <body>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.10.0/dist/sweetalert2.all.min.js"></script>
 
 <main class="page-detalhe-turma">
     <div class="container">
@@ -112,6 +116,14 @@
     </div>
 </div>
 
+<script>
+    window.flashMessages = {
+        sweetSuccessConvite: "{{ session('sweet_success_convite') }}",
+        sweetErrorConvite: "{{ session('sweet_error_convite') }}",
+        sweetSuccessAula: "{{ session('sweet_success_aula') }}",
+        sweetErrorAula: "{{ session('sweet_error_aula') ?? '' }}"
+    };
+</script>
 
 <script src="{{ asset('js/detalheTurmaProfessor.js') }}"></script>
 </body>

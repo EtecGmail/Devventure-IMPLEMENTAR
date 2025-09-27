@@ -12,6 +12,9 @@ use App\Models\exercicioModel;
 use App\Models\Aula;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Validation\Rule;
+use Illuminate\Validation\Rules\Password;
+
 class professorController extends Controller
 {
     /**
@@ -137,16 +140,18 @@ public function convidarAluno(Request $request, turmaModel $turma)
     // 3. Verifica se o aluno já está na turma
     $jaEstaNaTurma = $turma->alunos()->where('aluno_id', $aluno->id)->exists();
     if ($jaEstaNaTurma) {
-        return back()->with('error', 'Este aluno já está na turma.');
+        // CORRIGIDO: Mensagem de erro para SweetAlert
+        return back()->with('sweet_error_convite', 'O aluno já está em outra turma.'); 
     }
 
     // 4. Verifica se já existe um convite pendente
     $convitePendente = Convite::where('turma_id', $turma->id)
-                                ->where('aluno_id', $aluno->id)
-                                ->where('status', 'pendente')
-                                ->exists();
+                                 ->where('aluno_id', $aluno->id)
+                                 ->where('status', 'pendente')
+                                 ->exists();
     if ($convitePendente) {
-        return back()->with('error', 'Já existe um convite pendente para este aluno.');
+        // CORRIGIDO: Mensagem de sucesso (convite já existia, mas ainda é um "sucesso" para o professor)
+        return back()->with('sweet_success_convite', 'Convite já existe e está pendente.'); 
     }
 
     // 5. Se todas as verificações passarem, cria o convite
@@ -157,7 +162,8 @@ public function convidarAluno(Request $request, turmaModel $turma)
         'status' => 'pendente' 
     ]);
 
-    return back()->with('success', 'Convite enviado com sucesso!');
+    // CORRIGIDO: Mensagem de sucesso para SweetAlert
+    return back()->with('sweet_success_convite', 'Convite enviado com sucesso!'); 
 }
 
 
@@ -238,7 +244,7 @@ public function formsAula(Request $request, turmaModel $turma)
 
     $turma->aulas()->create($request->all());
 
-    return back()->with('success', 'Aula adicionada com sucesso!');
+    return back()->with('sweet_success_aula', 'Aula adicionada com sucesso!');
 }
         
 
@@ -308,6 +314,7 @@ return redirect('/professorDashboard');
         return redirect('/loginProfessor');
     }
 
+
     /**
      * Display the specified resource.
      *
@@ -327,10 +334,13 @@ return redirect('/professorDashboard');
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+     public function edit()
     {
-        //
+        // Garante que estamos pegando o usuário professor autenticado
+        $professor = Auth::guard('professor')->user();
+        return view('perfilProfessor', compact('professor'));
     }
+
 
     /**
      * Update the specified resource in storage.
@@ -339,9 +349,48 @@ return redirect('/professorDashboard');
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request)
     {
-        //
+        $professor = Auth::guard('professor')->user();
+
+        $request->validate([
+            'nome' => ['required', 'string', 'max:255'],
+            'email' => ['required', 'string', 'email', 'max:255', Rule::unique('professor')->ignore($professor->id)],
+            'cpf' => ['required', 'string', 'max:14', Rule::unique('professor')->ignore($professor->id)], // Tabela 'professores'
+            'areaEnsino' => ['required', 'string', 'max:255'],
+            'formacao' => ['required', 'string'],
+            'telefone' => ['nullable', 'string', 'max:15'],
+            'avatar' => ['nullable', 'image', 'mimes:jpg,jpeg,png', 'max:2048'],
+            // Regras para senha (se o campo 'password' for preenchido)
+            'password' => ['nullable', 'confirmed', Password::defaults()],
+        ]);
+
+        $professor->nome = $request->input('nome');
+        $professor->email = $request->input('email');
+        $professor->cpf = $request->input('cpf'); // Adicionando o campo CPF
+        $professor->areaEnsino = $request->input('areaEnsino');
+        $professor->formacao = $request->input('formacao'); // Adicionando o campo Formacao
+        $professor->telefone = $request->input('telefone');
+
+        // Lógica para upload de avatar
+        if ($request->hasFile('avatar')) {
+            // Se já existe um avatar, exclua o antigo
+            if ($professor->avatar && Storage::disk('public')->exists($professor->avatar)) {
+                Storage::disk('public')->delete($professor->avatar);
+            }
+            $path = $request->file('avatar')->store('avatars/professores', 'public');
+            $professor->avatar = $path;
+        }
+
+        // Lógica para alteração de senha
+        if ($request->filled('password')) {
+            $professor->password = Hash::make($request->input('password'));
+        }
+
+        $professor->save();
+
+        // Flash message para SweetAlert2
+        return redirect()->route('professor.perfil.edit')->with('sweet_success', 'Seu perfil foi atualizado com sucesso!');
     }
 
     /**

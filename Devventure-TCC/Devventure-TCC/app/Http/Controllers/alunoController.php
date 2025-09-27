@@ -11,6 +11,8 @@ use App\Models\alunoModel;
 use App\Models\Convite;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Validation\Rule;
 class alunoController extends Controller
 {
     /**
@@ -248,6 +250,7 @@ public function salvarProgresso(Request $request)
     return response()->json(['status' => 'sucesso']);
 }
 
+
     /**
      * Display the specified resource.
      *
@@ -265,9 +268,13 @@ public function salvarProgresso(Request $request)
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+      public function edit()
     {
-        //
+        // Pega o aluno que está autenticado
+        $aluno = Auth::guard('aluno')->user();
+
+        // Retorna a view do formulário, passando os dados do aluno
+        return view('perfilAluno', ['aluno' => $aluno]);
     }
 
     /**
@@ -277,9 +284,46 @@ public function salvarProgresso(Request $request)
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+      public function update(Request $request)
     {
-        //
+        $aluno = Auth::guard('aluno')->user();
+
+        
+        $validatedData = $request->validate([
+            'nome' => 'required|string|max:255',
+            'email' => [
+                'required',
+                'string',
+                'email',
+                'max:255',
+                Rule::unique('aluno')->ignore($aluno->id), 
+            ],
+            'telefone' => 'nullable|string|max:20',
+            'avatar' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048', 
+            'password' => 'nullable|string|min:8|confirmed', 
+        ]);
+
+        
+        if ($request->hasFile('avatar')) {
+            
+            $path = $request->file('avatar')->store('avatars/alunos', 'public');
+            
+            $validatedData['avatar'] = $path;
+        }
+
+       
+        if (!empty($validatedData['password'])) {
+            $validatedData['password'] = Hash::make($validatedData['password']);
+        } else {
+            
+            unset($validatedData['password']);
+        }
+
+        
+        $aluno->update($validatedData);
+
+        
+        return redirect()->route('aluno.perfil.edit')->with('sweet_success', 'Suas alterações foram salvas com sucesso!');
     }
 
     /**

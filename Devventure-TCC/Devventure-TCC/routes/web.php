@@ -25,15 +25,13 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+
+
+
 // Telas de Login
-Route::get('/loginAluno', function () {
-    return view('loginAluno', [
-        'theme' => 'aluno',
-        'userType' => 'aluno',
-        'welcomeTitle' => 'Bem-vindo, Aluno!',
-        'welcomeText' => 'Acesse suas turmas, aulas e exercícios em um só lugar.'
-    ]);
-})->name('login.aluno');
+
+Route::get('loginAluno', function () { return view('loginAluno'); })->name('login.aluno'); 
+
 Route::get('loginProfessor', function () { return view('loginProfessor'); })->name('login.professor'); 
 Route::get('/loginAdm', function () { return view('loginAdmin'); })->name('login.admin'); 
 
@@ -44,6 +42,8 @@ Route::post('/login-adm', [admController::class, 'verifyUser']);
 
 Route::post('/cadastrar-aluno', [alunoController::class, 'store'])->name('aluno.cadastrar');
 Route::post('/cadastrar-prof', [professorController::class, 'store'])->name('professor.cadastro.action');
+
+
 
 
 //Rotas do ALUNO
@@ -59,6 +59,12 @@ Route::middleware('auth:aluno')->group(function () {
     Route::post('/convites/{convite}/recusar', [alunoController::class, 'recusar'])->name('convites.recusar');
 
     Route::post('/logout-aluno', [alunoController::class, 'logoutUser'])->name('aluno.logout'); 
+
+    
+    Route::get('/perfilAluno', [alunoController::class, 'edit'])->name('aluno.perfil.edit');
+
+    
+    Route::patch('/perfilAlunoUpdate', [alunoController::class, 'update'])->name('aluno.perfil.update');
 });
 
 
@@ -77,11 +83,19 @@ Route::middleware('auth:professor')->group(function () {
     Route::post('/turmas/{turma}/aulas', [professorController::class, 'formsAula'])->name('turmas.aulas.formsAula');
 
     Route::post('/logout-professor', [professorController::class, 'logoutUser'])->name('professor.logout'); 
+
+    Route::get('/perfilProfessor', [professorController::class, 'edit'])->name('professor.perfil.edit');
+
+    Route::patch('/perfilProfessorUpdate', [professorController::class, 'update'])->name('professor.perfil.update');
 });
+
 
 
 //Rotas ADMIN
 Route::middleware('auth:admin')->group(function () {
     Route::get('/admDashboard', [admController::class, 'admDashboard'])->name('admin.dashboard'); 
     Route::post('/logout-adm', [admController::class, 'logoutUser'])->name('admin.logout'); 
+
+    Route::get('/admin/dashboard/search/alunos', [admController::class, 'searchAlunos'])->name('admin.search.alunos');
+    Route::get('/admin/dashboard/search/professores', [admController::class, 'searchProfessores'])->name('admin.search.professores');
 });

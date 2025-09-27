@@ -220,14 +220,18 @@ body {
     position: absolute;
     top: 110%; /* Um pouco abaixo do botão de perfil */
     right: 0;
-    background-color: var(--cor-card, #ffffff);
-    min-width: 200px;
-    box-shadow: 0 8px 20px rgba(0,0,0,0.15);
-    border-radius: 12px;
+    background-color: #ffffff;
+    width: auto;              /* Ajusta largura ao conteúdo */
+    min-width: 160px;         /* Largura mínima menor */
+    max-width: 220px;         /* Para não ficar gigante */
+    box-shadow: 0 4px 12px rgba(0,0,0,0.12);
+    border-radius: 10px;
     z-index: 1001;
-    padding: 0.5rem 0;
+    padding: 0.3rem 0;        /* Menos padding */
     overflow: hidden;
+    font-size: 0.95rem;       /* Tamanho de texto mais discreto */
 }
+
 /* Classe para mostrar o dropdown com JS */
 .profile-dropdown-content.active {
     display: block;
@@ -237,28 +241,33 @@ body {
 .dropdown-item {
     display: flex;
     align-items: center;
-    gap: 10px;
+    gap: 8px;
     width: 100%;
-    padding: 0.8rem 1.2rem;
-    font-size: 1rem;
-    color: var(--cor-texto-principal, #333);
+    padding: 0.6rem 1rem;
+    font-size: 0.95rem;
+    color: #333;
     background: none;
     border: none;
     cursor: pointer;
     text-align: left;
+    transition: background-color 0.2s ease;
 }
+
 .dropdown-item:hover {
-    background-color: var(--cor-fundo, #f8fafc);
+    background-color: #f1f5f9;
 }
+
 .dropdown-item i {
-    font-size: 1.2rem;
-    color: var(--cor-texto-secundario, #64748b);
+    font-size: 1.1rem;
+    color: #64748b;
 }
+
 .dropdown-item-logout i {
     color: #ef4444; /* Vermelho para a ação de sair */
 }
+
 .dropdown-divider {
     height: 1px;
-    background-color: var(--cor-borda, #e2e8f0);
-    margin: 0.5rem 0;
+    background-color: #e2e8f0;
+    margin: 0.3rem 0;
 }
