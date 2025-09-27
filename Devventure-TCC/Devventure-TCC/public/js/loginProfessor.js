@@ -63,7 +63,9 @@ document.addEventListener('DOMContentLoaded', () => {
         if (file) {
             const reader = new FileReader();
             reader.onload = function(e) {
-                document.getElementById('avatar-preview').innerHTML = `<img src="${e.target.result}" alt="Preview" style="width:100%; height:100%; object-fit:cover; border-radius: 50%;">`;
+              document.getElementById('avatar-preview').innerHTML = `
+    <img src="${e.target.result}" alt="Preview">
+`;
             }
             reader.readAsDataURL(file);
         }

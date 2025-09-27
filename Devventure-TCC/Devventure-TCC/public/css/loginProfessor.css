@@ -200,3 +200,10 @@ button[type="submit"]:hover {
 .links a:hover {
   color: var(--primary-color);
 }
+#avatar-preview img {
+  width: 90px;
+  height: 90px;
+  border-radius: 50%;
+  object-fit: cover; /* corta a imagem proporcionalmente */
+  display: block;
+}

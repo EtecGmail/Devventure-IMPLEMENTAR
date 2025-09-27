@@ -11,7 +11,7 @@
 
   <main class="container">
     <div class="card">
-      <h2 id="form-title">Login Aluno</h2>
+      <h2 id="form-title">Entrar como  Aluno</h2>
 
       <form  method="POST" id="aluno-form" enctype="multipart/form-data"
     action="{{ route('aluno.login') }}" data-cadastro-url="{{ route('aluno.cadastrar') }}">
