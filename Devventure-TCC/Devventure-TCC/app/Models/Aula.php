@@ -4,7 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use App\Models\turmaModel;
+use App\Models\Turma;
 
 class Aula extends Model
 {
@@ -14,6 +14,6 @@ class Aula extends Model
 
     public function turma()
     {
-        return $this->belongsTo(turmaModel::class);
+        return $this->belongsTo(Turma::class);
     }
 }

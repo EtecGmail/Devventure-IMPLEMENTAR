@@ -2,9 +2,9 @@
 
 namespace Tests\Feature;
 
-use App\Models\admModel;
-use App\Models\alunoModel;
-use App\Models\professorModel;
+use App\Models\Adm;
+use App\Models\Aluno;
+use App\Models\Professor;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Hash;
 use Tests\TestCase;
@@ -21,7 +21,7 @@ class AdminAccessTest extends TestCase
 
     public function test_aluno_cannot_access_admin_dashboard(): void
     {
-        alunoModel::create([
+        Aluno::create([
             'nome' => 'Aluno',
             'ra' => '123',
             'semestre' => '1',
@@ -37,7 +37,7 @@ class AdminAccessTest extends TestCase
 
     public function test_professor_cannot_access_admin_dashboard(): void
     {
-        professorModel::create([
+        Professor::create([
             'nome' => 'Prof',
             'cpf' => '12345678900',
             'areaEnsino' => 'Area',
@@ -54,7 +54,7 @@ class AdminAccessTest extends TestCase
 
     public function test_admin_can_access_admin_dashboard(): void
     {
-        admModel::create([
+        Adm::create([
             'nome' => 'Admin',
             'email' => 'admin@example.com',
             'password' => Hash::make('secret'),
@@ -67,12 +67,12 @@ class AdminAccessTest extends TestCase
 
     public function test_login_routes_redirect_to_dashboards(): void
     {
-        admModel::create([
+        Adm::create([
             'nome' => 'Admin',
             'email' => 'admin2@example.com',
             'password' => Hash::make('secret'),
         ]);
-        professorModel::create([
+        Professor::create([
             'nome' => 'Prof',
             'cpf' => '98765432100',
             'areaEnsino' => 'Area',
@@ -81,7 +81,7 @@ class AdminAccessTest extends TestCase
             'email' => 'prof2@example.com',
             'password' => Hash::make('secret'),
         ]);
-        alunoModel::create([
+        Aluno::create([
             'nome' => 'Aluno',
             'ra' => '456',
             'semestre' => '1',
