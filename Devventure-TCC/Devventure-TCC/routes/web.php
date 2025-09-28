@@ -66,6 +66,9 @@ Route::middleware('auth:professor')->group(function () {
     
     Route::get('/professorExercicios', [App\Http\Controllers\Professor\ExercicioController::class, 'exercicios'])->name('professor.exercicios.index');
     Route::post('/professorCriarExercicios', [App\Http\Controllers\Professor\ExercicioController::class, 'CriarExercicios'])->name('professor.exercicios.store');
+
+    Route::get('/professor/aulas/{aula}/formulario/create', [App\Http\Controllers\Professor\FormularioController::class, 'create'])->name('formularios.create');
+    Route::post('/professor/aulas/{aula}/formulario', [App\Http\Controllers\Professor\FormularioController::class, 'store'])->name('formularios.store');
 });
 
 

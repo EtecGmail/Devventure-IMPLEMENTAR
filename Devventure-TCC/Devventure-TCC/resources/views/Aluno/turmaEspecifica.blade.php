@@ -89,15 +89,19 @@
                 <div class="sidebar-widget">
                     <h2><i class='bx bxs-group'></i> Colegas de Turma</h2>
                     <ul class="lista-alunos">
-                        @forelse($alunos as $aluno)
-                            <li>
-                                <img src="https://i.pravatar.cc/40?u={{ $aluno->id }}" alt="Avatar" class="avatar">
-                                <span>{{ $aluno->nome }}</span>
-                            </li>
-                        @empty
-                            <li class="empty-message">Nenhum outro aluno na turma.</li>
-                        @endforelse
-                    </ul>
+    @forelse($alunos as $aluno)
+        <li>
+            @if ($aluno->avatar)
+                <img src="{{ asset('storage/' . $aluno->avatar) }}" alt="Foto de {{ $aluno->nome }}" class="avatar">
+            @else
+                <img src="https://i.pravatar.cc/40?u={{ $aluno->id }}" alt="Avatar Padrão" class="avatar">
+            @endif
+            <span>{{ $aluno->nome }}</span>
+        </li>
+    @empty
+        <li class="empty-message">Nenhum outro aluno na turma.</li>
+    @endforelse
+</ul>
                 </div>
             </aside>
         </div>

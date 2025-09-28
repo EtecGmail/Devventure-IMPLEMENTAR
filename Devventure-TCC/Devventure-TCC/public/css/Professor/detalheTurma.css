@@ -178,3 +178,44 @@ body {
     .btn-voltar-mobile { display: block; font-size: 1.5rem; margin-bottom: 0.5rem; }
     .content-grid { grid-template-columns: 1fr; }
 }
+
+.lista-alunos li {
+    display: flex; /* O segredo para alinhar itens horizontalmente */
+    align-items: center; /* Alinha verticalmente no centro */
+    gap: 1rem; /* Espaçamento entre a foto e as informações */
+    padding: 0.8rem 1rem; /* Ajuste no espaçamento interno */
+}
+
+/* Estilo para a imagem do avatar */
+.lista-alunos .avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%; /* Deixa a imagem redonda */
+    object-fit: cover; /* Garante que a foto não fique distorcida */
+    flex-shrink: 0; /* Impede que a imagem encolha */
+}
+
+/* Container para o nome e email */
+.lista-alunos .aluno-info {
+    display: flex;
+    flex-direction: column; /* Coloca o nome em cima do email */
+}
+
+/* Estilo para o nome do aluno */
+.lista-alunos .aluno-nome {
+    font-weight: 600; /* Deixa o nome em negrito */
+    color: var(--cor-texto-principal);
+}
+
+/* Estilo para o email (que antes era um span genérico) */
+.lista-alunos .aluno-email {
+    font-size: 0.85rem;
+    color: var(--cor-texto-secundario);
+}
+
+/* Mantém o estilo para a mensagem de lista vazia */
+.lista-alunos .empty-item {
+    justify-content: center;
+    font-style: italic;
+    color: var(--cor-texto-secundario);
+}

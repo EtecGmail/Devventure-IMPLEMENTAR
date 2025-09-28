@@ -45,16 +45,30 @@
         <div class="content-grid">
             
             
-            <section class="card lista-alunos">
-                <h2><i class='bx bxs-group'></i> Alunos Matriculados ({{ $alunos->count() }})</h2>
-                <ul>
-                    @forelse ($alunos as $aluno)
-                        <li>{{ $aluno->nome }}<span>{{ $aluno->email }}</span></li>
-                    @empty
-                        <li class="empty-item">Nenhum aluno matriculado nesta turma ainda.</li>
-                    @endforelse
-                </ul>
-            </section>
+           <section class="card lista-alunos">
+    <h2><i class='bx bxs-group'></i> Alunos Matriculados ({{ $alunos->count() }})</h2>
+    <ul>
+        @forelse ($alunos as $aluno)
+            <li>
+                {{-- Lógica para exibir a foto ou o avatar padrão --}}
+                @if ($aluno->avatar)
+                    <img src="{{ asset('storage/' . $aluno->avatar) }}" alt="Foto de {{ $aluno->nome }}" class="avatar">
+                @else
+                    {{-- Usando um avatar genérico do Pravatar como fallback --}}
+                    <img src="https://i.pravatar.cc/40?u={{ $aluno->id }}" alt="Avatar Padrão" class="avatar">
+                @endif
+
+                {{-- Div para agrupar nome e email --}}
+                <div class="aluno-info">
+                    <span class="aluno-nome">{{ $aluno->nome }}</span>
+                    <span class="aluno-email">{{ $aluno->email }}</span>
+                </div>
+            </li>
+        @empty
+            <li class="empty-item">Nenhum aluno matriculado nesta turma ainda.</li>
+        @endforelse
+    </ul>
+</section>
 
             
             <section class="card lista-exercicios">
@@ -79,7 +93,12 @@
             <button type="button" class="modal-close"><i class='bx bx-x'></i></button>
             <h2><i class='bx bx-user-plus'></i> Convidar Aluno para a Turma</h2>
             <p>Digite o Registro do Aluno (RA/RM) para enviar um convite de participação para <strong>{{ $turma->nome_turma }}</strong>.</p>
-            <input type="text" name="ra" placeholder="Digite o RA do aluno" required autocomplete="off">
+            
+            <div class="form-group com-icone">
+                <i class='bx bx-id-card'></i>
+                <input type="text" name="ra" placeholder="Digite o RA/RM do aluno" required autocomplete="off">
+            </div>
+
             <div class="modal-buttons">
                 <button type="button" class="btn-cancelar">Cancelar</button>
                 <button type="submit" class="btn-confirmar">Enviar Convite</button>
@@ -105,8 +124,8 @@
                 <input type="url" id="video_url" name="video_url" required>
             </div>
             <div class="form-group">
-                <label for="duracao_segundos">Duração (em segundos)</label>
-                <input type="number" id="duracao_segundos" name="duracao_segundos" required>
+                 <label for="duracao_texto">Duração (Ex: 3,44 para 3m e 44s)</label>
+                <input type="text" id="duracao_texto" name="duracao_texto" placeholder="Minutos,Segundos" required>
             </div>
             <div class="modal-buttons">
                 <button type="button" class="btn-cancelar">Cancelar</button>
@@ -120,9 +139,16 @@
     window.flashMessages = {
         sweetSuccessConvite: "{{ session('sweet_success_convite') }}",
         sweetErrorConvite: "{{ session('sweet_error_convite') }}",
-        sweetSuccessAula: "{{ session('sweet_success_aula') }}",
         sweetErrorAula: "{{ session('sweet_error_aula') ?? '' }}"
     };
+
+    @if (session('aula_criada_feedback'))
+        const aulaCriadaFeedback = @json(session('aula_criada_feedback'));
+    @endif
+
+    @if (session('formulario_criado_success'))
+        const formularioCriadoSuccess = @json(session('formulario_criado_success'));
+    @endif
 </script>
 
 <script src="{{ asset('js/Professor/detalheTurmaProfessor.js') }}"></script>

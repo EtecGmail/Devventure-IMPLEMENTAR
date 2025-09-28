@@ -11,14 +11,23 @@ return new class extends Migration
      *
      * @return void
      */
-   public function up(): void
+  public function up(): void
 {
-    Schema::create('aluno_aula', function (Blueprint $table) {
+    
+    Schema::create('aula_aluno', function (Blueprint $table) {
         $table->id();
-        $table->foreignId('aluno_id')->constrained()->onDelete('cascade');
+        $table->foreignId('aluno_id')->constrained('aluno')->onDelete('cascade');
         $table->foreignId('aula_id')->constrained()->onDelete('cascade');
+        
+        
         $table->integer('segundos_assistidos')->default(0);
+        $table->enum('status', ['nao_iniciado', 'concluido'])->default('nao_iniciado');
+        $table->timestamp('concluido_em')->nullable();
+        
         $table->timestamps();
+
+        
+        $table->unique(['aula_id', 'aluno_id']);
     });
 }
 

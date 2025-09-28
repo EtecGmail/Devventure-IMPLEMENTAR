@@ -2,27 +2,52 @@
 
 namespace App\Models;
 
-use App\Http\Middleware\Authenticate;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Foundation\Auth\User as Authenticatable;
-use App\Models\Turma;
 
 class Aluno extends Authenticatable
 {
     use HasFactory;
+    
+    /**
+     * O nome da tabela associada ao model.
+     *
+     * @var string
+     */
     protected $table = 'aluno';
-    protected $fillable = ['nome', 'ra', 'semestre', 'email', 'telefone', 'password','avatar',];
 
-   public function turmas()
+    /**
+     * Os atributos que podem ser atribuídos em massa.
+     *
+     * @var array<int, string>
+     */
+    protected $fillable = [
+        'nome',
+        'ra',
+        'semestre',
+        'email',
+        'telefone',
+        'password',
+        'avatar',
+    ];
+
+    public function turmas()
+    {
+        return $this->belongsToMany(Turma::class, 'aluno_turma');
+    }
+
+    
+    public function aulas()
 {
     
-    return $this->belongsToMany(Turma::class, 'aluno_turma', 'aluno_id', 'turma_id');
-}
-public function aulas() {
-    return $this->belongsToMany(Aula::class, 'aluno_aula', 'aluno_id', 'aula_id')
-                ->withPivot('segundos_assistidos', 'status')
+      return $this->belongsToMany(Aula::class, 'aula_aluno')
+                ->withPivot('segundos_assistidos', 'status', 'concluido_em')
                 ->withTimestamps();
 }
-
+    
+    
+    public function respostas()
+    {
+        return $this->hasMany(RespostaAluno::class);
+    }
 }

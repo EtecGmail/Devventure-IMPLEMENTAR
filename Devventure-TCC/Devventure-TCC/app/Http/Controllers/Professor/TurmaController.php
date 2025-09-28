@@ -72,24 +72,24 @@ public function turmaEspecificaID(Turma $turma)
 
 public function convidarAluno(Request $request, Turma $turma)
 {
-    // 1. Valida se o RA foi enviado e se existe um aluno com esse RA
+   
     $request->validate([
         'ra' => 'required|exists:aluno,ra'
     ], [
         'ra.exists' => 'Nenhum aluno encontrado com este RA.' 
     ]);
 
-    // 2. Encontra o aluno pelo RA
+    
     $aluno = Aluno::where('ra', $request->ra)->first();
 
-    // 3. Verifica se o aluno já está na turma
+    
     $jaEstaNaTurma = $turma->alunos()->where('aluno_id', $aluno->id)->exists();
     if ($jaEstaNaTurma) {
         
         return back()->with('sweet_error_convite', 'O aluno já está em outra turma.'); 
     }
 
-    // 4. Verifica se já existe um convite pendente
+    
     $convitePendente = Convite::where('turma_id', $turma->id)
                                  ->where('aluno_id', $aluno->id)
                                  ->where('status', 'pendente')
@@ -99,7 +99,7 @@ public function convidarAluno(Request $request, Turma $turma)
         return back()->with('sweet_success_convite', 'Convite já existe e está pendente.'); 
     }
 
-    // 5. Se todas as verificações passarem, cria o convite
+    
     Convite::create([
         'turma_id' => $turma->id,
         'aluno_id' => $aluno->id,
@@ -114,15 +114,62 @@ public function convidarAluno(Request $request, Turma $turma)
 
 public function formsAula(Request $request, Turma $turma)
 {
+   
     $request->validate([
-        'titulo' => 'required|string|max:255',
-        'video_url' => 'required|url',
-        'duracao_segundos' => 'required|integer|min:1',
+        'titulo' => ['required', 'string', 'max:255'],
+        'video_url' => ['required', 'url'],
+        // Validação com Regex para o formato 'minutos,segundos' ou 'minutos.segundos'
+        'duracao_texto' => ['required', 'string', 'regex:/^\d+([,.]\d{1,2})?$/'],
     ]);
 
-    $turma->aulas()->create($request->all());
+    
 
-    return back()->with('sweet_success_aula', 'Aula adicionada com sucesso!');
+    
+    $duracaoInput = $request->duracao_texto;
+
+    // Garante que o separador seja sempre um ponto
+    $duracaoInput = str_replace(',', '.', $duracaoInput);
+
+    // Separa o valor em duas partes pelo ponto.
+    $partes = explode('.', $duracaoInput);
+
+    // A primeira parte são sempre os minutos.
+    $minutos = (int) $partes[0];
+
+    // A segunda parte (se existir) são os segundos. Se não, é 0.
+    $segundos = isset($partes[1]) ? (int) $partes[1] : 0;
+    
+    
+    if ($segundos >= 60) {
+        
+        return back()->withErrors(['duracao_texto' => 'Os segundos não podem ser 60 ou mais.'])->withInput();
+    }
+
+    $totalEmSegundos = ($minutos * 60) + $segundos;
+
+   
+
+    $aula = new Aula();
+    $aula->turma_id = $turma->id;
+    $aula->titulo = $request->titulo;
+    $aula->video_url = $request->video_url;
+    $aula->duracao_segundos = $totalEmSegundos; 
+    $aula->save();
+
+    $urlCriarFormulario = route('formularios.create', $aula);
+
+    
+    $feedback = [
+        'message' => 'Aula adicionada com sucesso!',
+        'next_action_url' => $urlCriarFormulario,
+        'next_action_text' => 'Criar Formulário de Validação',
+    ];
+
+  
+
+    
+    return redirect()->route('turmas.especificaID', $turma->id)
+                     ->with('aula_criada_feedback', $feedback);
 }
 
 }
