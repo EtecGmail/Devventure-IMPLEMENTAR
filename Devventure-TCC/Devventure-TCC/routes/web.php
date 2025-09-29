@@ -80,4 +80,15 @@ Route::middleware('auth:admin')->group(function () {
 
     Route::get('/admin/dashboard/search/alunos', [App\Http\Controllers\Adm\DashboardController::class, 'searchAlunos'])->name('admin.search.alunos');
     Route::get('/admin/dashboard/search/professores', [App\Http\Controllers\Adm\DashboardController::class, 'searchProfessores'])->name('admin.search.professores');
+
+    Route::get('/admin/alunos/search', [App\Http\Controllers\Adm\DashboardController::class, 'searchAlunos'])->name('admin.alunos.search');
+
+    Route::get('/admin/professores/search', [App\Http\Controllers\Adm\DashboardController::class, 'searchProfessores'])->name('admin.professores.search');
+
+    Route::post('/admin/alunos/{aluno}/block', [App\Http\Controllers\Adm\DashboardController::class, 'blockAluno'])->name('admin.alunos.block');
+    Route::post('/admin/alunos/{aluno}/unblock', [App\Http\Controllers\Adm\DashboardController::class, 'unblockAluno'])->name('admin.alunos.unblock');
+
+
+    Route::post('/admin/professores/{professor}/block', [App\Http\Controllers\Adm\DashboardController::class, 'blockProfessor'])->name('admin.professores.block');
+    Route::post('/admin/professores/{professor}/unblock', [App\Http\Controllers\Adm\DashboardController::class, 'unblockProfessor'])->name('admin.professores.unblock');
 });

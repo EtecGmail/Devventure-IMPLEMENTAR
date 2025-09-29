@@ -13,24 +13,22 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('aluno', function (Blueprint $table) {
+         Schema::create('aluno', function (Blueprint $table) {
             $table->id();
             $table->string('nome');
             $table->string('ra')->unique();
             $table->string('semestre');
             $table->string('email')->unique();
+            $table->timestamp('email_verified_at')->nullable();
             $table->string('avatar')->nullable();
             $table->string('telefone')->nullable();
-            $table->string('password');     
+            $table->string('password');
+            $table->rememberToken();
             $table->timestamps();
+            $table->string('status')->default('ativo');
         });
     }
 
-    /**
-     * Reverse the migrations.
-     *
-     * @return void
-     */
     public function down()
     {
         Schema::dropIfExists('aluno');

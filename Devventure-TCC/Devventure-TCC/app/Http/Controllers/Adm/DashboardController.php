@@ -13,11 +13,13 @@ class DashboardController extends Controller
     public function admDashboard()
     {
         $alunosCount = Aluno::count();
-        $professoresCount = Professor::count();
-        $alunosData = Aluno::all();
-        $professoresData = Professor::all();
+    $professoresCount = Professor::count();
 
-        return view('Adm/dashboard', compact('alunosCount', 'professoresCount', 'alunosData', 'professoresData'));
+    // Paginação com 5 registros por página
+    $alunosData = Aluno::paginate(5);
+    $professoresData = Professor::paginate(5);
+
+    return view('Adm/dashboard', compact('alunosCount', 'professoresCount', 'alunosData', 'professoresData'));
     }
 
    
@@ -32,4 +34,65 @@ class DashboardController extends Controller
             'alunos' => $alunos,
         ]);
     }
+
+
+    public function searchAlunos(Request $request)
+{
+    $query = $request->input('query');
+
+    
+    
+    $alunos = Aluno::where('nome', 'LIKE', "%{$query}%")
+                   ->orWhere('email', 'LIKE', "%{$query}%")
+                   ->orWhere('ra', 'LIKE', "%{$query}%")
+                   ->get(); 
+
+    
+    return response()->json($alunos);
+}
+
+
+public function searchProfessores(Request $request)
+{
+    $query = $request->input('query');
+
+    $professores = Professor::where('nome', 'LIKE', "%{$query}%")
+                            ->orWhere('email', 'LIKE', "%{$query}%")
+                            ->orWhere('cpf', 'LIKE', "%{$query}%")
+                            ->get();
+    
+    return response()->json($professores);
+}
+
+public function blockAluno(Aluno $aluno)
+{
+    $aluno->update(['status' => 'bloqueado']);
+
+    
+    return redirect(url()->previous() . '#alunos')->with('success', 'Aluno bloqueado com sucesso!');
+}
+
+public function unblockAluno(Aluno $aluno)
+{
+    $aluno->update(['status' => 'ativo']);
+
+    
+    return redirect(url()->previous() . '#alunos')->with('success', 'Aluno desbloqueado com sucesso!');
+}
+
+public function blockProfessor(Professor $professor)
+{
+    $professor->update(['status' => 'bloqueado']);
+
+    
+    return redirect(url()->previous() . '#professores')->with('success', 'Professor bloqueado com sucesso!');
+}
+
+public function unblockProfessor(Professor $professor)
+{
+    $professor->update(['status' => 'ativo']);
+
+    
+    return redirect(url()->previous() . '#professores')->with('success', 'Professor desbloqueado com sucesso!');
+}
 }

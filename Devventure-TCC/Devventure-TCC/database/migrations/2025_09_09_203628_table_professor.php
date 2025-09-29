@@ -13,7 +13,7 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('professor', function (Blueprint $table) {
+         Schema::create('professor', function (Blueprint $table) {
             $table->id();
             $table->string('nome');
             $table->string('cpf')->unique();
@@ -21,19 +21,17 @@ return new class extends Migration
             $table->text('formacao');
             $table->string('telefone')->nullable();
             $table->string('email')->unique();
+            $table->timestamp('email_verified_at')->nullable();
             $table->string('avatar')->nullable();
             $table->string('password');
+            $table->rememberToken();
             $table->timestamps();
+            $table->string('status')->default('ativo'); 
         });
     }
 
-    /**
-     * Reverse the migrations.
-     *
-     * @return void
-     */
     public function down()
     {
-        //
+        Schema::dropIfExists('professor');
     }
 };

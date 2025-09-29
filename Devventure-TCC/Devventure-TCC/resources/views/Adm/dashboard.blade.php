@@ -7,6 +7,7 @@
     
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     
     <link href="{{ asset('css/Adm/admDashboard.css') }}" rel="stylesheet">
 </head>
@@ -89,13 +90,17 @@
                     </div>
                 </section>
 
-                <section id="alunos" class="dashboard-section">
+                
+<section id="alunos" class="dashboard-section">
                     <h2>Alunos</h2>
                     <div class="card data-table-card">
                         <header class="card-header">
                             <h4>Lista de Alunos</h4>
                             <div class="card-actions">
-                                <button class="btn btn-primary" id="addStudentBtn"><i class="fas fa-plus"></i> Adicionar</button>
+                                <form class="search-box" id="searchAlunosForm">
+                                    <input type="text" id="searchAlunosInput" placeholder="Pesquisar aluno...">
+                                    <button type="submit" class="btn-icon"><i class="fas fa-search"></i></button>
+                                </form>
                                 <button class="btn btn-outline" id="exportStudentsBtn"><i class="fas fa-download"></i> Exportar</button>
                             </div>
                         </header>
@@ -106,31 +111,48 @@
                                         <th>Nome</th>
                                         <th>Email</th>
                                         <th>RA</th>
+                                        <th>Status</th>
                                         <th>Ações</th>
                                     </tr>
                                 </thead>
-                                <tbody>
+                                <tbody id="alunosTableBody">
                                     @forelse($alunosData as $aluno)
                                     <tr>
                                         <td>{{ $aluno->nome }}</td>
                                         <td>{{ $aluno->email }}</td>
                                         <td>{{ $aluno->ra }}</td>
                                         <td>
-                                            <button class="btn-icon edit-btn" data-id="{{ $aluno->id }}"><i class="fas fa-edit"></i></button>
-                                            <button class="btn-icon delete-btn" data-id="{{ $aluno->id }}"><i class="fas fa-trash"></i></button>
+                                            @if ($aluno->status === 'ativo')
+                                                <span class="badge badge-success">Ativo</span>
+                                            @else
+                                                <span class="badge badge-danger">Bloqueado</span>
+                                            @endif
+                                        </td>
+                                        <td>
+                                            <a href="#" class="btn-icon" title="Ver Detalhes do Aluno"><i class="fas fa-eye"></i></a>
+                                            @if ($aluno->status === 'ativo')
+                                                <form action="{{ route('admin.alunos.block', $aluno->id) }}" method="POST" style="display: inline;" 
+                                                      class="form-confirm" data-action-text="bloquear" data-user-name="{{ $aluno->nome }}">
+                                                    @csrf
+                                                    <button type="submit" class="btn-icon" title="Bloquear Aluno"><i class="fas fa-ban" style="color: #e53e3e;"></i></button>
+                                                </form>
+                                            @else
+                                                <form action="{{ route('admin.alunos.unblock', $aluno->id) }}" method="POST" style="display: inline;"
+                                                      class="form-confirm" data-action-text="desbloquear" data-user-name="{{ $aluno->nome }}">
+                                                    @csrf
+                                                    <button type="submit" class="btn-icon" title="Desbloquear Aluno"><i class="fas fa-check-circle" style="color: #48bb78;"></i></button>
+                                                </form>
+                                            @endif
                                         </td>
                                     </tr>
                                     @empty
-                                        <tr><td colspan="4" class="text-center">Nenhum aluno cadastrado.</td></tr>
+                                        <tr><td colspan="5" class="text-center">Nenhum aluno cadastrado.</td></tr>
                                     @endforelse
                                 </tbody>
                             </table>
                         </div>
-                        <div class="pagination">
-                            <button class="btn btn-sm btn-outline"><i class="fas fa-chevron-left"></i> Anterior</button>
-                            <span>Página 1 de 1</span>
-                            <button class="btn btn-sm btn-outline">Próximo <i class="fas fa-chevron-right"></i></button>
-                        </div>
+                        <div class="pagination" id="alunosPagination">
+                           </div>
                     </div>
                 </section>
 
@@ -140,7 +162,10 @@
                         <header class="card-header">
                             <h4>Lista de Professores</h4>
                             <div class="card-actions">
-                                <button class="btn btn-primary" id="addTeacherBtn"><i class="fas fa-plus"></i> Adicionar</button>
+                                <form class="search-box" id="searchProfessoresForm">
+                                    <input type="text" id="searchProfessoresInput" placeholder="Pesquisar professor...">
+                                    <button type="submit" class="btn-icon"><i class="fas fa-search"></i></button>
+                                </form>
                                 <button class="btn btn-outline" id="exportTeachersBtn"><i class="fas fa-download"></i> Exportar</button>
                             </div>
                         </header>
@@ -151,33 +176,51 @@
                                         <th>Nome</th>
                                         <th>Email</th>
                                         <th>CPF</th>
+                                        <th>Status</th>
                                         <th>Ações</th>
                                     </tr>
                                 </thead>
-                                <tbody>
+                                <tbody id="professoresTableBody">
                                     @forelse($professoresData as $professor)
                                     <tr>
                                         <td>{{ $professor->nome }}</td>
                                         <td>{{ $professor->email }}</td>
                                         <td>{{ $professor->cpf }}</td>
                                         <td>
-                                            <button class="btn-icon edit-btn" data-id="{{ $professor->id }}"><i class="fas fa-edit"></i></button>
-                                            <button class="btn-icon delete-btn" data-id="{{ $professor->id }}"><i class="fas fa-trash"></i></button>
+                                            @if ($professor->status === 'ativo')
+                                                <span class="badge badge-success">Ativo</span>
+                                            @else
+                                                <span class="badge badge-danger">Bloqueado</span>
+                                            @endif
+                                        </td>
+                                        <td>
+                                            <a href="#" class="btn-icon" title="Ver Detalhes do Professor"><i class="fas fa-eye"></i></a>
+                                            @if ($professor->status === 'ativo')
+                                                <form action="{{ route('admin.professores.block', $professor->id) }}" method="POST" style="display: inline;"
+                                                      class="form-confirm" data-action-text="bloquear" data-user-name="{{ $professor->nome }}">
+                                                    @csrf
+                                                    <button type="submit" class="btn-icon" title="Bloquear Professor"><i class="fas fa-ban" style="color: #e53e3e;"></i></button>
+                                                </form>
+                                            @else
+                                                <form action="{{ route('admin.professores.unblock', $professor->id) }}" method="POST" style="display: inline;"
+                                                      class="form-confirm" data-action-text="desbloquear" data-user-name="{{ $professor->nome }}">
+                                                    @csrf
+                                                    <button type="submit" class="btn-icon" title="Desbloquear Professor"><i class="fas fa-check-circle" style="color: #48bb78;"></i></button>
+                                                </form>
+                                            @endif
                                         </td>
                                     </tr>
                                     @empty
-                                        <tr><td colspan="4" class="text-center">Nenhum professor cadastrado.</td></tr>
+                                        <tr><td colspan="5" class="text-center">Nenhum professor cadastrado.</td></tr>
                                     @endforelse
                                 </tbody>
                             </table>
                         </div>
-                        <div class="pagination">
-                            <button class="btn btn-sm btn-outline"><i class="fas fa-chevron-left"></i> Anterior</button>
-                            <span>Página 1 de 1</span>
-                            <button class="btn btn-sm btn-outline">Próximo <i class="fas fa-chevron-right"></i></button>
-                        </div>
+                        <div class="pagination" id="professoresPagination">
+                           </div>
                     </div>
                 </section>
+
 
                 <section id="charts-section" class="dashboard-section">
                     <h2>Análises e Gráficos</h2>

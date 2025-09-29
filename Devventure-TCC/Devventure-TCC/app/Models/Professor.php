@@ -19,6 +19,7 @@ class Professor extends Authenticatable
         'email',
         'password',
         'avatar',
+        'status',
     ];
 
     protected $hidden = [

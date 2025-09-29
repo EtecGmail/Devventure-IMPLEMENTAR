@@ -29,6 +29,7 @@ class Aluno extends Authenticatable
         'telefone',
         'password',
         'avatar',
+        'status',
     ];
 
     public function turmas()
