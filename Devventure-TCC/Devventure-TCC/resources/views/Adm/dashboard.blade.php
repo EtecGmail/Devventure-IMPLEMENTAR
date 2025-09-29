@@ -17,12 +17,11 @@
         <aside class="sidebar">
             <div class="sidebar-header">
                 <img src="{{ asset('images/logoDevventure.png') }}" alt="Admin Logo" class="admin-logo">
-                <span class="logo-text">Admin Panel</span>
+                <span class="logo-text">Admin Dashboard</span>
             </div>
             <nav class="sidebar-nav">
                 <ul>
                     <li><a href="#overview" class="active"><i class="fas fa-chart-line"></i><span>Visão Geral</span></a></li>
-                    <li><a href="#users"><i class="fas fa-users"></i><span>Gerenciar Usuários</span></a></li>
                     <li><a href="#alunos"><i class="fas fa-user-graduate"></i><span>Alunos</span></a></li>
                     <li><a href="#professores"><i class="fas fa-chalkboard-teacher"></i><span>Professores</span></a></li>
                     <li><a href="#charts-section"><i class="fas fa-chart-pie"></i><span>Análises</span></a></li>
@@ -80,13 +79,6 @@
                             <h3>Alunos vs Professores (Contagem)</h3>
                             <div id="overviewBarChart" style="height: 300px;"></div>
                         </div>
-                    </div>
-                </section>
-
-                <section id="users" class="dashboard-section">
-                    <h2>Gerenciar Usuários</h2>
-                    <div class="card">
-                        <p>Conteúdo para gerenciamento de todos os usuários (alunos e professores) em um só lugar.</p>
                     </div>
                 </section>
 
