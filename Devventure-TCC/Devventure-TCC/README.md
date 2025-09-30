@@ -106,6 +106,11 @@ php artisan migrate
 php artisan db:seed --class=AdminSeeder
 ```
 
+Rode o comando para salvar as Images na Storage:
+```bash
+php artisan storage:link
+```
+
 Inicie o servidor:
 
 ```bash
