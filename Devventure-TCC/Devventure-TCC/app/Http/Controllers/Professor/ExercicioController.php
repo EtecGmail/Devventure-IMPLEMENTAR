@@ -54,7 +54,7 @@ public function CriarExercicios(Request $request)
             'turma_id' => 'required|exists:turmas,id', 
             'data_publicacao' => 'required|date',
             'data_fechamento' => 'required|date|after_or_equal:data_publicacao',
-            'arquivo' => 'nullable|file|mimes:pdf,doc,docx,zip|max:2048'
+            'arquivo' => 'nullable|file|mimes:pdf,doc,docx,zip,jpeg,png,jpg|max:2048'
         ]);
 
         $path = null;

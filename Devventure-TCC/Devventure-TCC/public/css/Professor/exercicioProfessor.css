@@ -350,8 +350,10 @@ body {
 .nomeArquivo {
     display: block;
     margin-top: 8px;
+    text-align: center; 
     font-size: 0.9rem;
-    color: var(--cor-texto-secundario);
+    font-weight: 600; 
+    color: var(--cor-texto-principal);
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
