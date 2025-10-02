@@ -56,17 +56,52 @@ public function turmaEspecifica(Request $request)
     return view('Professor/turma', ['turmas' => $turmas]);
 }
 
+// app/Http/Controllers/Professor/TurmaController.php
+
 public function turmaEspecificaID(Turma $turma)
-    {
-      $alunosNaTurma = $turma->alunos()->get();
-    $exerciciosDaTurma = $turma->exercicios()->get();
+{
+    // Carrega os relacionamentos para evitar múltiplas queries (Eager Loading)
+    $turma->load('alunos', 'exercicios', 'aulas');
+
+    // Pega as coleções já carregadas
+    $alunosNaTurma = $turma->alunos;
+    $exerciciosDaTurma = $turma->exercicios;
+    $aulasDaTurma = $turma->aulas;
+
+    // --- LÓGICA DA TRILHA DO TEMPO (HISTÓRICO) ---
+
+    // 1. Mapeia os exercícios para um formato padronizado
+    $historicoExercicios = $exerciciosDaTurma->map(function ($exercicio) {
+        return [
+            'tipo' => 'exercicio',
+            'data' => $exercicio->data_publicacao,
+            'titulo' => $exercicio->nome,
+            'detalhe' => 'Entrega até ' . \Carbon\Carbon::parse($exercicio->data_fechamento)->format('d/m/Y H:i'),
+            'objeto' => $exercicio 
+        ];
+    });
+
+    // 2. Mapeia as aulas para o mesmo formato padronizado
+    $historicoAulas = $aulasDaTurma->map(function ($aula) {
+        return [
+            'tipo' => 'aula',
+            'data' => $aula->created_at, // Usamos created_at como data de publicação da aula
+            'titulo' => $aula->titulo,
+            'detalhe' => 'Duração: ' . floor($aula->duracao_segundos / 60) . 'm ' . ($aula->duracao_segundos % 60) . 's',
+            'objeto' => $aula
+        ];
+    });
 
     
+    $historicoCompleto = $historicoExercicios->merge($historicoAulas)->sortByDesc('data');
+
+   
 
     return view('Professor/detalheTurma', [
         'turma' => $turma,
         'alunos' => $alunosNaTurma,
-        'exercicios' => $exerciciosDaTurma,
+        'exercicios' => $exerciciosDaTurma, 
+        'historico' => $historicoCompleto 
     ]);
 }
 

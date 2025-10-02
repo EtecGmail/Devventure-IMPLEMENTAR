@@ -47,7 +47,7 @@ class PerfilController extends Controller
     
     $professor->save();
 
-    return redirect('/loginProfessor')->with('success', 'Cadastro realizado com sucesso!');
+    return redirect('/loginProfessor')->with('cadastro_sucesso', 'Cadastro realizado com sucesso!');
 }
 
   public function edit()

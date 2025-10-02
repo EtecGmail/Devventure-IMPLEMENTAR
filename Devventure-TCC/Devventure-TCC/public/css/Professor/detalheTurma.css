@@ -219,3 +219,106 @@ body {
     font-style: italic;
     color: var(--cor-texto-secundario);
 }
+
+/* Variáveis de cor para os tipos de evento */
+:root {
+    --cor-aula: #4A90E2; /* Azul */
+    --cor-exercicio: #50E3C2; /* Verde-água */
+}
+
+.historico-trilha {
+    grid-column: 1 / -1; /* Ocupa a largura total do grid */
+    margin-top: 1.5rem;
+}
+
+.timeline {
+    list-style: none;
+    padding: 1rem 0 1rem 1rem;
+    margin: 0;
+    position: relative;
+}
+
+/* A linha vertical da trilha */
+.timeline::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 20px;
+    height: 100%;
+    width: 3px;
+    background-color: #e2e8f0;
+    border-radius: 3px;
+}
+
+.timeline-item {
+    position: relative;
+    padding-left: 55px;
+    padding-bottom: 2rem;
+}
+
+.timeline-item:last-child {
+    padding-bottom: 0;
+}
+
+/* O círculo na linha do tempo */
+.timeline-icon {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 1.5rem;
+    border: 3px solid white;
+    box-shadow: 0 0 0 3px #e2e8f0;
+    background-color: #ccc; /* Cor padrão */
+}
+
+/* Cores específicas por tipo de evento */
+.timeline-item--aula .timeline-icon {
+    background-color: var(--cor-aula);
+    box-shadow: 0 0 0 3px var(--cor-aula);
+}
+
+.timeline-item--exercicio .timeline-icon {
+    background-color: var(--cor-exercicio);
+    box-shadow: 0 0 0 3px var(--cor-exercicio);
+}
+
+.timeline-content {
+    background-color: #f8fafc;
+    border: 1px solid #e2e8f0;
+    padding: 1rem;
+    border-radius: 12px;
+    position: relative;
+}
+
+.timeline-data {
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: #64748b;
+    margin-bottom: 0.5rem;
+    display: block;
+}
+
+.timeline-titulo {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #1e293b;
+    margin: 0;
+}
+
+.timeline-detalhe {
+    font-size: 0.9rem;
+    color: #475569;
+    margin: 0.25rem 0 0 0;
+}
+
+.timeline-item-empty p {
+    padding-left: 55px;
+    color: #64748b;
+}

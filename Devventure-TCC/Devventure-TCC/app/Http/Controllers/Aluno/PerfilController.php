@@ -45,7 +45,7 @@ class PerfilController extends Controller
     
     $Aluno->save();
 
-    return redirect('/loginAluno')->with('success', 'Cadastro realizado com sucesso!');
+    return redirect('/loginAluno')->with('cadastro_sucesso', 'Cadastro realizado com sucesso!');
 }
 
       public function edit()

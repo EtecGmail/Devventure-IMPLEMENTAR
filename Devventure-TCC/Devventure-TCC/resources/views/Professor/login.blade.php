@@ -5,6 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
  
   <link href="{{ asset('css/Professor/loginProfessor.css') }}" rel="stylesheet">
+
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   
   <title>Área do Professor</title>
 </head>
@@ -27,8 +29,13 @@
 
         <div class="icon" id="avatar-wrapper" title="Clique para adicionar uma foto de perfil">
             <span id="avatar-preview">
-            <img src="https://cdn-icons-png.flaticon.com/512/3342/3342176.png" alt="Ícone de perfil" width="48" height="48">
-            </span>
+    <svg width="50px" height="50px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M16 8.99991C16 11.2091 14.2091 12.9999 12 12.9999C9.79086 12.9999 8 11.2091 8 8.99991C8 6.79077 9.79086 4.99991 12 4.99991C14.2091 4.99991 16 6.79077 16 8.99991Z" stroke="#888" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M12 15.9999C8.13401 15.9999 5 18.2385 5 20.9999" stroke="#888" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M18 11.5V17.5" stroke="#888" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M21 14.5H15" stroke="#888" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+</span>
             <input type="file" id="avatar" name="avatar" accept="image/*" style="display: none;">
         </div>
 
@@ -41,6 +48,7 @@
           <div class="form-group">
             <label for="cpf">CPF *</label>
             <input type="text" id="cpf" name="cpf" placeholder="000.000.000-00" maxlength="14">
+            <small id="cpf-feedback"></small>
           </div>
 
           <div class="form-group">
@@ -49,7 +57,7 @@
           </div>
 
           <div class="form-group">
-            <label for="formacao">Formação acadêmica e experiência *</label>
+            <label for="formacao">Formação acadêmica *</label>
             <textarea id="formacao" name="formacao" placeholder="Descreva sua formação e experiência" rows="4"></textarea>
           </div>
 
@@ -66,6 +74,7 @@
         
         <div class="form-group">
           <label for="password">Senha *</label>
+          <small id="password-feedback" class="password-feedback"></small>
           <div class="senha-wrapper">
             <input type="password" id="password" name="password" placeholder="Digite sua senha" required>
             <span class="toggle-password" onclick="togglePassword('password', this)">
@@ -95,6 +104,12 @@
       </div>
     </div>
   </main>
+
+  @if (session('cadastro_sucesso'))
+        <script>
+            window.flashMessage = "{{ session('cadastro_sucesso') }}";
+        </script>
+    @endif
 
   <script src="{{ asset('js/Professor/loginProfessor.js') }}"></script>
 </body>

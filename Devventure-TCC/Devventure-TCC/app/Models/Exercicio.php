@@ -10,14 +10,15 @@ class Exercicio extends Model
     use HasFactory;
     protected $table = 'exercicios';
     protected $fillable = [
-        'nome',
-        'descricao',
-        'data_publicacao',
-        'data_fechamento',
-        'arquivo_path',
-        'turma_id',
-        'professor_id'
-    ];
+    'nome',
+    'descricao',
+    'data_publicacao',
+    'data_fechamento',
+    'arquivo_path',
+    'imagem_apoio_path', 
+    'turma_id',
+    'professor_id',
+];
 
     protected $casts = [
         'data_fechamento' => 'datetime',
