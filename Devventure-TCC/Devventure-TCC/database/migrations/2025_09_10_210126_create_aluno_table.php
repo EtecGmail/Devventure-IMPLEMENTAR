@@ -13,7 +13,7 @@ return new class extends Migration
      */
     public function up()
     {
-         Schema::create('aluno', function (Blueprint $table) {
+        Schema::create('aluno', function (Blueprint $table) {
             $table->id();
             $table->string('nome');
             $table->string('ra')->unique();
@@ -23,6 +23,11 @@ return new class extends Migration
             $table->string('avatar')->nullable();
             $table->string('telefone')->nullable();
             $table->string('password');
+
+            // CAMPOS PARA VERIFICAÇÃO DE DUAS ETAPAS (2FA)
+            $table->string('two_factor_code')->nullable();
+            $table->dateTime('two_factor_expires_at')->nullable();
+
             $table->rememberToken();
             $table->timestamps();
             $table->string('status')->default('ativo');

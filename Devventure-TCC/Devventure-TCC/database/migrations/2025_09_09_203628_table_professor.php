@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Database\Migrations\Migration;
-use Illuminate\Database\Schema\Blueprint;   
+use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
@@ -13,7 +13,7 @@ return new class extends Migration
      */
     public function up()
     {
-         Schema::create('professor', function (Blueprint $table) {
+        Schema::create('professor', function (Blueprint $table) {
             $table->id();
             $table->string('nome');
             $table->string('cpf')->unique();
@@ -24,6 +24,11 @@ return new class extends Migration
             $table->timestamp('email_verified_at')->nullable();
             $table->string('avatar')->nullable();
             $table->string('password');
+
+            // CAMPOS PARA VERIFICAÇÃO DE DUAS ETAPAS (2FA)
+            $table->string('two_factor_code')->nullable();
+            $table->dateTime('two_factor_expires_at')->nullable();
+
             $table->rememberToken();
             $table->timestamps();
             $table->string('status')->default('ativo'); 
