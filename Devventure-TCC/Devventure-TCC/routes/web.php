@@ -66,6 +66,8 @@ Route::post('/email/verification-notification', function (Request $request) {
     $request->user()->sendEmailVerificationNotification();
     return back()->with('message', 'Um novo link de verificação foi enviado!');
 })->middleware(['auth', 'throttle:6,1'])->name('verification.send');
+
+
 // ==========================================================
 
 

@@ -34,7 +34,8 @@
             <div class="avatar-upload">
     <img src="{{ $aluno->avatar ? asset('storage/' . $aluno->avatar) : asset('images/avatar-default.png') }}" alt="Avatar" id="avatar-preview">
     <label for="avatar" class="btn-trocar-foto" title="Trocar Foto">
-        </label>
+    <i class='bx bx-camera'></i>
+    </label>
     <input type="file" name="avatar" id="avatar" accept="image/*" style="display: none;">
 </div>
                         <div class="info-pessoal">

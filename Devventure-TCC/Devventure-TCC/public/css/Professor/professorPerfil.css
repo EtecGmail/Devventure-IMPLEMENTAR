@@ -157,15 +157,19 @@ body {
     background-color: var(--cor-primaria);
     color: white;
     border-radius: 50%;
-    width: 36px;
-    height: 36px;
+    /* AUMENTAMOS AQUI */
+    width: 48px;  /* De 36px para 48px */
+    height: 48px; /* De 36px para 48px */
     display: flex;
     align-items: center;
     justify-content: center;
     cursor: pointer;
-    font-size: 1.2rem;
+    font-size: 1.8rem; /* De 1.2rem para 1.8rem */
     transition: background-color 0.2s;
     box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+    /* Opcional: Ajustar a posição se necessário, dependendo do design */
+    /* bottom: -8px; 
+    right: -8px; */
 }
 
 .btn-trocar-foto:hover {

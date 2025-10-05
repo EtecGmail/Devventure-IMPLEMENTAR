@@ -106,8 +106,23 @@
     </ul>
 </div>
 
-                {{-- Você pode adicionar outro card aqui se quiser, como "Últimas Aulas Adicionadas" --}}
-
+                 <div class="card card-minhas-turmas">
+        <h3><i class='bx bxs-chalkboard'></i> Minhas Turmas</h3>
+        <div class="lista-turmas-dashboard">
+            @forelse($minhasTurmas as $turma)
+                <a href="{{ route('turmas.especifica', $turma) }}" class="turma-item-dashboard">
+                    <div class="turma-info">
+                        <strong>{{ $turma->nome_turma }}</strong>
+                        <small>Professor(a): {{ $turma->professor->nome }}</small>
+                    </div>
+                    <i class='bx bx-chevron-right'></i>
+                </a>
+            @empty
+                <p class="empty-message">Você ainda não está matriculado em nenhuma turma.</p>
+            @endforelse
+        </div>
+    </div>
+    
             </div>
         </div>
     </div>

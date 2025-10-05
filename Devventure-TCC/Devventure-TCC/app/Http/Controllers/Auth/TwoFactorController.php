@@ -7,6 +7,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Professor; // Importe seus modelos
 use App\Models\Aluno;
+use Illuminate\Support\Facades\Mail;
+ 
 
 class TwoFactorController extends Controller
 {
@@ -59,4 +61,8 @@ class TwoFactorController extends Controller
         
         return redirect($redirectPath);
     }
+
+     
+
+
 }

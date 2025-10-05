@@ -44,6 +44,16 @@
             </a>
         </section>
 
+         </section> @if($convitesPendentes > 0)
+            <div class="card-notificacao">
+                <i class='bx bxs-bell-ring'></i>
+                <div class="notificacao-content">
+                    <strong>Atenção:</strong> Você tem <strong>{{ $convitesPendentes }} {{ $convitesPendentes == 1 ? 'convite pendente' : 'convites pendentes' }}</strong> aguardando a resposta dos alunos.
+                    <a href="#">Acompanhar convites</a>
+                </div>
+            </div>
+        @endif
+
         <div class="content-grid">
 
             <div class="coluna-principal">

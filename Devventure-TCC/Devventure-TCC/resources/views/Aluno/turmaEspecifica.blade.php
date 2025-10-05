@@ -3,9 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ $turma->nome_turma }}</title>
     <link href="{{ asset('css/Aluno/alunoTurmaEspecifica.css') }}" rel="stylesheet">
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
-    <title>{{ $turma->nome_turma }}</title>
 </head>
 <body>
 
@@ -19,18 +19,9 @@
                 </div>
             </div>
             <div class="header-stats">
-                <div class="stat-item">
-                    <i class='bx bxs-group'></i>
-                    <span>{{ $alunos->count() }} Alunos</span>
-                </div>
-                <div class="stat-item">
-                    <i class='bx bxs-book-content'></i>
-                    <span>{{ $exercicios->count() }} Exercícios</span>
-                </div>
-                <div class="stat-item">
-                    <i class='bx bxs-videos'></i>
-                    <span>{{ $aulas->count() }} Aulas</span>
-                </div>
+                <div class="stat-item"><i class='bx bxs-group'></i><span>{{ $alunos->count() }} Alunos</span></div>
+                <div class="stat-item"><i class='bx bxs-book-content'></i><span>{{ $exercicios->count() }} Exercícios</span></div>
+                <div class="stat-item"><i class='bx bxs-videos'></i><span>{{ $aulas->count() }} Aulas</span></div>
             </div>
         </header>
 
@@ -45,10 +36,26 @@
                     <div class="tab-pane active" id="exercicios">
                         <div class="exercicios-grid">
                             @forelse($exercicios as $exercicio)
-                                <div class="card-exercicio">
+                                @php
+                                    $entrega = null; // Substitua pela sua lógica de entrega
+                                    $statusClass = 'status-pendente';
+                                    $statusText = 'Pendente';
+                                    $buttonText = 'Responder';
+
+                                    if ($entrega) {
+                                        $statusClass = 'status-concluido';
+                                        $statusText = 'Concluído';
+                                        $buttonText = 'Ver Nota';
+                                    } elseif (\Carbon\Carbon::parse($exercicio->data_entrega)->isPast()) {
+                                        $statusClass = 'status-atrasado';
+                                        $statusText = 'Atrasado';
+                                    }
+                                @endphp
+
+                                <div class="card-exercicio {{ $statusClass }}">
                                     <div class="card-exercicio-header">
-                                        <div class="icon-wrapper"><i class='bx bxs-file-doc'></i></div>
-                                        <h3>{{ $exercicio->titulo }}</h3>
+                                        <h3>{{ $exercicio->nome }}</h3>
+                                        <span class="status-badge">{{ $statusText }}</span>
                                     </div>
                                     <p class="descricao">{{ Str::limit($exercicio->descricao, 120) }}</p>
                                     <div class="card-exercicio-footer">
@@ -56,11 +63,11 @@
                                             <i class='bx bxs-calendar-exclamation'></i>
                                             <span>Entregar até: {{ \Carbon\Carbon::parse($exercicio->data_entrega)->format('d/m/Y') }}</span>
                                         </div>
-                                        <a href="#" class="btn-ver-exercicio">Responder</a>
+                                        <a href="#" class="btn-ver-exercicio">{{ $buttonText }}</a>
                                     </div>
                                 </div>
                             @empty
-                                <p class="empty-message">Nenhum exercício postado.</p>
+                                <p class="empty-message">Nenhum exercício postado nesta turma ainda.</p>
                             @endforelse
                         </div>
                     </div>
@@ -89,19 +96,19 @@
                 <div class="sidebar-widget">
                     <h2><i class='bx bxs-group'></i> Colegas de Turma</h2>
                     <ul class="lista-alunos">
-    @forelse($alunos as $aluno)
-        <li>
-            @if ($aluno->avatar)
-                <img src="{{ asset('storage/' . $aluno->avatar) }}" alt="Foto de {{ $aluno->nome }}" class="avatar">
-            @else
-                <img src="https://i.pravatar.cc/40?u={{ $aluno->id }}" alt="Avatar Padrão" class="avatar">
-            @endif
-            <span>{{ $aluno->nome }}</span>
-        </li>
-    @empty
-        <li class="empty-message">Nenhum outro aluno na turma.</li>
-    @endforelse
-</ul>
+                        @forelse($alunos as $aluno)
+                            <li>
+                                @if ($aluno->avatar)
+                                    <img src="{{ asset('storage/' . $aluno->avatar) }}" alt="Foto de {{ $aluno->nome }}" class="avatar">
+                                @else
+                                    <img src="https://i.pravatar.cc/40?u={{ $aluno->id }}" alt="Avatar Padrão" class="avatar">
+                                @endif
+                                <span>{{ $aluno->nome }}</span>
+                            </li>
+                        @empty
+                            <li class="empty-message">Nenhum outro aluno na turma.</li>
+                        @endforelse
+                    </ul>
                 </div>
             </aside>
         </div>

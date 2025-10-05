@@ -6,6 +6,7 @@
     <title>Gerenciador de Exercicios</title>
     
     <link href='https://cdn.boxicons.com/fonts/basic/boxicons.min.css' rel='stylesheet'>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <link href="{{ asset('css/Professor/exercicioProfessor.css') }}" rel="stylesheet">
 </head>
 <body>
@@ -151,5 +152,16 @@
     @include('layouts.footer')
 
     <script src="{{ asset('js/Professor/exercicioProfessor.js') }}"></script>
+
+    @if (session('sweet_success'))
+    <script>
+        Swal.fire({
+            title: "Sucesso!",
+            text: "{{ session('sweet_success') }}",
+            icon: "success",
+            confirmButtonText: "Ok"
+        });
+    </script>
+  @endif
 </body>
 </html>

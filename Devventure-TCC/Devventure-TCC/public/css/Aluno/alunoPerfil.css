@@ -94,19 +94,22 @@ body {
 
 .btn-trocar-foto {
     position: absolute;
-    bottom: 5px;
-    right: 5px;
-    width: 32px;
-    height: 32px;
+    bottom: 0px;
+    right: 0px;
+    width: 38px;
+    height: 38px;
     background-color: var(--cor-primaria);
     color: white;
     border-radius: 50%;
-    border: 2px solid var(--cor-card);
+    border: 3px solid var(--cor-card);
     display: flex;
     align-items: center;
     justify-content: center;
     cursor: pointer;
+    font-size: 1.2rem; /* Controla o tamanho do ícone <i class='bx bx-camera'></i> */
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
     transition: all 0.2s ease;
+    z-index: 10;
 }
 .btn-trocar-foto:hover {
     transform: scale(1.1);
@@ -224,49 +227,6 @@ hr {
     }
 }
 
-.btn-trocar-foto {
-    position: absolute;
-    bottom: 0px; /* Alinha na parte de baixo do avatar */
-    right: 0px; /* Alinha na parte direita do avatar */
-    width: 38px; /* Largura do botão/ícone */
-    height: 38px; /* Altura do botão/ícone */
-    background-color: var(--cor-primaria); /* Cor de fundo do botão */
-    color: white; /* Cor do ícone */
-    border-radius: 50%; /* Faz o botão ser redondo */
-    border: 3px solid var(--cor-card); /* Borda branca para destacar do avatar */
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    font-size: 1.2rem; /* Tamanho do ícone Boxicon */
-    box-shadow: 0 2px 5px rgba(0,0,0,0.2); /* Sombra suave para profundidade */
-    transition: all 0.2s ease;
-    z-index: 10; /* Garante que fique acima do avatar */
-
-    /* Garante que o texto original não apareça */
-    text-indent: -9999px; /* Esconde o texto original "Trocar Foto" */
-    overflow: hidden; /* Garante que o texto escondido não afete o layout */
-    white-space: nowrap; /* Evita que o texto quebre linha */
-}
-
-.btn-trocar-foto::after {
-    /* Adiciona o ícone de câmera do Boxicons via pseudo-elemento */
-    content: '\eb84'; /* Código do ícone 'bx bxs-camera' do Boxicons. Verifique o mapa de caracteres se o ícone não aparecer. */
-    font-family: 'boxicons' !important; /* Indica para usar a fonte Boxicons */
-    text-indent: 0; /* Centraliza o ícone */
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    font-size: 1.2rem; /* Tamanho do ícone */
-    line-height: 1; /* Garante o alinhamento vertical do ícone */
-}
-
-
-.btn-trocar-foto:hover {
-    transform: scale(1.1); /* Efeito de zoom no hover */
-    background-color: var(--cor-primaria-hover);
-}
 
  .btn-voltar-topo {
     /* Estado inicial - só o ícone visível */

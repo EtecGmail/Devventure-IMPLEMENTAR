@@ -21,7 +21,7 @@ class TurmaController extends Controller
         $turma->professor_id = Auth::guard('professor')->id();
         $turma->save();
 
-        return redirect('/professorGerenciar');
+        return redirect('/professorGerenciar')->with('sweet_success', 'Turma criada com sucesso!');
     }
 
       public function GerenciarTurma() 
@@ -56,21 +56,19 @@ public function turmaEspecifica(Request $request)
     return view('Professor/turma', ['turmas' => $turmas]);
 }
 
-// app/Http/Controllers/Professor/TurmaController.php
+
 
 public function turmaEspecificaID(Turma $turma)
 {
-    // Carrega os relacionamentos para evitar múltiplas queries (Eager Loading)
+    
     $turma->load('alunos', 'exercicios', 'aulas');
 
-    // Pega as coleções já carregadas
+    
     $alunosNaTurma = $turma->alunos;
     $exerciciosDaTurma = $turma->exercicios;
     $aulasDaTurma = $turma->aulas;
 
-    // --- LÓGICA DA TRILHA DO TEMPO (HISTÓRICO) ---
-
-    // 1. Mapeia os exercícios para um formato padronizado
+    
     $historicoExercicios = $exerciciosDaTurma->map(function ($exercicio) {
         return [
             'tipo' => 'exercicio',
@@ -81,11 +79,11 @@ public function turmaEspecificaID(Turma $turma)
         ];
     });
 
-    // 2. Mapeia as aulas para o mesmo formato padronizado
+   
     $historicoAulas = $aulasDaTurma->map(function ($aula) {
         return [
             'tipo' => 'aula',
-            'data' => $aula->created_at, // Usamos created_at como data de publicação da aula
+            'data' => $aula->created_at, 
             'titulo' => $aula->titulo,
             'detalhe' => 'Duração: ' . floor($aula->duracao_segundos / 60) . 'm ' . ($aula->duracao_segundos % 60) . 's',
             'objeto' => $aula

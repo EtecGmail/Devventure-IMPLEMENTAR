@@ -44,11 +44,14 @@ class DashboardController extends Controller
             $progressoPercentual = 100;
         }
 
+         $minhasTurmas = $aluno->turmas()->with('professor')->latest()->get();
+
         
         return view('Aluno.dashboard', [
             'convites' => $convites,
             'exerciciosPendentes' => $exerciciosPendentes,
             'progressoPercentual' => $progressoPercentual,
+            'minhasTurmas' => $minhasTurmas, 
         ]);
     }
 }

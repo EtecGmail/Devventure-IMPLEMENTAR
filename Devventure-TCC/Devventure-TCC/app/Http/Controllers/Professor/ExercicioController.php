@@ -83,7 +83,7 @@ public function CriarExercicios(Request $request)
         'professor_id' => Auth::guard('professor')->id()
     ]);
 
-    return redirect()->back()->with('success', 'Exercício criado com sucesso!');
+    return redirect()->back()->with('sweet_success', 'Exercício criado com sucesso!');
 }
     
 

@@ -143,3 +143,45 @@ body {
     }
     .page-professor-dashboard .page-header h1 { font-size: 1.8rem; }
 }
+
+/* --- Notificação de Convites Pendentes --- */
+.card-notificacao {
+    background-color: #fffbe6; /* Amarelo bem claro para alerta */
+    color: #855d00;
+    border-radius: 12px;
+    padding: 1.5rem;
+    margin-bottom: 2.5rem; /* Mesmo espaçamento das outras seções */
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    border: 1px solid #ffe58f;
+    box-shadow: var(--sombra-card);
+}
+
+.card-notificacao i {
+    font-size: 2.5rem;
+    flex-shrink: 0; /* Impede que o ícone seja esmagado */
+}
+
+.notificacao-content {
+    line-height: 1.5;
+}
+
+.notificacao-content strong {
+    font-weight: 700;
+}
+
+.notificacao-content a {
+    color: var(--cor-primaria); /* Usa a cor primária do tema */
+    font-weight: 600;
+    text-decoration: none;
+    margin-left: 0.5rem;
+}
+
+.notificacao-content a:hover {
+    text-decoration: underline;
+}
+
+.coluna-principal .card + .card {
+    margin-top: 2.5rem; /* ou o valor do 'gap' do seu grid */
+}

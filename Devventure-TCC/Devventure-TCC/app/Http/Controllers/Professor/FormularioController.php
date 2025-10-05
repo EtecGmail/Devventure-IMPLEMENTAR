@@ -24,12 +24,12 @@ class FormularioController extends Controller
         'perguntas.*' => 'required|string|max:1000', 
     ]);
 
-    // 2. Cria o Formulário principal, associando-o à aula
+    
     $formulario = $aula->formulario()->create([
         'titulo' => $dadosValidados['titulo'],
     ]);
 
-    // 3. Cria cada pergunta associada ao formulário
+    
     foreach ($dadosValidados['perguntas'] as $textoDaPergunta) {
         $formulario->perguntas()->create([
             'texto_pergunta' => $textoDaPergunta,

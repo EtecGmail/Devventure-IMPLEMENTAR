@@ -8,35 +8,42 @@ use App\Models\Aluno;
 use App\Models\Aula;
 use App\Models\Turma;
 use Illuminate\Support\Facades\Auth;
+use App\Models\Convite;
 
 class DashboardController extends Controller
 {
-     public function dashboard()
-    {
-        $professor = Auth::guard('professor')->user();
+    public function dashboard()
+{
+    $professor = Auth::guard('professor')->user();
 
-        //Buscar as turmas do professor com a contagem de alunos
-        $turmas = $professor->turmas()->withCount('alunos')->latest()->take(5)->get();
+    
+    $turmas = $professor->turmas()->withCount('alunos')->latest()->take(3)->get();
 
-        //Buscar as últimas aulas criadas pelo professor
-        $aulasRecentes = Aula::whereIn('turma_id', $professor->turmas()->pluck('id'))
-                            ->latest()
-                            ->take(3)
-                            ->get();
+    
+    $aulasRecentes = Aula::whereIn('turma_id', $professor->turmas()->pluck('id'))
+                         ->latest()
+                         ->take(3)
+                         ->get();
 
-        //Calcular estatísticas gerais
-        $totalAlunos = Aluno::whereHas('turmas', function ($query) use ($professor) {
-            $query->where('professor_id', $professor->id);
-        })->count();
-        
-        $totalAulas = Aula::whereIn('turma_id', $professor->turmas()->pluck('id'))->count();
+    
+    $totalAlunos = Aluno::whereHas('turmas', function ($query) use ($professor) {
+        $query->where('professor_id', $professor->id);
+    })->count();
+    
+    $totalAulas = Aula::whereIn('turma_id', $professor->turmas()->pluck('id'))->count();
 
-        return view('Professor/dashboard', [
-            'turmasRecentes' => $turmas,
-            'aulasRecentes' => $aulasRecentes,
-            'totalAlunos' => $totalAlunos,
-            'totalAulas' => $totalAulas,
-        ]);
-    }
+    
+    $convitesPendentes = Convite::where('professor_id', $professor->id)
+                                  ->where('status', 'pendente')
+                                  ->count();
+
+    return view('Professor/dashboard', [
+        'turmasRecentes' => $turmas,
+        'aulasRecentes' => $aulasRecentes,
+        'totalAlunos' => $totalAlunos,
+        'totalAulas' => $totalAulas,
+        'convitesPendentes' => $convitesPendentes,
+    ]);
+}
 
 }

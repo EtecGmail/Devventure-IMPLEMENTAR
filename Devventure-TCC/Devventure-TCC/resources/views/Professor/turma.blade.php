@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Gerenciador de Exercicios</title>
   <link href="{{ asset('css/Professor/turmaProfessor.css') }}" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   <link href='https://cdn.boxicons.com/fonts/basic/boxicons.min.css' rel='stylesheet'>
 </head>
 <body>
@@ -117,6 +118,16 @@
 
  
  <script src="{{ asset('js/Professor/turmaProfessor.js') }}"></script>
+ @if (session('sweet_success'))
+    <script>
+        Swal.fire({
+            title: "Sucesso!",
+            text: "{{ session('sweet_success') }}",
+            icon: "success",
+            confirmButtonText: "Ok"
+        });
+    </script>
+  @endif
 
 </body>
 </html>
