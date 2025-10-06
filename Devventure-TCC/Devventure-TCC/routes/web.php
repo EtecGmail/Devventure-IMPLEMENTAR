@@ -1,7 +1,6 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-// ADICIONE ESTAS DUAS LINHAS NO TOPO:
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use Illuminate\Http\Request;
 
@@ -13,6 +12,8 @@ use App\Http\Controllers\Auth\AdmLoginController;
 use App\Http\Controllers\Aluno\PerfilController as AlunoPerfilController;
 use App\Http\Controllers\Professor\PerfilController as ProfessorPerfilController;
 use App\Http\Controllers\Aluno\RespostaController;
+use App\Http\Controllers\Auth\ForgotPasswordController;
+use App\Http\Controllers\Auth\ResetPasswordController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -25,30 +26,46 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-// Telas de Login
 Route::get('loginAluno', function () { return view('Aluno.login'); })->name('login.aluno');
 Route::get('loginProfessor', function () { return view('Professor.login'); })->name('login.professor');
 Route::get('/loginAdm', function () { return view('Adm.login'); })->name('login.admin');
 
 
-// --- FLUXO DE AUTENTICAÇÃO, CADASTRO E 2FA ---
+// --- FLUXO DE AUTENTICAÇÃO, CADASTRO, 2FA E REDEFINIÇÃO DE SENHA ---
 
-// 1. Ação de Cadastro
+// CADASTRO
 Route::post('/cadastro-aluno', [AlunoPerfilController::class, 'store'])->name('aluno.cadastrar');
 Route::post('/cadastrar-prof', [ProfessorPerfilController::class, 'store'])->name('professor.cadastro.action');
 
-// 2. Ação de Login (que agora leva para a tela de 2FA)
+// LOGIN
 Route::post('/login-aluno', [AlunoLoginController::class, 'verifyUser'])->name('aluno.login');
 Route::post('/login-professor', [ProfessorLoginController::class, 'verifyUser'])->name('professor.login.action');
-Route::post('/login-adm', [AdmLoginController::class, 'verifyUser']); 
+Route::post('/login-adm', [AdmLoginController::class, 'verifyUser']);
 
-// 3. Verificação de Duas Etapas (2FA) - Onde o usuário digita o código
-Route::get('/verificar-codigo', [TwoFactorController::class, 'showVerifyForm'])->name('2fa.verify.form');
-Route::post('/verificar-codigo', [TwoFactorController::class, 'verifyCode'])->name('2fa.verify.code');
+// VERIFICAÇÃO DE DUAS ETAPAS (2FA) APÓS O LOGIN
+// --- URL ALTERADA para evitar conflito ---
+Route::get('/login/verificar-2fa', [TwoFactorController::class, 'showVerifyForm'])->name('2fa.verify.form');
+Route::post('/login/verificar-2fa', [TwoFactorController::class, 'verifyCode'])->name('2fa.verify.code');
 
-// ==========================================================
-// ====== BLOCO ADICIONADO PARA VERIFICAÇÃO DE E-MAIL ======
-// ==========================================================
+// ESQUECEU A SENHA
+// Rota para exibir o formulário de "Esqueceu a Senha"
+Route::get('/esqueceu-senha', [ForgotPasswordController::class, 'showLinkRequestForm'])->name('password.request');
+// Rota para enviar o e-mail com o código
+Route::post('/esqueceu-senha', [ForgotPasswordController::class, 'sendResetLinkEmail'])->name('password.email');
+// Rota para o CÓDIGO de redefinição de senha
+// --- URL ALTERADA para evitar conflito ---
+Route::get('/redefinir-senha/verificar-codigo', [ForgotPasswordController::class, 'showVerifyForm'])->name('password.verify.form');
+Route::post('/redefinir-senha/verificar-codigo', [ForgotPasswordController::class, 'verifyCode'])->name('password.verify.code');
+
+// Rota para MOSTRAR a tela final de redefinição de senha
+Route::get('/redefinir-senha/{token}', [ResetPasswordController::class, 'showResetForm'])->name('password.reset.form');
+
+// Rota para PROCESSAR e salvar a nova senha
+Route::post('/redefinir-senha', [ResetPasswordController::class, 'reset'])->name('password.update');
+
+
+
+// VERIFICAÇÃO DE E-MAIL APÓS CADASTRO
 Route::get('/email/verify', function () {
     return view('auth.verify');
 })->middleware('auth')->name('verification.notice');
@@ -68,16 +85,12 @@ Route::post('/email/verification-notification', function (Request $request) {
 })->middleware(['auth', 'throttle:6,1'])->name('verification.send');
 
 
-// ==========================================================
-
-
 // --- ROTAS PROTEGIDAS ---
 
-// ROTAS DO ALUNO (agora exigem login E e-mail verificado)
+// ROTAS DO ALUNO
 Route::middleware(['auth:aluno'])->group(function () {
     Route::get('/alunoDashboard', \App\Http\Controllers\Aluno\DashboardController::class)->name('aluno.dashboard');
     Route::post('/logout-aluno', [AlunoLoginController::class, 'logoutUser'])->name('aluno.logout');
-    // ... (suas outras rotas de aluno)
     Route::get('/minhas-turmas', [App\Http\Controllers\Aluno\TurmaController::class, 'minhasTurmas'])->name('aluno.turma');
     Route::get('/turmaAluno/{turma}', [App\Http\Controllers\Aluno\TurmaController::class, 'mostrarTurmaEspecifica'])->name('turmas.especifica');
     Route::get('/aula/{aula}', [App\Http\Controllers\Aluno\AulaController::class, 'aula'])->name('aulas.view');
@@ -87,15 +100,14 @@ Route::middleware(['auth:aluno'])->group(function () {
     Route::get('/aluno/perfil', [AlunoPerfilController::class, 'edit'])->name('aluno.perfil.edit');
     Route::patch('/aluno/perfil', [AlunoPerfilController::class, 'update'])->name('aluno.perfil.update');
     Route::post('/aulas/{aula}/formulario/responder', [RespostaController::class, 'store'])
-     ->name('aluno.formulario.responder');
+        ->name('aluno.formulario.responder');
 });
 
 
-// ROTAS DO PROFESSOR (agora exigem login E e--mail verificado)
+// ROTAS DO PROFESSOR
 Route::middleware(['auth:professor'])->group(function () {
     Route::get('/professorDashboard', [App\Http\Controllers\Professor\DashboardController::class, 'dashboard'])->name('professorDashboard');
     Route::post('/logout-professor', [ProfessorLoginController::class, 'logoutUser'])->name('professor.logout');
-    // ... (suas outras rotas de professor)
     Route::get('/perfilProfessor', [ProfessorPerfilController::class, 'edit'])->name('professor.perfil.edit');
     Route::patch('/perfilProfessorUpdate', [ProfessorPerfilController::class, 'update'])->name('professor.perfil.update');
     Route::get('/professorGerenciar', [App\Http\Controllers\Professor\TurmaController::class, 'GerenciarTurma'])->name('professor.turmas');
@@ -111,9 +123,8 @@ Route::middleware(['auth:professor'])->group(function () {
 });
 
 
-// ROTAS DO ADMIN (mantidas como estavam)
+// ROTAS DO ADMIN
 Route::middleware('auth:admin')->group(function () {
     Route::get('/admDashboard', [App\Http\Controllers\Adm\DashboardController::class, 'admDashboard'])->name('admin.dashboard');
     Route::post('/logout-adm', [AdmLoginController::class, 'logoutUser'])->name('admin.logout');
-    // ... Suas outras rotas de admin ...
 });
