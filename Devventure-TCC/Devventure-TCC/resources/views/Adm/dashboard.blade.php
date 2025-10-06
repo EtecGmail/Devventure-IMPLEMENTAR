@@ -45,7 +45,7 @@
                 <div class="nav-right">
                     <span class="admin-name">Olá, Admin!</span>
                     <div class="admin-avatar">
-                        <img src="{{ asset('images/adm.png') }}" alt="Admin Avatar">
+                        <img src="{{ asset('images/user.png') }}" alt="Admin Avatar">
                     </div>
                 </div>
             </header>
