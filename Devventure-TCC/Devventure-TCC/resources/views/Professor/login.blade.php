@@ -112,5 +112,17 @@
     @endif
 
   <script src="{{ asset('js/Professor/loginProfessor.js') }}"></script>
+
+  @if ($errors->has('msg'))
+        <script>
+            Swal.fire({
+                icon: 'error',
+                title: 'Falha na Autenticação',
+                text: '{{ $errors->first('msg') }}',
+                confirmButtonColor: '#d33'
+            });
+        </script>
+    @endif
+    
 </body>
 </html>
