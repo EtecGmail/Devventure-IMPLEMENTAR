@@ -31,6 +31,14 @@ class ProfessorLoginController extends Controller
         
         $user = Auth::guard('professor')->user();
 
+        if ($user->status === 'bloqueado') {
+        
+        Auth::guard('professor')->logout();
+
+        
+        return back()->withErrors(['msg' => 'Sua conta está bloqueada. Entre em contato com o suporte.']);
+    }
+
         
         $code = rand(100000, 999999);
         $user->two_factor_code = $code;

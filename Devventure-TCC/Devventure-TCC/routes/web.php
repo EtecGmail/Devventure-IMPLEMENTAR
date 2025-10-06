@@ -126,5 +126,14 @@ Route::middleware(['auth:professor'])->group(function () {
 // ROTAS DO ADMIN
 Route::middleware('auth:admin')->group(function () {
     Route::get('/admDashboard', [App\Http\Controllers\Adm\DashboardController::class, 'admDashboard'])->name('admin.dashboard');
+
+    // Rotas para gerenciar Alunos
+    Route::post('/admin/alunos/{aluno}/block', [App\Http\Controllers\Adm\DashboardController::class, 'blockAluno'])->name('admin.alunos.block');
+    Route::post('/admin/alunos/{aluno}/unblock', [App\Http\Controllers\Adm\DashboardController::class, 'unblockAluno'])->name('admin.alunos.unblock');
+
+    // Rotas para gerenciar Professores
+    Route::post('/admin/professores/{professor}/block', [App\Http\Controllers\Adm\DashboardController::class, 'blockProfessor'])->name('admin.professores.block');
+    Route::post('/admin/professores/{professor}/unblock', [App\Http\Controllers\Adm\DashboardController::class, 'unblockProfessor'])->name('admin.professores.unblock');
+
     Route::post('/logout-adm', [AdmLoginController::class, 'logoutUser'])->name('admin.logout');
 });
