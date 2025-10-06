@@ -15,6 +15,17 @@ class AlunoLoginController extends Controller
      */
     public function verifyUser(Request $request)
     {
+        // --- INÍCIO DA CORREÇÃO ---
+        // 1. Garante que qualquer sessão de 'professor' seja encerrada antes de tentar o login do aluno.
+        if (Auth::guard('professor')->check()) {
+            Auth::guard('professor')->logout();
+        }
+
+        // 2. Invalida a sessão atual para remover dados antigos e previnir conflitos.
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
+        // --- FIM DA CORREÇÃO ---
+        
         // 1. Tenta autenticar as credenciais (e-mail e senha)
         if (!Auth::guard('aluno')->attempt($request->only('email', 'password'))) {
             return back()->withErrors(['msg' => 'Credenciais inválidas!']);

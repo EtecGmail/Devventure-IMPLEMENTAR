@@ -15,7 +15,18 @@ class ProfessorLoginController extends Controller
      */
     public function verifyUser(Request $request)
     {
-       
+        // --- INÍCIO DA CORREÇÃO ---
+        // 1. Garante que qualquer sessão de 'aluno' seja encerrada antes de tentar o login do professor.
+        if (Auth::guard('aluno')->check()) {
+            Auth::guard('aluno')->logout();
+        }
+
+        // 2. Invalida a sessão atual para remover dados antigos e previnir conflitos.
+        // É uma boa prática para garantir que a sessão de login comece limpa.
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
+        // --- FIM DA CORREÇÃO ---
+
         // 1. Tenta autenticar as credenciais (e-mail e senha)
         if (!Auth::guard('professor')->attempt($request->only('email', 'password'))) {
             return back()->withErrors(['msg' => 'Credenciais inválidas!']);
