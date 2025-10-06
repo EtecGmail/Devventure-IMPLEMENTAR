@@ -322,3 +322,24 @@ body {
     padding-left: 55px;
     color: #64748b;
 }
+
+.lista-alunos li {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.aluno-info {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.aluno-progresso {
+    font-size: 0.9rem;
+    color: #64748b; /* Cinza secundário */
+    font-weight: 500;
+    background-color: #f1f5f9; /* Fundo cinza bem claro */
+    padding: 0.25rem 0.75rem;
+    border-radius: 50px;
+}

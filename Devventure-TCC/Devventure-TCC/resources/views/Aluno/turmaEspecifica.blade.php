@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{ $turma->nome_turma }}</title>
     <link href="{{ asset('css/Aluno/alunoTurmaEspecifica.css') }}" rel="stylesheet">
+     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
 </head>
 <body>
@@ -115,5 +116,17 @@
     </main>
     
     <script src="{{ asset('js/Aluno/alunoTurma.js') }}"></script>
+
+     @if (session('sweet_success'))
+        <script>
+            Swal.fire({
+                title: 'Parabéns!',
+                text: "{{ session('sweet_success') }}",
+                icon: 'success',
+                confirmButtonColor: '#2563eb', 
+                confirmButtonText: 'Ótimo!'
+            });
+        </script>
+    @endif
 </body>
 </html>

@@ -12,7 +12,7 @@ use App\Http\Controllers\Auth\ProfessorLoginController;
 use App\Http\Controllers\Auth\AdmLoginController;
 use App\Http\Controllers\Aluno\PerfilController as AlunoPerfilController;
 use App\Http\Controllers\Professor\PerfilController as ProfessorPerfilController;
-
+use App\Http\Controllers\Aluno\RespostaController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -86,6 +86,8 @@ Route::middleware(['auth:aluno'])->group(function () {
     Route::post('/convite/{convite}/recusar', [App\Http\Controllers\Aluno\ConviteController::class, 'recusar'])->name('convites.recusar');
     Route::get('/aluno/perfil', [AlunoPerfilController::class, 'edit'])->name('aluno.perfil.edit');
     Route::patch('/aluno/perfil', [AlunoPerfilController::class, 'update'])->name('aluno.perfil.update');
+    Route::post('/aulas/{aula}/formulario/responder', [RespostaController::class, 'store'])
+     ->name('aluno.formulario.responder');
 });
 
 

@@ -11,19 +11,16 @@ return new class extends Migration
      *
      * @return void
      */
-    public function up()
-    {
-        Schema::create('respostas_alunos', function (Blueprint $table) {
+   public function up(): void
+{
+    Schema::create('respostas', function (Blueprint $table) {
         $table->id();
-        
         $table->foreignId('aluno_id')->constrained('aluno')->onDelete('cascade');
-        // Chave estrangeira que liga a resposta a uma pergunta.
-        $table->foreignId('pergunta_id')->constrained()->onDelete('cascade');
-        // O texto da resposta que o aluno digitou/selecionou.
-        $table->text('resposta');
+        $table->foreignId('pergunta_id')->constrained('perguntas')->onDelete('cascade');
+        $table->text('texto_resposta');
         $table->timestamps();
     });
-    }
+}
 
     /**
      * Reverse the migrations.
@@ -32,6 +29,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('resposta_alunos');
+        Schema::dropIfExists('respostas');
     }
 };

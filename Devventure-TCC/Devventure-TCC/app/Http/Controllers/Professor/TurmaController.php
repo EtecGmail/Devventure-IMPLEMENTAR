@@ -9,6 +9,10 @@ use Illuminate\Support\Facades\Auth;
 use App\Models\Aluno;
 use App\Models\Convite;
 use App\Models\Aula;
+use App\Models\Exercicio;
+use Carbon\Carbon;
+use Illuminate\Support\Facades\DB;
+
 class TurmaController extends Controller
 {
    public function turma(Request $request){
@@ -60,48 +64,66 @@ public function turmaEspecifica(Request $request)
 
 public function turmaEspecificaID(Turma $turma)
 {
-    
     $turma->load('alunos', 'exercicios', 'aulas');
 
-    
     $alunosNaTurma = $turma->alunos;
     $exerciciosDaTurma = $turma->exercicios;
     $aulasDaTurma = $turma->aulas;
 
-    
+    $totalAulasComFormulario = $aulasDaTurma->count();
+
+    // Calcula progresso de cada aluno
+    $alunosComProgresso = $alunosNaTurma->map(function ($aluno) use ($aulasDaTurma, $totalAulasComFormulario) {
+
+        // Conta quantas aulas ele concluiu usando o relacionamento many-to-many
+        $aulasConcluidas = $aulasDaTurma->filter(function ($aula) use ($aluno) {
+            $pivot = $aula->alunos->firstWhere('id', $aluno->id)?->pivot;
+            return $pivot && $pivot->status === 'concluido';
+        })->count();
+
+        $aluno->aulas_concluidas = $aulasConcluidas;
+        $aluno->total_aulas_com_formulario = $totalAulasComFormulario;
+        $aluno->progresso_percentual = $totalAulasComFormulario > 0
+            ? round(($aulasConcluidas / $totalAulasComFormulario) * 100)
+            : 0;
+
+        return $aluno;
+    });
+
+    // HISTÓRICO
     $historicoExercicios = $exerciciosDaTurma->map(function ($exercicio) {
         return [
             'tipo' => 'exercicio',
             'data' => $exercicio->data_publicacao,
             'titulo' => $exercicio->nome,
-            'detalhe' => 'Entrega até ' . \Carbon\Carbon::parse($exercicio->data_fechamento)->format('d/m/Y H:i'),
-            'objeto' => $exercicio 
+            'detalhe' => 'Entrega até ' . Carbon::parse($exercicio->data_fechamento)->format('d/m/Y H:i'),
         ];
-    });
+    })->all();
 
-   
     $historicoAulas = $aulasDaTurma->map(function ($aula) {
         return [
             'tipo' => 'aula',
-            'data' => $aula->created_at, 
+            'data' => $aula->created_at,
             'titulo' => $aula->titulo,
             'detalhe' => 'Duração: ' . floor($aula->duracao_segundos / 60) . 'm ' . ($aula->duracao_segundos % 60) . 's',
-            'objeto' => $aula
         ];
+    })->all();
+
+    $historicoCompleto = array_merge($historicoExercicios, $historicoAulas);
+
+    usort($historicoCompleto, function ($a, $b) {
+        return Carbon::parse($b['data'] ?? '1970-01-01') <=> Carbon::parse($a['data'] ?? '1970-01-01');
     });
-
-    
-    $historicoCompleto = $historicoExercicios->merge($historicoAulas)->sortByDesc('data');
-
-   
 
     return view('Professor/detalheTurma', [
         'turma' => $turma,
-        'alunos' => $alunosNaTurma,
-        'exercicios' => $exerciciosDaTurma, 
-        'historico' => $historicoCompleto 
+        'alunos' => $alunosComProgresso,
+        'exercicios' => $exerciciosDaTurma,
+        'historico' => $historicoCompleto,
     ]);
 }
+
+
 
 public function convidarAluno(Request $request, Turma $turma)
 {

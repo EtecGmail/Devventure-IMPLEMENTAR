@@ -39,23 +39,24 @@
             <div class="content-grid">
                 <section class="card lista-alunos">
                     <h2><i class='bx bxs-group'></i> Alunos Matriculados ({{ $alunos->count() }})</h2>
-                    <ul>
-                        @forelse ($alunos as $aluno)
-                            <li>
-                                @if ($aluno->avatar)
-                                    <img src="{{ asset('storage/' . $aluno->avatar) }}" alt="Foto de {{ $aluno->nome }}" class="avatar">
-                                @else
-                                    <img src="https://i.pravatar.cc/40?u={{ $aluno->id }}" alt="Avatar Padrão" class="avatar">
-                                @endif
-                                <div class="aluno-info">
-                                    <span class="aluno-nome">{{ $aluno->nome }}</span>
-                                    <span class="aluno-email">{{ $aluno->email }}</span>
-                                </div>
-                            </li>
-                        @empty
-                            <li class="empty-item">Nenhum aluno matriculado nesta turma ainda.</li>
-                        @endforelse
-                    </ul>
+ <ul class="lista-alunos">
+    @forelse($alunos as $aluno)
+        <li>
+            <div class="aluno-info">
+                <img src="{{ $aluno->avatar ? asset('storage/' . $aluno->avatar) : asset('images/avatar_padrao.png') }}" alt="Avatar" class="avatar">
+                <span>{{ $aluno->nome }}</span>
+            </div>
+            <div class="aluno-progresso">
+                <div class="progress-bar-container">
+                    <div class="progress-bar" style="width: {{ $aluno->progresso_percentual }}%;"></div>
+                </div>
+                <small>{{ $aluno->aulas_concluidas }} / {{ $aluno->total_aulas_com_formulario }} aulas ({{ $aluno->progresso_percentual }}%)</small>
+            </div>
+        </li>
+    @empty
+        <li class="empty-message">Nenhum aluno na turma.</li>
+    @endforelse
+</ul>
                 </section>
                 
                 <section class="card lista-exercicios">

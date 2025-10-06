@@ -69,4 +69,7 @@ class Aluno extends Authenticatable implements MustVerifyEmail, CanResetPassword
     {
         return $this->hasMany(RespostaAluno::class);
     }
+
+
+    
 }
