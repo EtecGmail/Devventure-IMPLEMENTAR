@@ -1,0 +1,273 @@
+/* Importando uma fonte para consistência */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap');
+
+/* Variáveis de Cor */
+:root {
+    --navbar-bg: #1e293b; /* Azul ardósia escuro */
+    --navbar-text: #e2e8f0; /* Cinza claro */
+    --navbar-text-hover: #ffffff;
+    --navbar-highlight: #38bdf8; /* Azul claro para destaque */
+}
+
+/* Estilos Globais e Reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Poppins', sans-serif;
+    background-color: #f1f5f9; /* Um fundo leve para a página */
+    /* Adiciona padding no topo para o conteúdo não ficar atrás da navbar */
+    padding-top: 80px;
+}
+
+/* Estilo Principal da Navbar */
+.navbar {
+    background-color: var(--navbar-bg);
+    padding: 0 5%; /* Usa porcentagem para ser mais flexível */
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1000;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.navbar-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 80px;
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+/* Logo */
+.navbar-logo img {
+    height: 40px; /* Ajuste a altura da sua logo */
+    width: auto;
+    transition: transform 0.3s ease;
+}
+.navbar-logo img:hover {
+    transform: scale(1.05);
+}
+
+/* Links da Navbar */
+.navbar-links {
+    display: flex;
+    gap: 25px;
+}
+
+.navbar-links a {
+    color: var(--navbar-text);
+    text-decoration: none;
+    font-size: 16px;
+    font-weight: 500;
+    padding: 8px 12px;
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    position: relative;
+    transition: color 0.3s ease, background-color 0.3s ease;
+}
+
+.navbar-links a:hover {
+    color: var(--navbar-text-hover);
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+/* Indicador visual no link ativo ou hover */
+.navbar-links a::after {
+    content: '';
+    position: absolute;
+    bottom: -5px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 0;
+    height: 2px;
+    background-color: var(--navbar-highlight);
+    transition: width 0.3s ease;
+}
+
+.navbar-links a:hover::after {
+    width: 50%;
+}
+
+/* Menu Hambúrguer (invisível em telas grandes) */
+.menu-toggle {
+    display: none;
+    flex-direction: column;
+    justify-content: space-around;
+    width: 30px;
+    height: 25px;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+}
+
+.menu-toggle .bar {
+    width: 100%;
+    height: 3px;
+    background-color: var(--navbar-text);
+    border-radius: 2px;
+    transition: all 0.3s ease;
+}
+
+/* --- RESPONSIVIDADE PARA CELULAR --- */
+@media (max-width: 992px) {
+    .navbar-links {
+        display: none; /* Esconde os links */
+        position: absolute;
+        top: 80px; /* Abaixo da navbar */
+        left: 0;
+        width: 100%;
+        background-color: var(--navbar-bg);
+        flex-direction: column;
+        align-items: center;
+        padding: 20px 0;
+        box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+    }
+    
+    .navbar-links.active {
+        display: flex; /* Mostra os links quando o menu é clicado */
+    }
+
+    .navbar-links a {
+        width: 90%;
+        justify-content: center;
+        padding: 15px 0;
+    }
+    .navbar-links a:hover::after {
+        width: 30%;
+    }
+
+    .menu-toggle {
+        display: flex; /* Mostra o ícone hambúrguer */
+    }
+
+    /* Animação do ícone hambúrguer para 'X' */
+    .menu-toggle.active .bar:nth-child(1) {
+        transform: translateY(8px) rotate(45deg);
+    }
+    .menu-toggle.active .bar:nth-child(2) {
+        opacity: 0;
+    }
+    .menu-toggle.active .bar:nth-child(3) {
+        transform: translateY(-10px) rotate(-45deg);
+    }
+}
+
+/* ADICIONE ESTE ESTILO AO SEU navbar.css */
+
+.navbar-profile {
+    margin-left: auto; /* Empurra o perfil para a direita, para longe dos links */
+    position: relative;
+}
+.profile-button {
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 5px 10px;
+    border-radius: 50px;
+    transition: background-color 0.3s ease;
+}
+.profile-button:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+.profile-avatar {
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    object-fit: cover; /* Garante que a imagem não fique distorcida */
+    border: 2px solid var(--navbar-highlight, #38bdf8); /* Usa a cor de destaque ou um padrão */
+}
+.profile-name {
+    color: var(--navbar-text, #e2e8f0);
+    font-weight: 500;
+    font-size: 1rem;
+}
+
+/* Em telas menores, esconde o nome para não quebrar o layout */
+@media (max-width: 992px) {
+    .navbar-profile {
+        margin-left: 1rem;
+    }
+    .profile-name { 
+        display: none;
+    }
+    .profile-button {
+        padding: 5px;
+    }
+}
+
+/* ADICIONE ESTE CÓDIGO AO SEU navbar.css */
+
+/* Deixa o container do perfil como referência para o dropdown */
+.navbar-profile {
+    position: relative;
+}
+
+/* Estilo do Menu Dropdown */
+.profile-dropdown-content {
+    display: none; /* Escondido por padrão */
+    position: absolute;
+    top: 110%; /* Um pouco abaixo do botão de perfil */
+    right: 0;
+    background-color: #ffffff;
+    width: auto;              /* Ajusta largura ao conteúdo */
+    min-width: 160px;         /* Largura mínima menor */
+    max-width: 220px;         /* Para não ficar gigante */
+    box-shadow: 0 4px 12px rgba(0,0,0,0.12);
+    border-radius: 10px;
+    z-index: 1001;
+    padding: 0.3rem 0;        /* Menos padding */
+    overflow: hidden;
+    font-size: 0.95rem;       /* Tamanho de texto mais discreto */
+}
+
+/* Classe para mostrar o dropdown com JS */
+.profile-dropdown-content.active {
+    display: block;
+}
+
+/* Estilo dos itens do dropdown */
+.dropdown-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    width: 100%;
+    padding: 0.6rem 1rem;
+    font-size: 0.95rem;
+    color: #333;
+    background: none;
+    border: none;
+    cursor: pointer;
+    text-align: left;
+    transition: background-color 0.2s ease;
+}
+
+.dropdown-item:hover {
+    background-color: #f1f5f9;
+}
+
+.dropdown-item i {
+    font-size: 1.1rem;
+    color: #64748b;
+}
+
+.dropdown-item-logout i {
+    color: #ef4444; /* Vermelho para a ação de sair */
+}
+
+.dropdown-divider {
+    height: 1px;
+    background-color: #e2e8f0;
+    margin: 0.3rem 0;
+}

@@ -1,0 +1,204 @@
+/* =================================================================== */
+/* CSS UNIFICADO PARA A PÁGINA DE VISUALIZAÇÃO DA AULA (ALUNO)      */
+/* =================================================================== */
+
+/* --- Variáveis de Cor --- */
+:root {
+    --cor-primaria: #4f46e5;         /* Azul/índigo usado no formulário */
+    --cor-primaria-hover: #4338ca;
+    --cor-fundo: #f4f7f9;
+    --cor-card: #ffffff;
+    --cor-texto-principal: #1e293b;
+    --cor-texto-secundario: #64748b;
+    --cor-borda: #e2e8f0;
+    --cor-sucesso: #16a34a;
+    --sombra-card: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+body {
+    font-family: 'Poppins', sans-serif;
+    background-color: var(--cor-fundo);
+}
+
+/* --- Layout Principal --- */
+.page-ver-aula .container {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 2.5rem 1rem;
+}
+
+.btn-voltar-aula {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    text-decoration: none;
+    margin-bottom: 2rem;
+    padding: 0.6rem 1.2rem;
+    background-color: var(--cor-card);
+    color: var(--cor-texto-secundario);
+    border: 1px solid var(--cor-borda);
+    border-radius: 8px;
+    font-weight: 600;
+    transition: all 0.2s ease;
+}
+.btn-voltar-aula:hover {
+    background-color: #e9ecef;
+    color: var(--cor-texto-principal);
+}
+
+/* --- Cabeçalho da Aula --- */
+.aula-header {
+    text-align: center;
+    margin-bottom: 2.5rem;
+}
+.aula-header h1 {
+    font-size: 2.5rem;
+    color: var(--cor-texto-principal);
+    margin-bottom: 1rem;
+}
+.aula-header .aula-meta-info {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1.5rem;
+    flex-wrap: wrap;
+}
+.aula-header .turma-info,
+.aula-header .professor-info {
+    font-size: 1.1rem;
+    color: var(--cor-texto-secundario);
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+/* --- Player de Vídeo --- */
+.video-container {
+    position: relative;
+    padding-bottom: 56.25%; /* Proporção 16:9 */
+    height: 0;
+    overflow: hidden;
+    max-width: 100%;
+    background: #000;
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+}
+.video-container iframe,
+.video-container div[id^="player-"] {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+.video-invalido {
+    padding: 2rem;
+    text-align: center;
+    color: var(--cor-texto-secundario);
+}
+.status-video {
+    text-align: center;
+    margin-top: 1.5rem;
+    color: var(--cor-texto-secundario);
+    font-style: italic;
+}
+.status-video i { vertical-align: middle; }
+
+/* --- Container do Formulário/Quiz (Aparece no final do vídeo) --- */
+.quiz-container {
+    margin-top: 3.5rem;
+    border-top: 1px solid var(--cor-borda);
+    padding-top: 2.5rem;
+    animation: fadeIn 0.5s ease-in-out;
+}
+
+.card-formulario {
+    background-color: var(--cor-card);
+    padding: 2.5rem;
+    border-radius: 12px;
+    box-shadow: var(--sombra-card);
+    border-top: 4px solid var(--cor-primaria);
+}
+.card-formulario h3 {
+    text-align: center;
+    font-size: 1.75rem;
+    color: var(--cor-texto-principal);
+    margin: 0 0 0.5rem 0;
+}
+.card-formulario p {
+    text-align: center;
+    color: var(--cor-texto-secundario);
+    margin-bottom: 2.5rem;
+}
+
+.form-group {
+    margin-bottom: 1.5rem;
+}
+.form-group label {
+    display: block;
+    font-weight: 600;
+    color: #334155;
+    margin-bottom: 0.5rem;
+}
+.form-group textarea {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    border: 1px solid var(--cor-borda);
+    border-radius: 8px;
+    font-size: 1rem;
+    font-family: 'Poppins', sans-serif;
+    transition: all 0.2s;
+    resize: vertical;
+}
+.form-group textarea:focus {
+    outline: none;
+    border-color: var(--cor-primaria);
+    box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.15);
+}
+
+.btn-enviar-respostas {
+    display: block;
+    width: 100%;
+    padding: 1rem;
+    background-color: var(--cor-primaria);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+    margin-top: 2rem;
+}
+.btn-enviar-respostas:hover {
+    background-color: var(--cor-primaria-hover);
+    transform: translateY(-2px);
+}
+
+.alert-success {
+    background-color: #d1fae5;
+    color: #065f46;
+    padding: 1rem;
+    border-radius: 8px;
+    text-align: center;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+}
+.alert-success .bx {
+    font-size: 1.5rem;
+}
+
+/* --- Animações e Responsividade --- */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+@media (max-width: 768px) {
+    .aula-header h1 {
+        font-size: 2rem;
+    }
+}

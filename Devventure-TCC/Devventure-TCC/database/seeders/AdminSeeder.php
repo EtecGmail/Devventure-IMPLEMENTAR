@@ -2,7 +2,7 @@
 
 namespace Database\Seeders;
 
-use App\Models\admModel;
+use App\Models\Adm;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
@@ -27,7 +27,7 @@ class AdminSeeder extends Seeder
             }
         }
 
-        admModel::updateOrCreate(
+        Adm::updateOrCreate(
             ['email' => $email],
             [
                 'nome' => env('ADMIN_NAME', 'Admin'),

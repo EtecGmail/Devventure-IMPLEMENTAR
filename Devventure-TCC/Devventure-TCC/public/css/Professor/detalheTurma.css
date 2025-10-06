@@ -1,0 +1,345 @@
+/* =================================================================== */
+/* CSS REFEITO PARA A PÁGINA DE DETALHES DA TURMA (PROFESSOR)  */
+/* =================================================================== */
+
+/* --- Variáveis e Estilos Base --- */
+:root {
+    /* CORES ATUALIZADAS PARA O TEMA DO PROFESSOR */
+    --cor-primaria: #00796B; /* Cor principal (verde/petróleo) */
+    --cor-primaria-hover: #004D40; /* Cor para hover */
+
+    /* Cores neutras mantidas */
+    --cor-fundo: #f4f7f9;
+    --cor-card: #ffffff;
+    --cor-texto-principal: #333;
+    --cor-texto-secundario: #555;
+    --cor-borda: #dee2e6;
+    --cor-sucesso: #198754;
+    --cor-erro: #dc3545;
+    --sombra-card: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+body {
+    font-family: 'Poppins', sans-serif;
+    background-color: var(--cor-fundo);
+}
+
+.page-detalhe-turma .container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2.5rem 2rem;
+}
+
+/* --- Cabeçalho da Página --- */
+.page-detalhe-turma .page-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+    background-color: var(--cor-card);
+    padding: 2rem;
+    border-radius: 12px;
+    box-shadow: var(--sombra-card);
+}
+.page-detalhe-turma .header-content { display: flex; align-items: center; gap: 1rem; }
+.page-detalhe-turma .header-content h1 { font-size: 2rem; color: var(--cor-primaria); margin: 0; }
+.page-detalhe-turma .header-content p { font-size: 1rem; color: var(--cor-texto-secundario); margin: 0; }
+.page-detalhe-turma .header-actions { display: flex; align-items: center; gap: 1rem; }
+
+.btn-voltar-mobile { display: none; } /* Escondido por padrão */
+
+/* Botões de Ação no Cabeçalho */
+.btn-acao {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.7rem 1.2rem;
+    background-color: var(--cor-primaria);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+.btn-acao:hover { background-color: var(--cor-primaria-hover); transform: translateY(-2px); }
+.btn-voltar-desktop {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.7rem 1.2rem;
+    background-color: #f8f9fa;
+    color: var(--cor-texto-secundario);
+    text-decoration: none;
+    border: 1px solid var(--cor-borda);
+    border-radius: 8px;
+    font-weight: 600;
+    transition: all 0.2s ease;
+}
+.btn-voltar-desktop:hover { background-color: #e9ecef; }
+
+/* --- Alertas de Sucesso/Erro --- */
+.alert { padding: 1rem; border-radius: 8px; margin-bottom: 1.5rem; font-weight: 500; }
+.alert-success { background-color: #d1e7dd; color: #0f5132; }
+.alert-error { background-color: #f8d7da; color: #842029; }
+
+/* --- Grid de Conteúdo --- */
+.content-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+    gap: 2.5rem;
+}
+
+/* --- Card Genérico --- */
+.card {
+    background-color: var(--cor-card);
+    border-radius: 12px;
+    padding: 2rem;
+    box-shadow: var(--sombra-card);
+}
+.card h2 { margin-top: 0; margin-bottom: 1.5rem; display: flex; align-items: center; gap: 0.75rem; }
+
+/* --- Listas (Alunos e Exercícios) --- */
+.lista-alunos ul, .lista-exercicios ul { list-style: none; padding: 0; }
+.lista-alunos li, .lista-exercicios li {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    padding: 1rem;
+    border-bottom: 1px solid var(--cor-borda);
+    font-weight: 500;
+}
+.lista-alunos li:last-child, .lista-exercicios li:last-child { border-bottom: none; }
+.lista-alunos li span, .lista-exercicios li span { color: var(--cor-texto-secundario); font-size: 0.9rem; }
+.empty-item { color: var(--cor-texto-secundario); font-style: italic; justify-content: center; }
+
+/* --- Modal --- */
+.modal-overlay {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background-color: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(5px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
+}
+.modal-overlay.active { opacity: 1; visibility: visible; }
+.modal-content {
+    background: white;
+    padding: 2rem;
+    border-radius: 12px;
+    width: 90%;
+    max-width: 500px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+    transform: scale(0.95);
+    transition: all 0.3s ease;
+    position: relative;
+}
+.modal-overlay.active .modal-content { transform: scale(1); }
+.modal-content h2 { margin-top: 0; margin-bottom: 0.5rem; color: var(--cor-primaria); }
+.modal-content p { margin-bottom: 1.5rem; color: var(--cor-texto-secundario); }
+.modal-close {
+    position: absolute;
+    top: 1rem; right: 1rem;
+    background: transparent;
+    border: none;
+    font-size: 1.5rem;
+    cursor: pointer;
+    color: var(--cor-texto-secundario);
+}
+.form-group { display: flex; flex-direction: column; margin-bottom: 1rem; }
+.form-group label { font-size: 0.9rem; font-weight: 500; margin-bottom: 0.25rem; }
+.form-group input {
+    padding: 0.8rem;
+    border: 1px solid var(--cor-borda);
+    border-radius: 6px;
+    font-size: 1rem;
+}
+.modal-buttons { display: flex; justify-content: flex-end; gap: 1rem; margin-top: 1.5rem; }
+.btn-cancelar, .btn-confirmar { padding: 0.8rem 1.5rem; border-radius: 8px; border: none; font-weight: 600; cursor: pointer; }
+.btn-cancelar { background-color: #f1f1f1; }
+.btn-confirmar { background-color: var(--cor-primaria); color: white; }
+
+/* --- Responsividade --- */
+@media (max-width: 768px) {
+    .page-detalhe-turma .container { padding: 1.5rem 1rem; }
+    .page-detalhe-turma .page-header { flex-direction: column; align-items: stretch; }
+    .page-detalhe-turma .header-content { flex-direction: column; align-items: flex-start; }
+    .page-detalhe-turma .header-actions { justify-content: flex-start; }
+    .btn-voltar-desktop { display: none; }
+    .btn-voltar-mobile { display: block; font-size: 1.5rem; margin-bottom: 0.5rem; }
+    .content-grid { grid-template-columns: 1fr; }
+}
+
+.lista-alunos li {
+    display: flex; /* O segredo para alinhar itens horizontalmente */
+    align-items: center; /* Alinha verticalmente no centro */
+    gap: 1rem; /* Espaçamento entre a foto e as informações */
+    padding: 0.8rem 1rem; /* Ajuste no espaçamento interno */
+}
+
+/* Estilo para a imagem do avatar */
+.lista-alunos .avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%; /* Deixa a imagem redonda */
+    object-fit: cover; /* Garante que a foto não fique distorcida */
+    flex-shrink: 0; /* Impede que a imagem encolha */
+}
+
+/* Container para o nome e email */
+.lista-alunos .aluno-info {
+    display: flex;
+    flex-direction: column; /* Coloca o nome em cima do email */
+}
+
+/* Estilo para o nome do aluno */
+.lista-alunos .aluno-nome {
+    font-weight: 600; /* Deixa o nome em negrito */
+    color: var(--cor-texto-principal);
+}
+
+/* Estilo para o email (que antes era um span genérico) */
+.lista-alunos .aluno-email {
+    font-size: 0.85rem;
+    color: var(--cor-texto-secundario);
+}
+
+/* Mantém o estilo para a mensagem de lista vazia */
+.lista-alunos .empty-item {
+    justify-content: center;
+    font-style: italic;
+    color: var(--cor-texto-secundario);
+}
+
+/* Variáveis de cor para os tipos de evento */
+:root {
+    --cor-aula: #4A90E2; /* Azul */
+    --cor-exercicio: #50E3C2; /* Verde-água */
+}
+
+.historico-trilha {
+    grid-column: 1 / -1; /* Ocupa a largura total do grid */
+    margin-top: 1.5rem;
+}
+
+.timeline {
+    list-style: none;
+    padding: 1rem 0 1rem 1rem;
+    margin: 0;
+    position: relative;
+}
+
+/* A linha vertical da trilha */
+.timeline::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 20px;
+    height: 100%;
+    width: 3px;
+    background-color: #e2e8f0;
+    border-radius: 3px;
+}
+
+.timeline-item {
+    position: relative;
+    padding-left: 55px;
+    padding-bottom: 2rem;
+}
+
+.timeline-item:last-child {
+    padding-bottom: 0;
+}
+
+/* O círculo na linha do tempo */
+.timeline-icon {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 1.5rem;
+    border: 3px solid white;
+    box-shadow: 0 0 0 3px #e2e8f0;
+    background-color: #ccc; /* Cor padrão */
+}
+
+/* Cores específicas por tipo de evento */
+.timeline-item--aula .timeline-icon {
+    background-color: var(--cor-aula);
+    box-shadow: 0 0 0 3px var(--cor-aula);
+}
+
+.timeline-item--exercicio .timeline-icon {
+    background-color: var(--cor-exercicio);
+    box-shadow: 0 0 0 3px var(--cor-exercicio);
+}
+
+.timeline-content {
+    background-color: #f8fafc;
+    border: 1px solid #e2e8f0;
+    padding: 1rem;
+    border-radius: 12px;
+    position: relative;
+}
+
+.timeline-data {
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: #64748b;
+    margin-bottom: 0.5rem;
+    display: block;
+}
+
+.timeline-titulo {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #1e293b;
+    margin: 0;
+}
+
+.timeline-detalhe {
+    font-size: 0.9rem;
+    color: #475569;
+    margin: 0.25rem 0 0 0;
+}
+
+.timeline-item-empty p {
+    padding-left: 55px;
+    color: #64748b;
+}
+
+.lista-alunos li {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.aluno-info {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.aluno-progresso {
+    font-size: 0.9rem;
+    color: #64748b; /* Cinza secundário */
+    font-weight: 500;
+    background-color: #f1f5f9; /* Fundo cinza bem claro */
+    padding: 0.25rem 0.75rem;
+    border-radius: 50px;
+}

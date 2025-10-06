@@ -19,17 +19,21 @@ return new class extends Migration
             $table->string('ra')->unique();
             $table->string('semestre');
             $table->string('email')->unique();
+            $table->timestamp('email_verified_at')->nullable();
+            $table->string('avatar')->nullable();
             $table->string('telefone')->nullable();
-            $table->string('password');     
+            $table->string('password');
+
+            // CAMPOS PARA VERIFICAÇÃO DE DUAS ETAPAS (2FA)
+            $table->string('two_factor_code')->nullable();
+            $table->dateTime('two_factor_expires_at')->nullable();
+
+            $table->rememberToken();
             $table->timestamps();
+            $table->string('status')->default('ativo');
         });
     }
 
-    /**
-     * Reverse the migrations.
-     *
-     * @return void
-     */
     public function down()
     {
         Schema::dropIfExists('aluno');

@@ -1,0 +1,195 @@
+/* =================================================================== */
+/* CSS MODERNIZADO PARA A PÁGINA DE TURMA ESPECÍFICA DO ALUNO    */
+/* =================================================================== */
+
+/* --- Variáveis de Cor (Tema Aluno) --- */
+:root {
+    --cor-primaria: #4f46e5;
+    --cor-primaria-hover: #4338ca;
+    --cor-fundo: #f8fafc;
+    --cor-card: #ffffff;
+    --cor-texto-principal: #1e293b;
+    --cor-texto-secundario: #64748b;
+    --cor-borda: #e2e8f0;
+    --cor-sucesso: #16a34a;
+    --cor-aviso: #f97316;
+    --cor-erro: #dc2626;
+    --sombra-card: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+}
+
+/* --- Estilos Base --- */
+body {
+    font-family: 'Poppins', sans-serif;
+    background-color: var(--cor-fundo);
+    color: var(--cor-texto-principal);
+    line-height: 1.6;
+    margin: 0;
+}
+
+/* --- Container Principal --- */
+.page-container { max-width: 1400px; margin: 0 auto; padding: 2rem; }
+
+/* --- Cabeçalho da Turma --- */
+/* --- Cabeçalho da Turma (Opção 1: Minimalista) --- */
+.turma-header {
+    background-color: var(--cor-card); /* Fundo branco, igual aos outros cards */
+    padding: 2.5rem;
+    border-radius: 16px;
+    margin-bottom: 2.5rem;
+    box-shadow: var(--sombra-card);
+    border: 1px solid var(--cor-borda);
+}
+.header-content {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+}
+.back-link {
+    font-size: 1.8rem;
+    color: var(--cor-primaria); /* Ícone de voltar com a cor primária */
+    transition: transform 0.2s;
+}
+.back-link:hover {
+    transform: scale(1.1);
+}
+.header-info h1 {
+    font-size: 2.5rem;
+    margin: 0;
+    font-weight: 700;
+    color: var(--cor-texto-principal); /* Título com cor de texto padrão */
+}
+.header-info p {
+    margin: 0;
+    color: var(--cor-texto-secundario); /* Professor com cor de texto secundária */
+}
+
+.header-stats {
+    display: flex;
+    gap: 2rem;
+    margin-top: 2rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--cor-borda); /* Linha divisória cinza claro */
+}
+.stat-item {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    font-size: 1rem;
+    font-weight: 500;
+    color: var(--cor-texto-secundario); /* Estatísticas com cor de texto secundária */
+}
+.stat-item i {
+    font-size: 1.5rem;
+    color: var(--cor-primaria); /* Ícones das estatísticas com a cor primária */
+}
+
+/* --- Layout Principal (Grid) --- */
+.page-body { display: grid; grid-template-columns: 1fr 320px; gap: 2rem; align-items: flex-start; }
+
+/* --- Navegação por Abas (Tabs) --- */
+.tabs-navigation { display: flex; gap: 0.5rem; margin-bottom: 2rem; border-bottom: 1px solid var(--cor-borda); }
+.tab-link {
+    font-family: 'Poppins', sans-serif; padding: 0.75rem 1.5rem; border: none;
+    background-color: transparent; cursor: pointer; font-size: 1rem;
+    font-weight: 600; color: var(--cor-texto-secundario); display: flex;
+    align-items: center; gap: 0.5rem; border-bottom: 3px solid transparent;
+    transition: all 0.2s ease;
+}
+.tab-link.active { color: var(--cor-primaria); border-bottom-color: var(--cor-primaria); }
+.tab-link:hover:not(.active) { color: var(--cor-texto-principal); }
+.tabs-content .tab-pane { display: none; }
+.tabs-content .tab-pane.active { display: block; }
+
+/* --- Grid de Exercícios e Aulas --- */
+.exercicios-grid, .aulas-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+    gap: 1.5rem;
+}
+
+/* --- Card de Exercício --- */
+.card-exercicio {
+    background-color: var(--cor-card); border-radius: 12px;
+    box-shadow: var(--sombra-card); overflow: hidden; display: flex;
+    flex-direction: column; border-left: 5px solid;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.card-exercicio:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+}
+.card-exercicio-header {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 1rem 1.5rem; border-bottom: 1px solid var(--cor-borda);
+}
+.card-exercicio-header h3 { font-size: 1.2rem; margin: 0; font-weight: 600; }
+.status-badge {
+    font-size: 0.8rem; font-weight: 700; padding: 0.25rem 0.75rem;
+    border-radius: 50px; color: white;
+}
+.card-exercicio.status-concluido { border-left-color: var(--cor-sucesso); }
+.status-concluido .status-badge { background-color: var(--cor-sucesso); }
+.card-exercicio.status-pendente { border-left-color: var(--cor-aviso); }
+.status-pendente .status-badge { background-color: var(--cor-aviso); }
+.card-exercicio.status-atrasado { border-left-color: var(--cor-erro); }
+.status-atrasado .status-badge { background-color: var(--cor-erro); }
+.card-exercicio .descricao { padding: 1.5rem; color: var(--cor-texto-secundario); flex-grow: 1; }
+.card-exercicio-footer {
+    padding: 1rem 1.5rem; background-color: #f9fafb;
+    border-top: 1px solid var(--cor-borda); display: flex;
+    justify-content: space-between; align-items: center;
+}
+.data-entrega { display: flex; align-items: center; gap: 0.5rem; font-weight: 500; font-size: 0.9rem; }
+.btn-ver-exercicio {
+    background-color: var(--cor-primaria); color: white; text-decoration: none;
+    padding: 0.6rem 1.2rem; border-radius: 8px; font-weight: 600;
+    transition: background-color 0.2s;
+}
+.btn-ver-exercicio:hover { background-color: var(--cor-primaria-hover); }
+.status-concluido .btn-ver-exercicio { background-color: var(--cor-sucesso); }
+.status-concluido .btn-ver-exercicio:hover { background-color: #15803d; }
+
+/* --- (NOVO) ESTILOS PARA OS CARDS DE AULA --- */
+.card-aula {
+    background-color: var(--cor-card); border-radius: 12px;
+    box-shadow: var(--sombra-card); overflow: hidden; text-decoration: none;
+    display: flex; flex-direction: column;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.card-aula:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+}
+.card-aula-thumbnail {
+    height: 150px; background-color: #1e293b;
+    display: flex; justify-content: center; align-items: center;
+    color: white; font-size: 4rem;
+}
+.card-aula-thumbnail .bx-play { transition: transform 0.2s; }
+.card-aula:hover .card-aula-thumbnail .bx-play { transform: scale(1.2); }
+.card-aula-info { padding: 1.5rem; }
+.card-aula-info h4 {
+    font-size: 1.2rem; margin: 0 0 0.25rem 0;
+    font-weight: 600; color: var(--cor-texto-principal);
+}
+.card-aula-info p { margin: 0; color: var(--cor-texto-secundario); }
+
+/* --- Sidebar (Colegas de Turma) --- */
+.sidebar-widget { background-color: var(--cor-card); padding: 1.5rem; border-radius: 12px; box-shadow: var(--sombra-card); }
+.sidebar-widget h2 { font-size: 1.2rem; margin: 0 0 1.5rem 0; display: flex; align-items: center; gap: 0.5rem; }
+.lista-alunos { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 1rem; }
+.lista-alunos li { display: flex; align-items: center; gap: 0.75rem; }
+.avatar { width: 40px; height: 40px; border-radius: 50%; object-fit: cover; }
+
+/* --- Mensagens de Vazio e Responsividade --- */
+.empty-message { text-align: center; padding: 2rem; color: var(--cor-texto-secundario); font-weight: 500; }
+@media (max-width: 1024px) {
+    .page-body { grid-template-columns: 1fr; }
+    .sidebar { margin-top: 2rem; }
+}
+@media (max-width: 768px) {
+    .turma-header { padding: 1.5rem; }
+    .header-info h1 { font-size: 1.8rem; }
+    .header-stats { flex-direction: column; align-items: flex-start; gap: 0.5rem; }
+    .exercicios-grid, .aulas-grid { grid-template-columns: 1fr; }
+}

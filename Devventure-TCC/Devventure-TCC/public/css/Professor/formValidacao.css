@@ -1,0 +1,192 @@
+/* ================================================= */
+/* CSS REFINADO PARA A PÁGINA DE CONSTRUÇÃO DE FORMULÁRIO */
+/* ================================================= */
+
+/* --- Variáveis de Tema (com leves adições) --- */
+:root {
+    --cor-primaria: #00796B;
+    --cor-primaria-hover: #004D40;
+    --cor-fundo: #f4f7f9;
+    --cor-card: #ffffff;
+    --cor-texto-principal: #212529;
+    --cor-texto-secundario: #6c757d;
+    --cor-borda: #dee2e6;
+    --cor-borda-leve: #e9ecef;
+    --cor-erro: #dc3545;
+    --cor-sucesso: #198754;
+    --sombra-card: 0 6px 24px rgba(0, 0, 0, 0.07);
+    --sombra-botao: 0 4px 10px rgba(0, 121, 107, 0.2);
+    --font-principal: 'Poppins', sans-serif;
+}
+
+/* --- Estilos Gerais da Página --- */
+body {
+    background-color: var(--cor-fundo);
+    font-family: var(--font-principal);
+    color: var(--cor-texto-principal);
+}
+
+.container {
+    max-width: 900px;
+    margin: 3rem auto;
+    animation: pageFadeIn 0.5s ease-out;
+}
+
+/* Cabeçalho da página mais impactante */
+h1 {
+    font-size: 2.25rem;
+    color: var(--cor-primaria);
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+}
+
+p.intro-text { /* Adicione a classe 'intro-text' no seu <p> */
+    font-size: 1.1rem;
+    color: var(--cor-texto-secundario);
+    margin-bottom: 2.5rem;
+    max-width: 700px;
+}
+
+/* --- Estilo do Card Principal --- */
+.form-builder-card { /* Adicione a classe 'form-builder-card' no seu <div class="card"> */
+    background-color: var(--cor-card);
+    border: 1px solid var(--cor-borda-leve);
+    border-radius: 16px;
+    box-shadow: var(--sombra-card);
+    padding: 2.5rem;
+    overflow: hidden; /* Garante que os cantos fiquem arredondados */
+}
+
+/* --- Estilos dos Elementos do Formulário --- */
+.form-group label {
+    font-weight: 600;
+    font-size: 1rem;
+    color: var(--cor-texto-principal);
+    margin-bottom: 0.75rem;
+}
+
+.form-control {
+    border-radius: 8px;
+    padding: 0.85rem 1.1rem;
+    border: 1px solid var(--cor-borda);
+    transition: all 0.2s ease-in-out;
+    font-size: 1rem;
+}
+
+.form-control:focus {
+    border-color: var(--cor-primaria);
+    box-shadow: 0 0 0 4px rgba(0, 121, 107, 0.15);
+    outline: none;
+}
+
+hr {
+    border-color: var(--cor-borda-leve);
+    margin: 2.5rem 0;
+}
+
+/* --- Estilos Específicos para as Perguntas Dinâmicas --- */
+
+/* Ativa o contador de CSS */
+#perguntas-container {
+    counter-reset: pergunta-counter;
+}
+
+#perguntas-container .pergunta-item {
+    background-color: #fafbfd;
+    padding: 1.5rem;
+    border-radius: 12px;
+    border: 1px solid var(--cor-borda-leve);
+    animation: fadeIn 0.4s ease;
+    position: relative;
+    transition: box-shadow 0.2s ease;
+}
+
+#perguntas-container .pergunta-item:hover {
+    box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+}
+
+/* Contador automático para o label */
+#perguntas-container .pergunta-item label::before {
+    counter-increment: pergunta-counter;
+    content: "Pergunta " counter(pergunta-counter);
+}
+
+#perguntas-container .pergunta-item label {
+    font-weight: 700;
+    font-size: 1.1rem;
+    color: var(--cor-primaria);
+    display: block;
+    margin-bottom: 0.5rem;
+}
+
+
+/* Botão de Remover Pergunta com Ícone */
+.remove-pergunta-btn {
+    border: none;
+    background-color: transparent;
+    color: var(--cor-texto-secundario);
+    font-size: 1.25rem;
+    padding: 0.5rem 0.75rem;
+    border-radius: 8px;
+    transition: all 0.2s ease;
+}
+
+.remove-pergunta-btn:hover {
+    color: var(--cor-erro);
+    background-color: #fbebee;
+}
+
+/* --- Estilos dos Botões de Ação --- */
+.btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 0.8rem 1.5rem;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    border: none;
+    text-transform: uppercase;
+    font-size: 0.85rem;
+    letter-spacing: 0.5px;
+}
+
+/* Botão Adicionar Pergunta (Secundário) */
+#add-pergunta-btn {
+    background-color: transparent;
+    border: 2px dashed var(--cor-borda);
+    color: var(--cor-texto-secundario);
+    width: 100%;
+    padding: 1.5rem;
+}
+
+#add-pergunta-btn:hover {
+    background-color: #f8f9fa;
+    border-color: var(--cor-primaria);
+    color: var(--cor-primaria);
+}
+
+/* Botão Salvar Formulário (Primário) */
+.btn-primary {
+    background: linear-gradient(45deg, var(--cor-primaria), #009688);
+    color: white;
+    box-shadow: var(--sombra-botao);
+}
+
+.btn-primary:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 15px rgba(0, 121, 107, 0.3);
+}
+
+/* Animações */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes pageFadeIn {
+    from { opacity: 0; transform: translateY(-20px); }
+    to { opacity: 1; transform: translateY(0); }
+}

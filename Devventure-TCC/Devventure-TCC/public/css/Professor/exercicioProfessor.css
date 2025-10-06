@@ -1,0 +1,481 @@
+/* =================================================================== */
+/* CSS COMPLETO E TEMATIZADO PARA A PÁGINA DE EXERCÍCIOS (PROFESSOR) */
+/* =================================================================== */
+
+/* --- Paleta de Cores e Variáveis --- */
+:root {
+  --cor-primaria: #00796B;
+  --cor-primaria-hover: #004D40;
+  --cor-destaque-claro: #B2DFDB;
+  --cor-fundo: #f8fafc;
+  --cor-card: #ffffff;
+  --cor-texto-principal: #1e293b;
+  --cor-texto-secundario: #64748b;
+  --cor-borda: #e2e8f0;
+  --sombra-card: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+/* --- Estilos Base e Reset --- */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: 'Poppins', 'Segoe UI', sans-serif;
+  background: var(--cor-fundo);
+  color: var(--cor-texto-principal);
+}
+
+/* --- Seção de Introdução --- */
+.intro {
+  max-width: 1200px;
+  margin: 1rem auto;
+  padding: 2rem 3rem;
+}
+
+.intro h1 {
+  color: var(--cor-primaria);
+  font-size: 2.25rem;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+}
+
+.intro p {
+  font-size: 1.125rem;
+  color: var(--cor-texto-secundario);
+}
+
+.btn-voltar {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--cor-texto-secundario);
+  font-size: 1rem;
+  font-weight: 600;
+  text-decoration: none;
+  padding: 8px 16px;
+  border: 2px solid var(--cor-borda);
+  border-radius: 50px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin-bottom: 1.5rem;
+}
+
+.btn-voltar:hover {
+  background-color: #f1f5f9;
+  color: var(--cor-texto-principal);
+  border-color: #d1d5db;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+}
+
+/* --- Botão "Adicionar Exercício" --- */
+.add-exercicio {
+  margin-top: 1.5rem;
+  display: flex;
+  justify-content: center;
+}
+
+.add-exercicio button {
+  background: var(--cor-primaria);
+  color: white;
+  font-size: 1.1rem;
+  font-weight: 600;
+  padding: 0.8rem 1.8rem;
+  border: none;
+  border-radius: 50px;
+  box-shadow: 0 4px 12px rgba(0, 121, 107, 0.3);
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.add-exercicio button:hover {
+  background: var(--cor-primaria-hover);
+  transform: translateY(-3px);
+  box-shadow: 0 6px 16px rgba(0, 121, 107, 0.4);
+}
+
+.add-exercicio button::after {
+  content: "+";
+  background: white;
+  color: var(--cor-primaria);
+  font-size: 1.5rem;
+  font-weight: bold;
+  width: 28px;
+  height: 28px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50%;
+}
+
+/* --- Seção de Exercícios --- */
+.exercicios {
+  max-width: 1200px;
+  margin: 1rem auto;
+  padding: 2rem 3rem;
+  background: var(--cor-card);
+  border-radius: 20px;
+  box-shadow: var(--sombra-card);
+}
+
+.exercicios-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.exercicios-header h2 {
+  font-size: 1.5rem;
+  font-weight: 600;
+}
+
+.search {
+  display: flex;
+  align-items: center;
+  background: var(--cor-fundo);
+  border: 1px solid var(--cor-borda);
+  border-radius: 20px;
+  padding: 0.3rem 0.8rem;
+}
+
+.search input {
+  border: none;
+  background: transparent;
+  padding: 0.5rem;
+  outline: none;
+  font-family: 'Poppins', 'Segoe UI', sans-serif;
+}
+
+.search button {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  color: var(--cor-texto-secundario);
+}
+
+/* --- Grid de Cards dos Exercícios --- */
+.exercicios-scroll {
+  transition: max-height 0.5s ease-in-out;
+  max-height: 320px; /* Altura padrão para a linha única */
+  overflow: hidden;
+}
+
+.exercicios-scroll.expandido {
+  max-height: 1000px; /* Altura grande para mostrar tudo, ajuste se necessário */
+  overflow: visible;
+}
+
+.exercicios-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 1.5rem;
+}
+
+.card {
+  background-color: #f7f8fa;
+  border: 1px solid var(--cor-borda);
+  border-radius: 15px;
+  padding: 1rem;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 12px rgba(0,0,0,0.1);
+}
+
+.card h3 {
+  margin: 0 0 8px 0;
+  font-weight: 600;
+  font-size: 1.1rem;
+}
+
+.card p.info {
+  font-size: 0.9rem;
+  color: var(--cor-texto-secundario);
+  margin-bottom: 4px;
+}
+
+.tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.tag {
+  background-color: var(--cor-destaque-claro);
+  color: var(--cor-primaria-hover);
+  font-size: 12px;
+  font-weight: 600;
+  padding: 3px 10px;
+  border-radius: 15px;
+}
+
+/* --- Botão "Ver Tudo" e Toggles --- */
+.ver-tudo {
+  display: flex;
+  justify-content: center;
+  margin-top: 1.5rem;
+}
+
+.ver-tudo button {
+  background: transparent;
+  border: 2px solid var(--cor-primaria);
+  padding: 0.5rem 1.5rem;
+  color: var(--cor-primaria);
+  border-radius: 50px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.ver-tudo button:hover {
+  background: var(--cor-primaria);
+  color: white;
+}
+
+.toggle-buttons {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.toggle-button {
+  padding: 8px 18px;
+  border-radius: 10px;
+  font-weight: bold;
+  font-size: 15px;
+  border: none;
+  cursor: pointer;
+  color: white;
+  transition: all 0.2s ease-in-out;
+  text-decoration: none;
+}
+
+.toggle-button.ativo {
+  background-color: var(--cor-primaria);
+}
+
+.toggle-button.inativo {
+  background-color: var(--cor-texto-secundario);
+}
+
+/* --- Modal (Layout Largo e Melhorado) --- */
+.modal-overlay {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  backdrop-filter: blur(5px);
+  background-color: rgba(0,0,0,0.4);
+  display: none; /* Alterado por JS */
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  padding: 1rem;
+  overflow-y: auto;
+}
+
+.modal-content {
+  background: white;
+  padding: 2.5rem;
+  border-radius: 20px;
+  width: 100%;
+  max-width: 750px; /* Modal mais largo */
+  box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+  transform: scale(0.95);
+  opacity: 0;
+  animation: fadeInModal 0.3s forwards ease-out;
+}
+
+@keyframes fadeInModal {
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+.modal-content h2 {
+  color: var(--cor-primaria);
+  text-align: center;
+  margin-bottom: 2rem;
+  font-weight: 700;
+}
+
+.modal-content form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.25rem;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.modal-content label {
+  font-size: 0.9rem;
+  color: var(--cor-texto-principal);
+  font-weight: 600;
+}
+
+.modal-content input, 
+.modal-content select, 
+.modal-content textarea {
+  padding: 0.8rem 1rem;
+  border: 1px solid var(--cor-borda);
+  border-radius: 10px;
+  font-size: 1rem;
+  width: 100%;
+  font-family: 'Poppins', 'Segoe UI', sans-serif;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.modal-content input:focus, 
+.modal-content select:focus, 
+.modal-content textarea:focus {
+  outline: none;
+  border-color: var(--cor-primaria);
+  box-shadow: 0 0 0 3px rgba(0, 121, 107, 0.15);
+}
+
+.modal-content textarea {
+  resize: vertical;
+  min-height: 100px;
+}
+
+.modal-buttons {
+  display: flex;
+  justify-content: flex-end;
+  gap: 1rem;
+  margin-top: 1.5rem;
+  border-top: 1px solid var(--cor-borda);
+  padding-top: 1.5rem;
+}
+
+.modal-buttons button {
+  padding: 0.7rem 1.5rem;
+  border: none;
+  border-radius: 10px;
+  font-weight: 600;
+  cursor: pointer;
+  font-size: 1rem;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.modal-buttons button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+
+#cancelar {
+  background: #f1f5f9;
+  color: var(--cor-texto-secundario);
+}
+#cancelar:hover {
+  background: #e2e8f0;
+}
+.criar {
+  background: var(--cor-primaria);
+  color: white;
+}
+.criar:hover {
+  background: var(--cor-primaria-hover);
+}
+
+.input-file {
+  display: none;
+}
+
+.upload-label {
+  padding: 1rem;
+  border: 2px dashed var(--cor-borda);
+  border-radius: 10px;
+  font-weight: 500;
+  cursor: pointer;
+  font-size: 1rem;
+  text-align: center;
+  color: var(--cor-texto-secundario);
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+}
+
+.upload-label:hover {
+  border-color: var(--cor-primaria);
+  background-color: #f8fafc;
+  color: var(--cor-primaria);
+}
+
+.upload-label i {
+  font-size: 1.4rem;
+}
+
+.nomeArquivo {
+  text-align: center;
+  font-size: 0.8rem;
+  font-weight: 500;
+  color: var(--cor-texto-secundario);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  margin-top: -0.25rem;
+  padding: 0 0.5rem;
+  height: 1.2em; /* Altura fixa para evitar pulos de layout */
+}
+
+/* --- Anexos nos Cards --- */
+.anexos-card {
+  margin-top: auto;
+  padding-top: 12px;
+  border-top: 1px solid var(--cor-borda);
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.imagem-apoio-preview {
+  width: 100%;
+  height: 100px;
+  border-radius: 8px;
+  object-fit: cover;
+}
+
+.link-arquivo {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  text-decoration: none;
+  color: var(--cor-primaria);
+  font-weight: 600;
+  font-size: 0.9rem;
+  padding: 6px 10px;
+  background-color: var(--cor-destaque-claro);
+  border-radius: 8px;
+  transition: background-color 0.2s;
+}
+
+.link-arquivo:hover {
+  background-color: #a0c2bf;
+}

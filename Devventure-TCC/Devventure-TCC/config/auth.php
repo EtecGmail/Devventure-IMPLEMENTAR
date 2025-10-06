@@ -74,19 +74,19 @@ return [
         // Provider para professores
         'professores' => [
             'driver' => 'eloquent',
-            'model' => App\Models\professorModel::class, // certifique-se de criar essa Model
+            'model' => App\Models\Professor::class, // certifique-se de criar essa Model
         ],
 
         // Provider para alunos
         'alunos' => [
             'driver' => 'eloquent',
-            'model' => App\Models\alunoModel::class, // certifique-se de criar essa Model       
+            'model' => App\Models\Aluno::class, // certifique-se de criar essa Model       
     ],
 
         // Provider para admins
         'admins' => [
             'driver' => 'eloquent',
-            'model' => App\Models\admModel::class, // certifique-se de criar essa Model
+            'model' => App\Models\Adm::class, // certifique-se de criar essa Model
     ],  
 
         // Exemplo de provider usando a tabela diretamente

@@ -1,0 +1,230 @@
+/* =================================================================== */
+/* CSS PARA A PÁGINA DE LISTAGEM DE TURMAS - TEMA AZUL         */
+/* =================================================================== */
+
+/* --- Variáveis de Cor (PALETA AZUL) --- */
+:root {
+    /* Tons de Azul */
+    --cor-primaria: #2563eb;          
+    --cor-primaria-hover: #1d4ed8;  
+    
+    /* Cores para Tags e Destaques Secundários */
+    --cor-fundo-tag: #dbeafe; /* Fundo azul bem claro */
+    --cor-texto-tag: #1e40af; /* Texto azul escuro para contraste */
+
+    /* Cores Neutras */
+    --cor-fundo: #f4f7f9;
+    --cor-card: #ffffff;
+    --cor-texto-principal: #333;
+    --cor-texto-secundario: #555;
+    --cor-borda: #dee2e6;
+    
+    /* Cores de Feedback */
+    --cor-aviso: #dc3545;
+    
+    /* Sombras */
+    --sombra-card: 0 4px 12px rgba(0, 0, 0, 0.08);
+    --sombra-card-hover: 0 8px 20px rgba(0, 0, 0, 0.15);
+    --sombra-azul: 0 4px 15px rgba(37, 99, 235, 0.3); /* Nova sombra azulada */
+}
+
+/* --- Estilos Base --- */
+body {
+    font-family: 'Poppins', sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    background-color: var(--cor-fundo);
+    color: var(--cor-texto-principal);
+    margin: 0;
+    line-height: 1.6;
+}
+
+/* --- Ajuste para a main tag para compensar a navbar fixa --- */
+.page-minhas-turmas {
+    margin-top: 70px; /* Altura da sua navbar */
+    padding-top: 2rem;
+    padding-bottom: 2rem;
+    min-height: calc(100vh - 70px - 200px);
+    display: flex;
+    flex-direction: column;
+}
+
+/* --- Container Principal --- */
+.page-minhas-turmas .container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 2rem;
+    flex-grow: 1;
+}
+
+/* --- Cabeçalho da Página --- */
+.page-minhas-turmas .page-header {
+    background-color: var(--cor-card);
+    padding: 2rem;
+    border-radius: 12px;
+    margin-bottom: 2.5rem;
+    box-shadow: var(--sombra-card);
+    text-align: center;
+}
+
+.page-minhas-turmas .page-header h1 {
+    font-size: 2.8rem;
+    color: var(--cor-primaria);
+    margin: 0 0 0.8rem 0;
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.05);
+}
+
+.page-minhas-turmas .page-header p {
+    font-size: 1.2rem;
+    color: var(--cor-texto-secundario);
+    margin-bottom: 2rem;
+    max-width: 700px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/* --- Botão "Voltar para o Painel" --- */
+.page-minhas-turmas .back-dashboard-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.8rem 1.5rem;
+    background-color: var(--cor-primaria);
+    color: var(--cor-card);
+    text-decoration: none;
+    border-radius: 50px;
+    font-weight: 600;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+    box-shadow: var(--sombra-azul);
+}
+
+.page-minhas-turmas .back-dashboard-link:hover {
+    background-color: var(--cor-primaria-hover);
+    transform: translateY(-3px);
+    box-shadow: 0 6px 16px rgba(37, 99, 235, 0.4);
+}
+
+.page-minhas-turmas .back-dashboard-link i {
+    font-size: 1.2rem;
+}
+
+/* --- Grid das Turmas --- */
+.page-minhas-turmas .turmas-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 2rem;
+}
+
+/* --- Card Link --- */
+.page-minhas-turmas .card-link {
+    text-decoration: none;
+    color: inherit;
+    display: block;
+}
+
+/* --- Card da Turma --- */
+.page-minhas-turmas .card {
+    background: var(--cor-card);
+    border-radius: 15px;
+    padding: 2rem;
+    box-shadow: var(--sombra-card);
+    transition: all 0.3s ease;
+    border: 1px solid var(--cor-borda);
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.page-minhas-turmas .card:hover {
+    transform: translateY(-8px);
+    box-shadow: var(--sombra-card-hover);
+    border-color: var(--cor-primaria);
+}
+
+.page-minhas-turmas .card h3 {
+    font-size: 1.6rem;
+    color: var(--cor-primaria);
+    margin-bottom: 0.75rem;
+}
+
+.page-minhas-turmas .card .professor-nome {
+    font-size: 1rem;
+    color: var(--cor-texto-secundario);
+    margin-bottom: 1.5rem;
+    font-style: italic;
+    font-weight: 500;
+}
+
+.page-minhas-turmas .tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    margin-top: 1rem;
+}
+
+.page-minhas-turmas .tag {
+    background-color: var(--cor-fundo-tag); /* Usa a nova variável azul */
+    color: var(--cor-texto-tag); /* Usa a nova variável azul */
+    font-size: 0.85rem;
+    font-weight: 700;
+    padding: 0.35rem 1rem;
+    border-radius: 50px;
+    border: 1px solid #a5b4fc; /* Borda azul sutil */
+}
+
+/* --- Mensagem de "Sem Turmas" --- */
+.page-minhas-turmas .empty-message {
+    grid-column: 1 / -1;
+    text-align: center;
+    padding: 3rem;
+    font-size: 1.3rem;
+    color: var(--cor-texto-secundario);
+    font-style: italic;
+    background-color: var(--cor-card);
+    border-radius: 12px;
+    box-shadow: var(--sombra-card);
+    margin-top: 2rem;
+    border: 1px dashed var(--cor-borda);
+}
+
+/* --- Responsividade --- */
+@media (max-width: 768px) {
+    .page-minhas-turmas {
+        padding-top: 1.5rem;
+    }
+    .page-minhas-turmas .container {
+        padding: 0 1rem;
+    }
+    .page-minhas-turmas .page-header {
+        padding: 1.5rem;
+        margin-bottom: 2rem;
+    }
+    .page-minhas-turmas .page-header h1 {
+        font-size: 2rem;
+    }
+    .page-minhas-turmas .page-header p {
+        font-size: 1rem;
+        margin-bottom: 1.5rem;
+    }
+    .page-minhas-turmas .back-dashboard-link {
+        padding: 0.6rem 1.2rem;
+        font-size: 0.9rem;
+    }
+    .page-minhas-turmas .turmas-grid {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+    }
+    .page-minhas-turmas .card {
+        padding: 1.5rem;
+    }
+    .page-minhas-turmas .card h3 {
+        font-size: 1.3rem;
+    }
+    .page-minhas-turmas .card .professor-nome {
+        font-size: 0.9rem;
+    }
+    .page-minhas-turmas .empty-message {
+        padding: 2rem;
+        font-size: 1.1rem;
+    }
+}
