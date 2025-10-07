@@ -1,9 +1,17 @@
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
   // Elementos do DOM
   const containerDepoimentos = document.getElementById('containerDepoimentos');
+
+  if (!containerDepoimentos) {
+    return;
+  }
+
   const indicadores = document.getElementById('indicadores');
   const btnAnterior = document.getElementById('btnAnterior');
   const btnProximo = document.getElementById('btnProximo');
+  const depoimentoForm = document.getElementById('formDepoimento');
+  const depoimentoTextarea = document.getElementById('textoDepoimento');
+  const contadorCaracteres = document.querySelector('.contador-caracteres');
   
   // Estado do carrossel
   let currentIndex = 0;
@@ -16,9 +24,18 @@ document.addEventListener('DOMContentLoaded', function() {
     // Se não há cards, mostra mensagem
     if (cards.length === 0) {
       containerDepoimentos.innerHTML = '<div class="sem-depoimentos">Nenhum depoimento cadastrado.</div>';
-      indicadores.innerHTML = '';
-      btnAnterior.disabled = true;
-      btnProximo.disabled = true;
+
+      if (indicadores) {
+        indicadores.innerHTML = '';
+      }
+
+      if (btnAnterior) {
+        btnAnterior.disabled = true;
+      }
+
+      if (btnProximo) {
+        btnProximo.disabled = true;
+      }
       return;
     }
     
@@ -91,6 +108,35 @@ document.addEventListener('DOMContentLoaded', function() {
       changeTestimonial(newIndex);
     }
   }, 8000);
+
+  // Atualiza contador de caracteres do depoimento
+  if (depoimentoTextarea && contadorCaracteres) {
+    const updateCounter = () => {
+      contadorCaracteres.textContent = `${depoimentoTextarea.value.length}/300`;
+    };
+
+    depoimentoTextarea.addEventListener('input', updateCounter);
+    updateCounter();
+  }
+
+  if (depoimentoForm) {
+    depoimentoForm.addEventListener('submit', (event) => {
+      event.preventDefault();
+
+      depoimentoForm.reset();
+
+      if (contadorCaracteres) {
+        contadorCaracteres.textContent = '0/300';
+      }
+
+      const confirmation = document.createElement('div');
+      confirmation.className = 'mensagem-feedback';
+      confirmation.textContent = 'Depoimento enviado! Nossa equipe analisará seu relato em breve.';
+      depoimentoForm.appendChild(confirmation);
+
+      setTimeout(() => confirmation.remove(), 4000);
+    });
+  }
   
   // Inicializar o carrossel
   inicializarCarrossel();

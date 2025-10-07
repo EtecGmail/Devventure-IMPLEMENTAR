@@ -3,16 +3,16 @@
 /* ========================== */
 body {
   margin: 0;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  background-color: #0b001d;
+  font-family: 'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #0b001d !important;
   color: white;
   overflow-x: hidden;
-  
+  padding-top: 80px;
 }
 
 .hero{
   position: relative;
-  height: 100vh;
+  min-height: calc(100vh - 80px);
   width: 100%;
   display: flex;
   align-items: center;
@@ -480,6 +480,17 @@ body {
   font-size: 0.8rem;
   color: #aaa;
   margin-top: 5px;
+}
+
+.mensagem-feedback {
+  margin-top: 15px;
+  padding: 12px;
+  border-radius: 8px;
+  background: rgba(144, 238, 144, 0.15);
+  border: 1px solid rgba(144, 238, 144, 0.4);
+  color: #b7ffcf;
+  font-size: 0.95rem;
+  text-align: center;
 }
 
 .btn-enviar {
